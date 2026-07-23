@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Dashboard · Grêmio Literário Português · 16–22 Jul 2026</title>
+<title>Dashboard · Performance</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
@@ -10,7 +10,8 @@
 :root{--bg:#F7F8FA;--w:#FFF;--b:#D8DEE9;--bs:#EEF1F6;--t:#0F1724;--t2:#2D3A4E;--t3:#56657A;--t4:#8899AA;--blue:#1877F2;--blu:#EAF1FF;--grn:#00934a;--grb:#E6F5EE;--ylw:#E08C00;--ylb:#FFF6E0;--tel:#0077A8;--tlb:#E0F4FA;--pur:#7B2FBE;--pub:#F3EAFF;}
 body{background:var(--bg);color:var(--t);font-family:'Poppins',sans-serif;padding:16px 14px}
 .pg{max-width:1180px;margin:0 auto}
-.act-bar{display:flex;gap:8px;margin-bottom:14px}
+/* Action bar */
+.act-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
 .act-btn{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;padding:7px 14px;border-radius:8px;border:1.5px solid var(--b);background:var(--w);color:var(--t2);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
 .act-btn.pri{background:var(--t);border-color:var(--t);color:#fff}
 .drop{position:relative;display:inline-block}
@@ -18,7 +19,27 @@ body{background:var(--bg);color:var(--t);font-family:'Poppins',sans-serif;paddin
 .drop-menu.on{display:block}
 .drop-item{display:flex;align-items:center;gap:8px;padding:10px 14px;font-size:11px;font-weight:600;color:var(--t2);cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:'Poppins',sans-serif;white-space:nowrap}
 .drop-item:hover{background:var(--bs)}
+/* Calendar */
+.cal-drop{margin-left:auto}
+.cal-menu{min-width:280px;padding:14px;right:0;left:auto}
+.cal-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.cal-nav-btn{background:none;border:none;font-size:16px;cursor:pointer;color:var(--t2);padding:4px 10px;border-radius:6px;font-weight:700}
+.cal-nav-btn:hover{background:var(--bs)}
+.cal-nav-btn:disabled{opacity:.3;cursor:not-allowed}
+.cal-month{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--t)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
+.cal-dow{font-size:8px;font-weight:700;color:var(--t4);padding:4px 0;text-transform:uppercase}
+.cal-day{font-size:10px;font-weight:600;padding:6px 2px;border-radius:4px;cursor:default;color:var(--t3)}
+.cal-day.has-data{background:var(--blu);color:var(--blue);cursor:pointer;font-weight:700}
+.cal-day.has-data:hover{background:var(--blue);color:#fff}
+.cal-day.active-week{background:var(--blue);color:#fff;font-weight:900}
+.cal-day.other-month{opacity:.25}
+.cal-legend{margin-top:10px;padding-top:10px;border-top:1px solid var(--bs);display:flex;gap:10px;font-size:9px;color:var(--t3);justify-content:center;flex-wrap:wrap}
+.cal-legend span{display:inline-flex;align-items:center;gap:4px}
+.cal-legend i{width:8px;height:8px;border-radius:2px;display:inline-block}
+/* View toggle */
 .view-rep{display:none}.view-rep.on{display:block}
+/* Dashboard */
 .hdr{padding-bottom:12px;border-bottom:1px solid var(--b);margin-bottom:14px}
 .ey{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:1.5px;color:var(--t4)}
 .ey b{color:#1877F2}
@@ -99,6 +120,7 @@ h1{font-size:22px;font-weight:900;letter-spacing:-.5px;line-height:1;margin:5px 
 .fi-hl{color:#FFD166;font-weight:700}
 .ft{display:flex;justify-content:space-between;align-items:center;padding-top:14px;margin-top:8px;flex-wrap:wrap;gap:6px}
 .ft span{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--t4);letter-spacing:1.5px;text-transform:uppercase}
+/* Report view */
 .rep{max-width:720px;margin:0 auto;padding:8px 0 40px}
 .rep-ey{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:1.5px;color:var(--t4);margin-bottom:8px}
 .rep h1{font-size:22px;font-weight:900;letter-spacing:-.5px;margin-bottom:4px}
@@ -141,6 +163,7 @@ h1{font-size:22px;font-weight:900;letter-spacing:-.5px;line-height:1;margin:5px 
 </head>
 <body>
 <div class="pg">
+
 <div class="act-bar">
   <button class="act-btn pri" id="btnRep">📄 Ver relatório por escrito</button>
   <button class="act-btn" id="btnDl">📥 Baixar PDF</button>
@@ -151,8 +174,14 @@ h1{font-size:22px;font-weight:900;letter-spacing:-.5px;line-height:1;margin:5px 
       <button class="drop-item" id="shareEmail">✉️ E-mail</button>
     </div>
   </div>
+  <div class="drop cal-drop" id="dropCal">
+    <button class="act-btn" id="btnCal">📅 <span id="calLabel">Período</span> ▾</button>
+    <div class="drop-menu cal-menu" id="calMenu"></div>
+  </div>
 </div>
+
 <div id="viewDash">
+
 <div class="hdr">
   <div>
     <div class="ey">Relatório de Performance · <b>Meta Ads</b></div>
@@ -161,39 +190,50 @@ h1{font-size:22px;font-weight:900;letter-spacing:-.5px;line-height:1;margin:5px 
   </div>
   <span class="hbadge" id="d-per">Período</span>
 </div>
+
 <div class="sec"><span>Visão Geral</span><hr></div>
+
 <div class="insight">
   <div class="ins-ey">✶ Destaque do Período</div>
   <p class="ins-t" id="d-ins-txt"></p>
   <div class="ins-stats" id="d-ins-stats"></div>
 </div>
+
 <div class="kpi-g">
   <div class="kpi"><div class="kpi-lbl" id="kl0"></div><div class="kpi-v" id="kv0"></div><div class="kpi-s" id="ks0"></div></div>
   <div class="kpi"><div class="kpi-lbl" id="kl1"></div><div class="kpi-v" id="kv1"></div><div class="kpi-s" id="ks1"></div></div>
   <div class="kpi"><div class="kpi-lbl" id="kl2"></div><div class="kpi-v" id="kv2"></div><div class="kpi-s" id="ks2"></div></div>
   <div class="kpi"><div class="kpi-lbl" id="kl3"></div><div class="kpi-v" id="kv3"></div><div class="kpi-s" id="ks3"></div></div>
 </div>
+
 <div id="gcV" class="gc"></div>
+
 <div class="pie-wrap">
   <div class="pie-title">Distribuição do Investimento</div>
   <div class="pie-sub" id="pieSub">Por estágio do funil</div>
   <div style="position:relative;height:180px;max-width:320px;margin:0 auto"><canvas id="cPie"></canvas></div>
   <div class="pie-lg" id="pieLg"></div>
 </div>
+
 <div class="sec"><span>Detalhamento</span><hr></div>
+
 <div class="tl">
   <button class="tb on" data-t="campanhas">Campanhas</button>
   <button class="tb" data-t="dia">Por Dia</button>
   <button class="tb" data-t="funil">Funil</button>
 </div>
+
 <div class="tc on" id="tab-campanhas"></div>
 <div class="tc" id="tab-dia"></div>
 <div class="tc" id="tab-funil"></div>
+
 <div class="ft">
   <span id="ft-l">Dashboard de Performance</span>
   <span id="ft-r">Gestor: Pedro Silva · Dreams</span>
 </div>
-</div>
+
+</div><!-- /viewDash -->
+
 <div class="view-rep" id="viewRep">
   <div class="rep">
     <div class="rep-ey">Relatório de Performance · <strong>Meta Ads</strong></div>
@@ -213,159 +253,502 @@ h1{font-size:22px;font-weight:900;letter-spacing:-.5px;line-height:1;margin:5px 
     </div>
   </div>
 </div>
+
 </div>
 <script>
 const _D={
-  meta:{cliente:'Grêmio Literário Português',periodo:'16 a 22 de julho de 2026',conta:'2222505868574292',gestor:'Pedro Silva',gerado:'23/07/2026',link:'https://pedro-s-developer.github.io/dashboard-gremio/',tipo:'mixed'},
-  insight:{
-    txt:'<span class="ins-hl">192 novas conversas via WhatsApp</span> geradas nos dois shows ativos a R$ 1,97 por conversa. Eurodance Tour mantém performance Excelente; Show Leoni ainda em desenvolvimento. Frente de vendas diretas com <span class="ins-hl">rastreamento limitado</span> — resultado real passa pelo atendimento.',
-    stats:[['Conversas MSG','192'],['CPR Médio MSG','R$ 1,97'],['Compras VEN (rastr.)','2']]
+  "meta": {
+    "cliente": "Grêmio Literário Português",
+    "conta": "2222505868574292",
+    "gestor": "Pedro Silva",
+    "link": "https://pedro-s-developer.github.io/dashboard-gremio/",
+    "tipo": "mixed",
+    "updated": "23/07/2026"
   },
-  gkpis:[
-    {label:'Investido total',value:'R$ 1.179',color:'var(--t)',sub:'2 funis ativos'},
-    {label:'Conversas',value:'192',color:'var(--pur)',sub:'WhatsApp iniciadas'},
-    {label:'CPR MSG',value:'R$ 1,97',color:'var(--ylw)',sub:'custo por conversa'},
-    {label:'Compras VEN',value:'2',color:'var(--blue)',sub:'rastreadas (limitação técnica)'}
-  ],
-  gcards:[
-    {color:'#7B2FBE',bg:'#F3EAFF',icon:'💬',label:'Fundo — MSG',camps:'2 camp.',invest:'R$ 378',m:'192',ml:'Conversas',cpr:'R$ 1,97',cprl:'C/Conversa',pct:'32,1%',s1:'192',s1l:'Novos',s2:'R$ 1,10',s2l:'Melhor CPR'},
-    {color:'#1877F2',bg:'#EAF1FF',icon:'🛒',label:'Fundo — Vendas',camps:'2 camp.',invest:'R$ 801',m:'2',ml:'Compras rastr.',cpr:'R$ 400,45',cprl:'CPA rastr.',pct:'67,9%',s1:'0,56x',s1l:'ROAS rastr.',s2:'R$ 450',s2l:'Receita rastr.'}
-  ],
-  camps:{
-    TOPO:[],
-    MEIO:[],
-    FUNDO_MSG:[
-      {name:'Eurodance Tour MSG (ativa)',bar_pct:100,result_label:'Conversas',result:'~177',cpr_label:'C/Conversa',cpr_str:'~R$ 1,10',roas_str:''},
-      {name:'Show Leoni MSG (ativa)',bar_pct:94,result_label:'Conversas',result:'~15',cpr_label:'C/Conversa',cpr_str:'~R$ 12,23',roas_str:''}
-    ],
-    FUNDO_VEN:[
-      {name:'Eurodance Tour VEN (ativa)',bar_pct:100,result_label:'Compras rastr.',result:'2',cpr_label:'CPA',cpr_str:'R$ 205,45',roas_str:'1,10x'},
-      {name:'Show Leoni VEN (ativa)',bar_pct:95,result_label:'Compras rastr.',result:'0',cpr_label:'CPA',cpr_str:'—',roas_str:''}
-    ]
-  },
-  daily:[
-    {label:'16/07',invest:155,conversas:25,compras:0,receita:0},
-    {label:'17/07',invest:160,conversas:26,compras:0,receita:0},
-    {label:'18/07',invest:175,conversas:30,compras:1,receita:250},
-    {label:'19/07',invest:170,conversas:28,compras:0,receita:0},
-    {label:'20/07',invest:165,conversas:27,compras:0,receita:0},
-    {label:'21/07',invest:175,conversas:29,compras:1,receita:200},
-    {label:'22/07',invest:179.30,conversas:27,compras:0,receita:0}
-  ],
-  pie:{data:[800.90,378.40,0,0],total:'R$ 1.179',cores:['#1877F2','#7B2FBE','#0077A8','#E08C00'],labels:['Fundo VEN','Fundo MSG','Meio','Topo'],pcts:['67,9%','32,1%','—','—'],vals:['R$ 801','R$ 378','—','—']},
-  funil_ven:{alcance:'—',cliques:'—',visitas:'—',carrinho:'—',checkout:'—',compras:'2',insight:'<span class="fi-hl">Rastreamento limitado:</span> modelo real = anúncio MSG → WhatsApp → atendimento → link de compra ou ingresso físico. ROAS rastreado (0,56x) não reflete o resultado real da conta.'},
-  funil_msg:{alcance:'—',cliques:'—',conversas:'192',novos:'192',insight:'<span class="fi-hl">Eurodance MSG: ~R$ 1,10/conversa</span> — Excelente. Winner VIRADA DE LOTE: CPR R$ 0,96. Show Leoni MSG: ~R$ 12,23/conversa — requer novo criativo.'},
-  relatorio:'<h2>Sumário Executivo</h2><p>O Grêmio Literário Português investiu R$ 1.179 em anúncios entre 16 e 22 de julho. O destaque da semana foi a campanha de conversas do <strong>Eurodance Tour</strong>: <strong>192 novos contatos via WhatsApp a R$ 1,97 por conversa</strong>. No lado que exige atenção: as campanhas de venda direta registraram <strong>2 compras com receita rastreada de R$ 450</strong> — resultado que reflete a limitação técnica do site parceiro, não o resultado real de vendas.</p><h2>Resultados por Frente</h2><h3>Captação via WhatsApp — Fundo MSG</h3><p>R$ 378 investidos geraram <strong>192 novas conversas</strong> nos dois shows ativos (CPR médio R$ 1,97). Eurodance Tour MSG: ~R$ 1,10/conversa (Excelente ✅). Show Leoni MSG: ~R$ 12,23/conversa (Atenção ⚠️) — requer novo criativo.</p><p><em>Por que isso importa:</em> com 4 meses até o Eurodance Tour (novembro) e 2 meses até o Show Leoni (setembro), cada conversa é um ingresso potencial a ser fechado pelo atendimento.</p><h3>Venda de Ingressos — Fundo VEN</h3><p>R$ 801 investidos registraram <strong>2 compras rastreadas</strong> (R$ 450 receita, ROAS 0,56x). O número baixo reflete a limitação do rastreamento — o modelo real é MSG → atendimento → compra por link ou ingresso físico.</p><p><em>Por que isso importa:</em> o ROAS rastreado (0,56x) não pode ser usado como indicador de eficiência. A validação de resultado vem do feedback qualitativo do atendimento.</p><h2>Winners do Período</h2><ul><li><strong>AN_[15-07]_[IMG]_[VIRADA DE LOTE]_[EURODANCE]_[02]</strong>: CPR R$ 0,96 — Excelente ⭐. Motor do Eurodance MSG. Não mexer.</li><li><strong>FUNDO-VEN:</strong> Sem winner confirmável — 2 compras rastreadas (régua provisória: Excelente ≤R$ 200, pendente tipo de ingresso).</li></ul><h2>Oportunidades Identificadas</h2><ol><li>Confirmar tipo de ingresso das 2 compras VEN com o atendimento (Mesa R$ 1.000 vs. Pista R$ 150)</li><li>Criar novos criativos para Show Leoni MSG — CPR ~R$ 12 é 11× pior que o Eurodance</li><li>Escalar Eurodance MSG com +R$ 15/dia redirecionados do LEONI VEN (ação já executada em 23/07)</li><li>Planejar reativação de TOPO para Show Leoni com 2 meses de antecedência</li></ol><h2>Conclusão</h2><p>A semana confirmou que o Eurodance Tour segue com funil de mensagens funcionando bem. A prioridade imediata é confirmar o tipo de ingresso das compras rastreadas e criar criativos novos para o Show Leoni antes de setembro.</p>'
+  "semanas": [
+    {
+      "id": "2026-07-22",
+      "label": "16 a 22 de julho de 2026",
+      "inicio": "2026-07-16",
+      "fim": "2026-07-22",
+      "insight": {
+        "txt": "<span class=\"ins-hl\">192 novas conversas via WhatsApp</span> geradas nos dois shows ativos a R$ 1,97 por conversa. Eurodance Tour mantém performance Excelente; Show Leoni ainda em desenvolvimento. Frente de vendas diretas com <span class=\"ins-hl\">rastreamento limitado</span> — resultado real passa pelo atendimento.",
+        "stats": [
+          [
+            "Conversas MSG",
+            "192"
+          ],
+          [
+            "CPR Médio MSG",
+            "R$ 1,97"
+          ],
+          [
+            "Compras VEN (rastr.)",
+            "2"
+          ]
+        ]
+      },
+      "gkpis": [
+        {
+          "label": "Investido total",
+          "value": "R$ 1.179",
+          "color": "var(--t)",
+          "sub": "2 funis ativos"
+        },
+        {
+          "label": "Conversas",
+          "value": "192",
+          "color": "var(--pur)",
+          "sub": "WhatsApp iniciadas"
+        },
+        {
+          "label": "CPR MSG",
+          "value": "R$ 1,97",
+          "color": "var(--ylw)",
+          "sub": "custo por conversa"
+        },
+        {
+          "label": "Compras VEN",
+          "value": "2",
+          "color": "var(--blue)",
+          "sub": "rastreadas (limitação técnica)"
+        }
+      ],
+      "gcards": [
+        {
+          "color": "#7B2FBE",
+          "bg": "#F3EAFF",
+          "icon": "💬",
+          "label": "Fundo — MSG",
+          "camps": "2 camp.",
+          "invest": "R$ 378",
+          "m": "192",
+          "ml": "Conversas",
+          "cpr": "R$ 1,97",
+          "cprl": "C/Conversa",
+          "pct": "32,1%",
+          "s1": "192",
+          "s1l": "Novos",
+          "s2": "R$ 1,10",
+          "s2l": "Melhor CPR"
+        },
+        {
+          "color": "#1877F2",
+          "bg": "#EAF1FF",
+          "icon": "🛒",
+          "label": "Fundo — Vendas",
+          "camps": "2 camp.",
+          "invest": "R$ 801",
+          "m": "2",
+          "ml": "Compras rastr.",
+          "cpr": "R$ 400,45",
+          "cprl": "CPA rastr.",
+          "pct": "67,9%",
+          "s1": "0,56x",
+          "s1l": "ROAS rastr.",
+          "s2": "R$ 450",
+          "s2l": "Receita rastr."
+        }
+      ],
+      "camps": {
+        "TOPO": [],
+        "MEIO": [],
+        "FUNDO_MSG": [
+          {
+            "name": "Eurodance Tour MSG (ativa)",
+            "bar_pct": 100,
+            "result_label": "Conversas",
+            "result": "~177",
+            "cpr_label": "C/Conversa",
+            "cpr_str": "~R$ 1,10",
+            "roas_str": ""
+          },
+          {
+            "name": "Show Leoni MSG (ativa)",
+            "bar_pct": 94,
+            "result_label": "Conversas",
+            "result": "~15",
+            "cpr_label": "C/Conversa",
+            "cpr_str": "~R$ 12,23",
+            "roas_str": ""
+          }
+        ],
+        "FUNDO_VEN": [
+          {
+            "name": "Eurodance Tour VEN (ativa)",
+            "bar_pct": 100,
+            "result_label": "Compras rastr.",
+            "result": "2",
+            "cpr_label": "CPA",
+            "cpr_str": "R$ 205,45",
+            "roas_str": "1,10x"
+          },
+          {
+            "name": "Show Leoni VEN (ativa)",
+            "bar_pct": 95,
+            "result_label": "Compras rastr.",
+            "result": "0",
+            "cpr_label": "CPA",
+            "cpr_str": "—",
+            "roas_str": ""
+          }
+        ]
+      },
+      "daily": [
+        {
+          "label": "16/07",
+          "invest": 155,
+          "conversas": 25,
+          "compras": 0,
+          "receita": 0
+        },
+        {
+          "label": "17/07",
+          "invest": 160,
+          "conversas": 26,
+          "compras": 0,
+          "receita": 0
+        },
+        {
+          "label": "18/07",
+          "invest": 175,
+          "conversas": 30,
+          "compras": 1,
+          "receita": 250
+        },
+        {
+          "label": "19/07",
+          "invest": 170,
+          "conversas": 28,
+          "compras": 0,
+          "receita": 0
+        },
+        {
+          "label": "20/07",
+          "invest": 165,
+          "conversas": 27,
+          "compras": 0,
+          "receita": 0
+        },
+        {
+          "label": "21/07",
+          "invest": 175,
+          "conversas": 29,
+          "compras": 1,
+          "receita": 200
+        },
+        {
+          "label": "22/07",
+          "invest": 179.3,
+          "conversas": 27,
+          "compras": 0,
+          "receita": 0
+        }
+      ],
+      "pie": {
+        "data": [
+          800.9,
+          378.4,
+          0,
+          0
+        ],
+        "total": "R$ 1.179",
+        "cores": [
+          "#1877F2",
+          "#7B2FBE",
+          "#0077A8",
+          "#E08C00"
+        ],
+        "labels": [
+          "Fundo VEN",
+          "Fundo MSG",
+          "Meio",
+          "Topo"
+        ],
+        "pcts": [
+          "67,9%",
+          "32,1%",
+          "—",
+          "—"
+        ],
+        "vals": [
+          "R$ 801",
+          "R$ 378",
+          "—",
+          "—"
+        ]
+      },
+      "funil_ven": {
+        "alcance": "—",
+        "cliques": "—",
+        "visitas": "—",
+        "carrinho": "—",
+        "checkout": "—",
+        "compras": "2",
+        "insight": "<span class=\"fi-hl\">Rastreamento limitado:</span> modelo real = anúncio MSG → WhatsApp → atendimento → link de compra ou ingresso físico. ROAS rastreado (0,56x) não reflete o resultado real da conta."
+      },
+      "funil_msg": {
+        "alcance": "—",
+        "cliques": "—",
+        "conversas": "192",
+        "novos": "192",
+        "insight": "<span class=\"fi-hl\">Eurodance MSG: ~R$ 1,10/conversa</span> — Excelente. Winner VIRADA DE LOTE: CPR R$ 0,96. Show Leoni MSG: ~R$ 12,23/conversa — requer novo criativo."
+      },
+      "relatorio": "<h2>Sumário Executivo</h2><p>O Grêmio Literário Português investiu R$ 1.179 em anúncios entre 16 e 22 de julho. O destaque da semana foi a campanha de conversas do <strong>Eurodance Tour</strong>: <strong>192 novos contatos via WhatsApp a R$ 1,97 por conversa</strong>. No lado que exige atenção: as campanhas de venda direta registraram <strong>2 compras com receita rastreada de R$ 450</strong> — resultado que reflete a limitação técnica do site parceiro, não o resultado real de vendas.</p><h2>Resultados por Frente</h2><h3>Captação via WhatsApp — Fundo MSG</h3><p>R$ 378 investidos geraram <strong>192 novas conversas</strong> nos dois shows ativos (CPR médio R$ 1,97). Eurodance Tour MSG: ~R$ 1,10/conversa (Excelente ✅). Show Leoni MSG: ~R$ 12,23/conversa (Atenção ⚠️) — requer novo criativo.</p><p><em>Por que isso importa:</em> com 4 meses até o Eurodance Tour (novembro) e 2 meses até o Show Leoni (setembro), cada conversa é um ingresso potencial a ser fechado pelo atendimento.</p><h3>Venda de Ingressos — Fundo VEN</h3><p>R$ 801 investidos registraram <strong>2 compras rastreadas</strong> (R$ 450 receita, ROAS 0,56x). O número baixo reflete a limitação do rastreamento — o modelo real é MSG → atendimento → compra por link ou ingresso físico.</p><p><em>Por que isso importa:</em> o ROAS rastreado (0,56x) não pode ser usado como indicador de eficiência. A validação de resultado vem do feedback qualitativo do atendimento.</p><h2>Winners do Período</h2><ul><li><strong>AN_[15-07]_[IMG]_[VIRADA DE LOTE]_[EURODANCE]_[02]</strong>: CPR R$ 0,96 — Excelente ⭐. Motor do Eurodance MSG. Não mexer.</li><li><strong>FUNDO-VEN:</strong> Sem winner confirmável — 2 compras rastreadas (régua provisória: Excelente ≤R$ 200, pendente tipo de ingresso).</li></ul><h2>Oportunidades Identificadas</h2><ol><li>Confirmar tipo de ingresso das 2 compras VEN com o atendimento (Mesa R$ 1.000 vs. Pista R$ 150)</li><li>Criar novos criativos para Show Leoni MSG — CPR ~R$ 12 é 11× pior que o Eurodance</li><li>Escalar Eurodance MSG com +R$ 15/dia redirecionados do LEONI VEN (ação já executada em 23/07)</li><li>Planejar reativação de TOPO para Show Leoni com 2 meses de antecedência</li></ol><h2>Conclusão</h2><p>A semana confirmou que o Eurodance Tour segue com funil de mensagens funcionando bem. A prioridade imediata é confirmar o tipo de ingresso das compras rastreadas e criar criativos novos para o Show Leoni antes de setembro.</p>"
+    }
+  ]
 };
 
+// Estado
+var _pieChart=null;
+var _currentSemana=_D.semanas[0];
+
+// Header e footer (fixos por cliente)
 document.getElementById('d-cli').textContent=_D.meta.cliente;
 document.getElementById('d-meta').textContent=_D.meta.conta+' · Gestor: '+_D.meta.gestor;
-document.getElementById('d-per').textContent=_D.meta.periodo;
-document.getElementById('ft-l').textContent='Gerado em '+_D.meta.gerado;
 document.getElementById('ft-r').textContent='Gestor: '+_D.meta.gestor+' · Dreams';
-document.getElementById('d-ins-txt').innerHTML=_D.insight.txt;
-document.getElementById('d-ins-stats').innerHTML=_D.insight.stats.map(function(s){
-  return '<div><div class="is-label">'+s[0]+'</div><div class="is-val">'+s[1]+'</div></div>';
-}).join('');
-_D.gkpis.forEach(function(k,i){
-  document.getElementById('kl'+i).textContent=k.label;
-  var v=document.getElementById('kv'+i);
-  v.textContent=k.value;v.style.color=k.color;
-  document.getElementById('ks'+i).textContent=k.sub;
-});
-document.getElementById('gcV').innerHTML=_D.gcards.map(function(c){
-  return '<div class="gc-card" style="border-color:'+c.color+'33">'
-    +'<div class="gc-bar" style="background:'+c.color+'"></div>'
-    +'<div class="gc-head"><div class="gc-title" style="color:'+c.color+'">'+c.icon+' '+c.label
-      +'<span style="font-size:8px;font-weight:400;color:var(--t3);margin-left:6px;font-family:\'IBM Plex Mono\',monospace">'+c.camps+'</span>'
-    +'</div><span class="gc-invest">'+c.invest+'</span></div>'
-    +'<div class="gc-main"><div><div class="gc-num" style="color:'+c.color+'">'+c.m+'</div><div class="gc-num-l">'+c.ml+'</div></div>'
-    +'<div><div class="gc-cpr">'+c.cpr+'</div><div class="gc-cpr-l">'+c.cprl+'</div></div></div>'
-    +'<div class="gc-row"><div><div class="gc-sv">'+c.pct+'</div><div class="gc-sl">do invest.</div></div>'
-    +'<div><div class="gc-sv">'+c.s1+'</div><div class="gc-sl">'+c.s1l+'</div></div>'
-    +'<div><div class="gc-sv">'+c.s2+'</div><div class="gc-sl">'+c.s2l+'</div></div></div>'
-  +'</div>';
-}).join('');
+
 Chart.defaults.font.family="'IBM Plex Mono',monospace";Chart.defaults.color='#8899AA';
 var TT={backgroundColor:'#fff',titleColor:'#0F1724',bodyColor:'#0F1724',borderColor:'#D8DEE9',borderWidth:1,padding:10};
-new Chart(document.getElementById('cPie'),{
-  type:'doughnut',
-  data:{labels:_D.pie.labels,datasets:[{data:_D.pie.data,backgroundColor:_D.pie.cores,borderWidth:0,spacing:3}]},
-  options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:function(ctx){return ctx.label+': R$ '+ctx.parsed.toLocaleString('pt-BR',{minimumFractionDigits:2});}}}}}
-});
-document.getElementById('pieSub').textContent='Por estágio do funil · '+_D.pie.total+' total';
-document.getElementById('pieLg').innerHTML=_D.pie.labels.map(function(l,i){
-  if(!_D.pie.data[i])return'';
-  return '<div><div style="display:flex;align-items:center;justify-content:center;gap:4px;margin-bottom:3px">'
-    +'<span style="width:7px;height:7px;border-radius:50%;background:'+_D.pie.cores[i]+'"></span>'
-    +'<span class="pl-lbl">'+l+'</span></div>'
-    +'<div class="pl-v" style="color:'+_D.pie.cores[i]+'">'+_D.pie.vals[i]+'</div>'
-    +'<div class="pl-p">'+_D.pie.pcts[i]+'</div></div>';
-}).join('');
-var seqs=[['FUNDO_VEN','ven','Fundo — Vendas','#1877F2'],['FUNDO_MSG','msg','Fundo — MSG','#7B2FBE'],['MEIO','meio','Meio — Tráfego','#0077A8'],['TOPO','topo','Topo — Awareness','#E08C00']];
-document.getElementById('tab-campanhas').innerHTML=seqs.map(function(s){
-  var cs=_D.camps[s[0]];if(!cs||!cs.length)return'';
-  return '<div class="cg-sect"><div class="cg-hdr"><span class="badge '+s[1]+'">'+s[1].toUpperCase()+'</span>'
-    +'<span class="cg-stitle">'+s[2]+'</span><span class="cg-sub">'+cs.length+' campanha'+(cs.length>1?'s':'')+'</span></div>'
-    +cs.map(function(c){
-      return '<div class="cr"><div class="cr-name">'+c.name+'</div>'
-        +'<div class="cr-bar"><div class="cr-fill" style="width:'+c.bar_pct+'%;background:'+s[3]+'"></div></div>'
-        +'<div class="cr-stats"><div><div class="cs-lbl">'+c.result_label+'</div><div class="cs-v" style="color:'+s[3]+'">'+c.result+'</div></div>'
-        +'<div><div class="cs-lbl">'+c.cpr_label+'</div><div class="cs-v" style="color:var(--ylw)">'+c.cpr_str+'</div></div>'
-        +(c.roas_str?'<div><div class="cs-lbl">ROAS</div><div class="cs-v" style="color:var(--grn)">'+c.roas_str+'</div></div>':'<div></div>')
-        +'</div></div>';
-    }).join('')+'</div>';
-}).join('')||'<p style="color:var(--t4);padding:14px;font-size:12px">Sem dados.</p>';
-if(_D.daily.length){
-  var mx=Math.max.apply(null,_D.daily.map(function(r){return r.invest;}));
-  var _tp=_D.meta.tipo||'mixed';
-  document.getElementById('tab-dia').innerHTML=_D.daily.map(function(r){
-    var _cpl=r.conversas>0?'R$ '+(r.invest/r.conversas).toLocaleString('pt-BR',{minimumFractionDigits:2}):'—';
-    return '<div class="dr"><div class="dr-date">'+r.label+'</div>'
-      +'<div class="dr-bar"><div class="dr-fill" style="width:'+(r.invest/mx*100).toFixed(1)+'%"></div></div>'
-      +'<div class="dr-stats"'+(_tp==='msg'?' style="grid-template-columns:repeat(3,1fr)"':'')+' >'
-      +'<div><div class="ds-lbl">Invest.</div><div class="ds-v">R$ '+r.invest.toLocaleString('pt-BR',{minimumFractionDigits:2})+'</div></div>'
-      +'<div><div class="ds-lbl">Conv.</div><div class="ds-v" style="color:var(--pur)">'+r.conversas+'</div></div>'
-      +(_tp==='msg'
-        ?'<div><div class="ds-lbl">CPL</div><div class="ds-v" style="color:var(--ylw)">'+_cpl+'</div></div>'
-        :'<div><div class="ds-lbl">Compras</div><div class="ds-v" style="color:var(--blue)">'+r.compras+'</div></div>'
-        +'<div><div class="ds-lbl">Receita</div><div class="ds-v" style="color:var(--grn)">R$ '+r.receita.toLocaleString('pt-BR',{minimumFractionDigits:0})+'</div></div>'
-      )
-      +'</div></div>';
+
+function renderSemana(s){
+  _currentSemana=s;
+  // Período no header
+  document.getElementById('d-per').textContent=s.label;
+  document.getElementById('calLabel').textContent=s.label;
+  document.getElementById('ft-l').textContent='Semana '+s.label+' · Atualizado em '+_D.meta.updated;
+
+  // Insight hero
+  document.getElementById('d-ins-txt').innerHTML=s.insight.txt;
+  document.getElementById('d-ins-stats').innerHTML=s.insight.stats.map(function(x){
+    return '<div><div class="is-label">'+x[0]+'</div><div class="is-val">'+x[1]+'</div></div>';
   }).join('');
-}else{document.getElementById('tab-dia').innerHTML='<p style="color:var(--t4);padding:14px;font-size:12px">Sem dados diários.</p>';}
-(function(){
-  var SC={b:'#1877F2',t:'#0077A8',y:'#E08C00',p:'#7B2FBE',g:'#00934a'};
-  var SF={b:'#EAF1FF',t:'#E0F4FA',y:'#FFF6E0',p:'#F3EAFF',g:'#E6F5EE'};
-  function s(ck,ic,nm,od,vl,rt,rl){
-    return '<div class="fn-s" style="border-left:3px solid '+SC[ck]+'">'
-      +'<div style="width:26px;height:26px;border-radius:7px;background:'+SF[ck]+';display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">'+ic+'</div>'
-      +'<div style="flex:1;min-width:0"><div class="fn-sn">'+nm+'</div><div class="fn-so">'+od+'</div></div>'
-      +'<div class="fn-sv" style="color:'+SC[ck]+'">'+vl+'</div>'
-      +'<div class="fn-rate"><div class="fn-rv">'+rt+'</div><div class="fn-rl">'+rl+'</div></div>'
+
+  // KPIs
+  s.gkpis.forEach(function(k,i){
+    document.getElementById('kl'+i).textContent=k.label;
+    var v=document.getElementById('kv'+i);
+    v.textContent=k.value;v.style.color=k.color;
+    document.getElementById('ks'+i).textContent=k.sub;
+  });
+
+  // GCards
+  document.getElementById('gcV').innerHTML=s.gcards.map(function(c){
+    return '<div class="gc-card" style="border-color:'+c.color+'33">'
+      +'<div class="gc-bar" style="background:'+c.color+'"></div>'
+      +'<div class="gc-head"><div class="gc-title" style="color:'+c.color+'">'+c.icon+' '+c.label
+        +'<span style="font-size:8px;font-weight:400;color:var(--t3);margin-left:6px;font-family:\'IBM Plex Mono\',monospace">'+c.camps+'</span>'
+      +'</div><span class="gc-invest">'+c.invest+'</span></div>'
+      +'<div class="gc-main"><div><div class="gc-num" style="color:'+c.color+'">'+c.m+'</div><div class="gc-num-l">'+c.ml+'</div></div>'
+      +'<div><div class="gc-cpr">'+c.cpr+'</div><div class="gc-cpr-l">'+c.cprl+'</div></div></div>'
+      +'<div class="gc-row"><div><div class="gc-sv">'+c.pct+'</div><div class="gc-sl">do invest.</div></div>'
+      +'<div><div class="gc-sv">'+c.s1+'</div><div class="gc-sl">'+c.s1l+'</div></div>'
+      +'<div><div class="gc-sv">'+c.s2+'</div><div class="gc-sl">'+c.s2l+'</div></div></div>'
     +'</div>';
-  }
-  function p(a,b){return b>0?Math.round(parseInt(a)/parseInt(b)*100):0;}
-  var fv=_D.funil_ven,fm=_D.funil_msg;
-  var _tp=_D.meta.tipo||'mixed';
-  var _fhtml='';
-  if(_tp!=='msg'){
-    _fhtml+='<div class="fn"><div class="fn-hdr"><div class="fn-icon" style="background:#EAF1FF;color:#1877F2">🛒</div>'
-      +'<div><div class="fn-title">Funil — Vendas (VEN)</div><div class="fn-sub">Rastreamento limitado — site parceiro</div></div></div>'
-      +s('g','✅','Compras Finalizadas (rastreadas)','Conversão rastreada no site',fv.compras,'—','entrada')
-      +(fv.insight?'<div class="fn-ins">'+fv.insight+'</div>':'')
+  }).join('');
+
+  // Pie chart
+  if(_pieChart)_pieChart.destroy();
+  _pieChart=new Chart(document.getElementById('cPie'),{
+    type:'doughnut',
+    data:{labels:s.pie.labels,datasets:[{data:s.pie.data,backgroundColor:s.pie.cores,borderWidth:0,spacing:3}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:function(ctx){return ctx.label+': R$ '+ctx.parsed.toLocaleString('pt-BR',{minimumFractionDigits:2});}}}}}
+  });
+  document.getElementById('pieSub').textContent='Por estágio do funil · '+s.pie.total+' total';
+  document.getElementById('pieLg').innerHTML=s.pie.labels.map(function(l,i){
+    if(!s.pie.data[i])return'';
+    return '<div><div style="display:flex;align-items:center;justify-content:center;gap:4px;margin-bottom:3px">'
+      +'<span style="width:7px;height:7px;border-radius:50%;background:'+s.pie.cores[i]+'"></span>'
+      +'<span class="pl-lbl">'+l+'</span></div>'
+      +'<div class="pl-v" style="color:'+s.pie.cores[i]+'">'+s.pie.vals[i]+'</div>'
+      +'<div class="pl-p">'+s.pie.pcts[i]+'</div></div>';
+  }).join('');
+
+  // Aba Campanhas
+  var seqs=[['FUNDO_VEN','ven','Fundo — Vendas','#1877F2'],['FUNDO_MSG','msg','Fundo — MSG','#7B2FBE'],['MEIO','meio','Meio — Tráfego','#0077A8'],['TOPO','topo','Topo — Awareness','#E08C00']];
+  document.getElementById('tab-campanhas').innerHTML=seqs.map(function(sq){
+    var cs=s.camps[sq[0]];if(!cs||!cs.length)return'';
+    return '<div class="cg-sect"><div class="cg-hdr"><span class="badge '+sq[1]+'">'+sq[1].toUpperCase()+'</span>'
+      +'<span class="cg-stitle">'+sq[2]+'</span><span class="cg-sub">'+cs.length+' campanha'+(cs.length>1?'s':'')+'</span></div>'
+      +cs.map(function(c){
+        return '<div class="cr"><div class="cr-name">'+c.name+'</div>'
+          +'<div class="cr-bar"><div class="cr-fill" style="width:'+c.bar_pct+'%;background:'+sq[3]+'"></div></div>'
+          +'<div class="cr-stats"><div><div class="cs-lbl">'+c.result_label+'</div><div class="cs-v" style="color:'+sq[3]+'">'+c.result+'</div></div>'
+          +'<div><div class="cs-lbl">'+c.cpr_label+'</div><div class="cs-v" style="color:var(--ylw)">'+c.cpr_str+'</div></div>'
+          +(c.roas_str?'<div><div class="cs-lbl">ROAS</div><div class="cs-v" style="color:var(--grn)">'+c.roas_str+'</div></div>':'<div></div>')
+          +'</div></div>';
+      }).join('')+'</div>';
+  }).join('')||'<p style="color:var(--t4);padding:14px;font-size:12px">Sem dados.</p>';
+
+  // Aba Por Dia
+  if(s.daily&&s.daily.length){
+    var mx=Math.max.apply(null,s.daily.map(function(r){return r.invest;}));
+    var _tp=_D.meta.tipo||'mixed';
+    document.getElementById('tab-dia').innerHTML=s.daily.map(function(r){
+      var _cpl=r.conversas>0?'R$ '+(r.invest/r.conversas).toLocaleString('pt-BR',{minimumFractionDigits:2}):'—';
+      return '<div class="dr"><div class="dr-date">'+r.label+'</div>'
+        +'<div class="dr-bar"><div class="dr-fill" style="width:'+(r.invest/mx*100).toFixed(1)+'%"></div></div>'
+        +'<div class="dr-stats"'+(_tp==='msg'?' style="grid-template-columns:repeat(3,1fr)"':'')+' >'
+        +'<div><div class="ds-lbl">Invest.</div><div class="ds-v">R$ '+r.invest.toLocaleString('pt-BR',{minimumFractionDigits:2})+'</div></div>'
+        +'<div><div class="ds-lbl">Conv.</div><div class="ds-v" style="color:var(--pur)">'+r.conversas+'</div></div>'
+        +(_tp==='msg'
+          ?'<div><div class="ds-lbl">CPL</div><div class="ds-v" style="color:var(--ylw)">'+_cpl+'</div></div>'
+          :'<div><div class="ds-lbl">Compras</div><div class="ds-v" style="color:var(--blue)">'+r.compras+'</div></div>'
+          +'<div><div class="ds-lbl">Receita</div><div class="ds-v" style="color:var(--grn)">R$ '+r.receita.toLocaleString('pt-BR',{minimumFractionDigits:0})+'</div></div>'
+        )
+        +'</div></div>';
+    }).join('');
+  }else{document.getElementById('tab-dia').innerHTML='<p style="color:var(--t4);padding:14px;font-size:12px">Sem dados diários.</p>';}
+
+  // Aba Funil
+  (function(){
+    var SC={b:'#1877F2',t:'#0077A8',y:'#E08C00',p:'#7B2FBE',g:'#00934a'};
+    var SF={b:'#EAF1FF',t:'#E0F4FA',y:'#FFF6E0',p:'#F3EAFF',g:'#E6F5EE'};
+    function st(ck,ic,nm,od,vl,rt,rl){
+      return '<div class="fn-s" style="border-left:3px solid '+SC[ck]+'">'
+        +'<div style="width:26px;height:26px;border-radius:7px;background:'+SF[ck]+';display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">'+ic+'</div>'
+        +'<div style="flex:1;min-width:0"><div class="fn-sn">'+nm+'</div><div class="fn-so">'+od+'</div></div>'
+        +'<div class="fn-sv" style="color:'+SC[ck]+'">'+vl+'</div>'
+        +'<div class="fn-rate"><div class="fn-rv">'+rt+'</div><div class="fn-rl">'+rl+'</div></div>'
       +'</div>';
+    }
+    function pct(a,b){return b>0?Math.round(parseInt(a)/parseInt(b)*100):0;}
+    var fv=s.funil_ven,fm=s.funil_msg;
+    var _tp=_D.meta.tipo||'mixed';
+    var _fhtml='';
+    if(_tp!=='msg'){
+      _fhtml+='<div class="fn"><div class="fn-hdr"><div class="fn-icon" style="background:#EAF1FF;color:#1877F2">🛒</div>'
+        +'<div><div class="fn-title">Funil — Vendas (VEN)</div><div class="fn-sub">Do alcance à compra</div></div></div>'
+        +st('b','📣','Alcance','Pessoas impactadas',fv.alcance,'—','entrada')
+        +st('t','🖱️','Cliques','Tráfego gerado',fv.cliques,pct(fv.cliques,fv.alcance)+'%','CTR')
+        +st('y','🌐','Visitas ao Site','Qualificação',fv.visitas,pct(fv.visitas,fv.cliques)+'%','de cliques')
+        +st('p','🛒','Adições ao Carrinho','Intenção de compra',fv.carrinho,pct(fv.carrinho,fv.visitas)+'%','de visitas')
+        +st('y','📝','Checkout Iniciado','Comprometimento',fv.checkout,pct(fv.checkout,fv.carrinho)+'%','do carrinho')
+        +st('g','✅','Compras Finalizadas','Conversão final',fv.compras,pct(fv.compras,fv.checkout)+'%','do checkout')
+        +(fv.insight?'<div class="fn-ins">'+fv.insight+'</div>':'')
+        +'</div>';
+    }
+    if(_tp!=='ven'){
+      _fhtml+='<div class="fn"><div class="fn-hdr"><div class="fn-icon" style="background:#F3EAFF;color:#7B2FBE">💬</div>'
+        +'<div><div class="fn-title">Funil — Mensagens (MSG)</div><div class="fn-sub">Do alcance à conversa</div></div></div>'
+        +st('p','📣','Alcance','Pessoas impactadas',fm.alcance,'—','entrada')
+        +st('t','🖱️','Cliques','Tráfego para mensagem',fm.cliques,pct(fm.cliques,fm.alcance)+'%','CTR')
+        +st('g','💬','Conversas Iniciadas','Engajamento',fm.conversas,pct(fm.conversas,fm.cliques)+'%','de cliques')
+        +st('y','🆕','Novos Contatos','Leads qualificados',fm.novos,pct(fm.novos,fm.conversas)+'%','das conversas')
+        +(fm.insight?'<div class="fn-ins">'+fm.insight+'</div>':'')
+        +'</div>';
+    }
+    document.getElementById('tab-funil').innerHTML=_fhtml;
+  })();
+
+  // Report view (relatório narrativo)
+  document.getElementById('repCli').textContent=_D.meta.cliente;
+  document.getElementById('repInfo').textContent=s.label+' · Conta '+_D.meta.conta+' · Gestor: '+_D.meta.gestor+' · Atualizado em '+_D.meta.updated;
+  document.getElementById('repContent').innerHTML=s.relatorio||'<p style="color:var(--t4)">Sem relatório escrito para esta semana.</p>';
+}
+
+// Calendário
+(function initCalendar(){
+  var MES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  var DOW=['S','T','Q','Q','S','S','D']; // Seg a Dom
+
+  // Mapa: 'AAAA-MM-DD' -> índice em _D.semanas
+  var dataMap={};
+  _D.semanas.forEach(function(s,i){
+    var d=new Date(s.inicio+'T00:00:00');
+    var fim=new Date(s.fim+'T00:00:00');
+    while(d<=fim){
+      dataMap[d.toISOString().slice(0,10)]=i;
+      d.setDate(d.getDate()+1);
+    }
+  });
+
+  // Mês atual da navegação
+  var navDate=_D.semanas.length?new Date(_D.semanas[0].fim+'T00:00:00'):new Date();
+  navDate.setDate(1);
+
+  function iso(d){return d.toISOString().slice(0,10);}
+  function sameWeekIds(idx){
+    var s=_D.semanas[idx];if(!s)return{};
+    var out={};var d=new Date(s.inicio+'T00:00:00');var fim=new Date(s.fim+'T00:00:00');
+    while(d<=fim){out[iso(d)]=1;d.setDate(d.getDate()+1);}
+    return out;
   }
-  if(_tp!=='ven'){
-    _fhtml+='<div class="fn"><div class="fn-hdr"><div class="fn-icon" style="background:#F3EAFF;color:#7B2FBE">💬</div>'
-      +'<div><div class="fn-title">Funil — Mensagens (MSG)</div><div class="fn-sub">Do anúncio à conversa no WhatsApp</div></div></div>'
-      +s('g','💬','Conversas Iniciadas','Leads via WhatsApp',fm.conversas,'—','entrada')
-      +s('y','🆕','Novos Contatos','Primeira conversa',fm.novos,p(fm.novos,fm.conversas)+'%','das conversas')
-      +(fm.insight?'<div class="fn-ins">'+fm.insight+'</div>':'')
+
+  function draw(){
+    var y=navDate.getFullYear(),m=navDate.getMonth();
+    var first=new Date(y,m,1);
+    var firstDow=(first.getDay()+6)%7; // Seg=0 ... Dom=6
+    var daysInMonth=new Date(y,m+1,0).getDate();
+    var activeIdx=_D.semanas.indexOf(_currentSemana);
+    var activeDays=sameWeekIds(activeIdx);
+
+    var html='<div class="cal-nav">'
+      +'<button class="cal-nav-btn" id="calPrev">‹</button>'
+      +'<span class="cal-month">'+MES[m]+' '+y+'</span>'
+      +'<button class="cal-nav-btn" id="calNext">›</button>'
+      +'</div><div class="cal-grid">';
+    DOW.forEach(function(d){html+='<div class="cal-dow">'+d+'</div>';});
+
+    // Dias do mês anterior (preencher grid)
+    var prevMonthDays=new Date(y,m,0).getDate();
+    for(var i=firstDow-1;i>=0;i--){
+      html+='<div class="cal-day other-month">'+(prevMonthDays-i)+'</div>';
+    }
+    // Dias do mês
+    for(var dd=1;dd<=daysInMonth;dd++){
+      var isoDate=iso(new Date(y,m,dd));
+      var cls='cal-day';
+      var handler='';
+      if(dataMap.hasOwnProperty(isoDate)){
+        cls+=' has-data';
+        var targetIdx=dataMap[isoDate];
+        handler=' data-idx="'+targetIdx+'"';
+        if(activeDays[isoDate])cls+=' active-week';
+      }
+      html+='<div class="'+cls+'"'+handler+'>'+dd+'</div>';
+    }
+    // Dias do próximo mês (preencher grid até múltiplo de 7)
+    var total=firstDow+daysInMonth;
+    var rest=(7-(total%7))%7;
+    for(var j=1;j<=rest;j++)html+='<div class="cal-day other-month">'+j+'</div>';
+
+    html+='</div><div class="cal-legend">'
+      +'<span><i style="background:var(--blu)"></i>Semana com dados</span>'
+      +'<span><i style="background:var(--blue)"></i>Semana ativa</span>'
       +'</div>';
+
+    var menu=document.getElementById('calMenu');
+    menu.innerHTML=html;
+    document.getElementById('calPrev').addEventListener('click',function(e){e.stopPropagation();navDate.setMonth(navDate.getMonth()-1);draw();});
+    document.getElementById('calNext').addEventListener('click',function(e){e.stopPropagation();navDate.setMonth(navDate.getMonth()+1);draw();});
+    menu.querySelectorAll('.cal-day.has-data').forEach(function(el){
+      el.addEventListener('click',function(e){
+        e.stopPropagation();
+        var idx=parseInt(el.dataset.idx,10);
+        renderSemana(_D.semanas[idx]);
+        menu.classList.remove('on');
+      });
+    });
   }
-  document.getElementById('tab-funil').innerHTML=_fhtml;
+
+  document.getElementById('btnCal').addEventListener('click',function(e){
+    e.stopPropagation();
+    var menu=document.getElementById('calMenu');
+    if(!menu.classList.contains('on')){
+      // Reabre no mês da semana ativa
+      var s=_currentSemana||_D.semanas[0];
+      if(s){navDate=new Date(s.fim+'T00:00:00');navDate.setDate(1);}
+      draw();
+    }
+    menu.classList.toggle('on');
+  });
 })();
+
+// Renderização inicial
+renderSemana(_D.semanas[0]);
+
+// Abas
 document.querySelectorAll('.tb').forEach(function(b){
   b.addEventListener('click',function(){
     document.querySelectorAll('.tb').forEach(function(x){x.classList.remove('on');});
@@ -375,27 +758,29 @@ document.querySelectorAll('.tb').forEach(function(b){
     if(el)el.classList.add('on');
   });
 });
+
+// Report view toggle
 var vd=document.getElementById('viewDash');
 var vr=document.getElementById('viewRep');
-document.getElementById('repCli').textContent=_D.meta.cliente;
-document.getElementById('repInfo').textContent=_D.meta.periodo+' · Conta '+_D.meta.conta+' · Gestor: '+_D.meta.gestor+' · Gerado em '+_D.meta.gerado;
-if(_D.relatorio)document.getElementById('repContent').innerHTML=_D.relatorio;
 window.onbeforeprint=function(){vr.classList.add('on');};
 document.getElementById('btnRep').addEventListener('click',function(){vd.style.display='none';vr.classList.add('on');});
 document.getElementById('btnBack').addEventListener('click',function(){vd.style.display='';vr.classList.remove('on');});
-var _sl=(_D.meta.link&&_D.meta.link!=='')?_D.meta.link:window.location.href;
-var _st=_D.meta.cliente+' — Relatório '+_D.meta.periodo;
+
+// PDF + Share
+function _sl(){return(_D.meta.link&&_D.meta.link!=='')?_D.meta.link:window.location.href;}
+function _st(){return _D.meta.cliente+' — Relatório '+_currentSemana.label;}
 function _print(){vr.classList.add('on');window.print();}
-function _wa(){window.open('https://wa.me/?text='+encodeURIComponent(_st+'\n'+_sl));}
-function _email(){window.open('mailto:?subject='+encodeURIComponent(_st)+'&body='+encodeURIComponent('Acesse o relatório:\n'+_sl));}
+function _wa(){window.open('https://wa.me/?text='+encodeURIComponent(_st()+'\n'+_sl()));}
+function _email(){window.open('mailto:?subject='+encodeURIComponent(_st())+'&body='+encodeURIComponent('Acesse o relatório:\n'+_sl()));}
 function _share(menu){
-  if(navigator.share){navigator.share({title:_st,url:_sl}).catch(function(){});}
+  if(navigator.share){navigator.share({title:_st(),url:_sl()}).catch(function(){});}
   else{menu.classList.toggle('on');}
 }
 document.addEventListener('click',function(e){
-  var ds=document.getElementById('dropShare'),dr=document.getElementById('dropShareRep');
+  var ds=document.getElementById('dropShare'),dr=document.getElementById('dropShareRep'),dc=document.getElementById('dropCal');
   if(ds&&!ds.contains(e.target))document.getElementById('shareMenu').classList.remove('on');
   if(dr&&!dr.contains(e.target))document.getElementById('shareMenuRep').classList.remove('on');
+  if(dc&&!dc.contains(e.target))document.getElementById('calMenu').classList.remove('on');
 });
 document.getElementById('btnDl').addEventListener('click',_print);
 document.getElementById('btnDlRep').addEventListener('click',_print);
