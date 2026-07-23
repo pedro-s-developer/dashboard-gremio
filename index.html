@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Dashboard · Grêmio Literário Português · Jul 2026</title>
+<title>Dashboard · Grêmio Literário Português · 16–22 Jul 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
@@ -80,7 +80,7 @@ h1{font-size:22px;font-weight:900;letter-spacing:-.5px;line-height:1;margin:5px 
 .dr{padding:9px 0;border-bottom:1px solid var(--bs)}.dr:last-child{border-bottom:none}
 .dr-date{font-size:11px;font-weight:700;font-family:'IBM Plex Mono',monospace;margin-bottom:4px}
 .dr-bar{height:4px;background:var(--bs);border-radius:2px;overflow:hidden;margin-bottom:5px}
-.dr-fill{height:100%;border-radius:2px;background:var(--blue)}
+.dr-fill{height:100%;border-radius:2px;background:var(--pur)}
 .dr-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .ds-lbl{font-size:8px;color:var(--t4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
 .ds-v{font-size:11px;font-weight:900;font-family:'IBM Plex Mono',monospace}
@@ -141,7 +141,6 @@ h1{font-size:22px;font-weight:900;letter-spacing:-.5px;line-height:1;margin:5px 
 </head>
 <body>
 <div class="pg">
-
 <div class="act-bar">
   <button class="act-btn pri" id="btnRep">📄 Ver relatório por escrito</button>
   <button class="act-btn" id="btnDl">📥 Baixar PDF</button>
@@ -153,7 +152,6 @@ h1{font-size:22px;font-weight:900;letter-spacing:-.5px;line-height:1;margin:5px 
     </div>
   </div>
 </div>
-
 <div id="viewDash">
 <div class="hdr">
   <div>
@@ -163,49 +161,39 @@ h1{font-size:22px;font-weight:900;letter-spacing:-.5px;line-height:1;margin:5px 
   </div>
   <span class="hbadge" id="d-per">Período</span>
 </div>
-
 <div class="sec"><span>Visão Geral</span><hr></div>
-
 <div class="insight">
   <div class="ins-ey">✶ Destaque do Período</div>
   <p class="ins-t" id="d-ins-txt"></p>
   <div class="ins-stats" id="d-ins-stats"></div>
 </div>
-
 <div class="kpi-g">
   <div class="kpi"><div class="kpi-lbl" id="kl0"></div><div class="kpi-v" id="kv0"></div><div class="kpi-s" id="ks0"></div></div>
   <div class="kpi"><div class="kpi-lbl" id="kl1"></div><div class="kpi-v" id="kv1"></div><div class="kpi-s" id="ks1"></div></div>
   <div class="kpi"><div class="kpi-lbl" id="kl2"></div><div class="kpi-v" id="kv2"></div><div class="kpi-s" id="ks2"></div></div>
   <div class="kpi"><div class="kpi-lbl" id="kl3"></div><div class="kpi-v" id="kv3"></div><div class="kpi-s" id="ks3"></div></div>
 </div>
-
 <div id="gcV" class="gc"></div>
-
 <div class="pie-wrap">
   <div class="pie-title">Distribuição do Investimento</div>
   <div class="pie-sub" id="pieSub">Por estágio do funil</div>
   <div style="position:relative;height:180px;max-width:320px;margin:0 auto"><canvas id="cPie"></canvas></div>
   <div class="pie-lg" id="pieLg"></div>
 </div>
-
 <div class="sec"><span>Detalhamento</span><hr></div>
-
 <div class="tl">
   <button class="tb on" data-t="campanhas">Campanhas</button>
   <button class="tb" data-t="dia">Por Dia</button>
   <button class="tb" data-t="funil">Funil</button>
 </div>
-
 <div class="tc on" id="tab-campanhas"></div>
 <div class="tc" id="tab-dia"></div>
 <div class="tc" id="tab-funil"></div>
-
 <div class="ft">
   <span id="ft-l">Dashboard de Performance</span>
   <span id="ft-r">Gestor: Pedro Silva · Dreams</span>
 </div>
 </div>
-
 <div class="view-rep" id="viewRep">
   <div class="rep">
     <div class="rep-ey">Relatório de Performance · <strong>Meta Ads</strong></div>
@@ -225,98 +213,49 @@ h1{font-size:22px;font-weight:900;letter-spacing:-.5px;line-height:1;margin:5px 
     </div>
   </div>
 </div>
-
 </div>
 <script>
 const _D={
-  meta:{
-    cliente:'Grêmio Literário Português',
-    periodo:'01 a 22 de julho de 2026',
-    conta:'2222505868574292',
-    gestor:'Pedro Silva',
-    gerado:'22/07/2026',
-    link:'https://pedro-s-developer.github.io/dashboard-gremio/',
-    tipo:'mixed'
-  },
+  meta:{cliente:'Grêmio Literário Português',periodo:'16 a 22 de julho de 2026',conta:'2222505868574292',gestor:'Pedro Silva',gerado:'23/07/2026',link:'https://pedro-s-developer.github.io/dashboard-gremio/',tipo:'mixed'},
   insight:{
-    txt:'A campanha do <span class="ins-hl">Eurodance Tour gerou 176 conversas a R$1,10</span> — Excelente, próximo do melhor histórico da conta. Atenção: <span class="ins-hl">R$1.248,47 investidos em venda de ingressos geraram apenas 5 compras</span>. Definir CPA aceitável é a prioridade imediata.',
-    stats:[['Conversas WhatsApp','201'],['Compras (ingressos)','5'],['Pessoas impactadas','95.622']]
+    txt:'<span class="ins-hl">192 novas conversas via WhatsApp</span> geradas nos dois shows ativos a R$ 1,97 por conversa. Eurodance Tour mantém performance Excelente; Show Leoni ainda em desenvolvimento. Frente de vendas diretas com <span class="ins-hl">rastreamento limitado</span> — resultado real passa pelo atendimento.',
+    stats:[['Conversas MSG','192'],['CPR Médio MSG','R$ 1,97'],['Compras VEN (rastr.)','2']]
   },
   gkpis:[
-    {label:'Investimento Total',value:'R$ 1.843,95',color:'var(--t)',sub:'01–22 de julho de 2026'},
-    {label:'Conversas WhatsApp',value:'201',color:'var(--pur)',sub:'leads via MSG'},
-    {label:'Compras (Ingressos)',value:'5',color:'var(--blue)',sub:'CPA médio R$249,69'},
-    {label:'Pessoas Impactadas',value:'95.622',color:'var(--ylw)',sub:'Topo — alcance'}
+    {label:'Investido total',value:'R$ 1.179',color:'var(--t)',sub:'2 funis ativos'},
+    {label:'Conversas',value:'192',color:'var(--pur)',sub:'WhatsApp iniciadas'},
+    {label:'CPR MSG',value:'R$ 1,97',color:'var(--ylw)',sub:'custo por conversa'},
+    {label:'Compras VEN',value:'2',color:'var(--blue)',sub:'rastreadas (limitação técnica)'}
   ],
   gcards:[
-    {color:'#E08C00',bg:'#FFF9EC',icon:'🎯',label:'Topo — Awareness',camps:'1 camp.',invest:'R$ 206,04',m:'95.622',ml:'Alcance',cpr:'R$ 1,32',cprl:'CPM',pct:'11,2%',s1:'156.066',s1l:'Impressões',s2:'0,15%',s2l:'CTR'},
-    {color:'#7B2FBE',bg:'#F3EAFF',icon:'💬',label:'Fundo — MSG',camps:'2 camp.',invest:'R$ 389,44',m:'201',ml:'Conversas',cpr:'R$ 1,94',cprl:'C/Conversa',pct:'21,1%',s1:'R$ 1,10',s1l:'Melhor CPR',s2:'4,40%',s2l:'Melhor CTR'},
-    {color:'#1877F2',bg:'#EAF1FF',icon:'🎟️',label:'Fundo — Vendas',camps:'3 camp.',invest:'R$ 1.248,47',m:'5',ml:'Compras',cpr:'R$ 249,69',cprl:'CPA Médio',pct:'67,7%',s1:'—',s1l:'ROAS (s/dados)',s2:'R$ 147,89',s2l:'Melhor CPA'}
+    {color:'#7B2FBE',bg:'#F3EAFF',icon:'💬',label:'Fundo — MSG',camps:'2 camp.',invest:'R$ 378',m:'192',ml:'Conversas',cpr:'R$ 1,97',cprl:'C/Conversa',pct:'32,1%',s1:'192',s1l:'Novos',s2:'R$ 1,10',s2l:'Melhor CPR'},
+    {color:'#1877F2',bg:'#EAF1FF',icon:'🛒',label:'Fundo — Vendas',camps:'2 camp.',invest:'R$ 801',m:'2',ml:'Compras rastr.',cpr:'R$ 400,45',cprl:'CPA rastr.',pct:'67,9%',s1:'0,56x',s1l:'ROAS rastr.',s2:'R$ 450',s2l:'Receita rastr.'}
   ],
   camps:{
-    TOPO:[
-      {name:'Alcance Show Leoni — Belém (13/06) ⏸',bar_pct:100,result_label:'Alcance',result:'95.622',cpr_label:'CPM',cpr_str:'R$ 1,32',roas_str:''}
-    ],
+    TOPO:[],
+    MEIO:[],
     FUNDO_MSG:[
-      {name:'Eurodance Tour — MSG (15/07) ✅',bar_pct:99,result_label:'Conversas',result:'176',cpr_label:'CPR',cpr_str:'R$ 1,10',roas_str:''},
-      {name:'Show Leoni — MSG (15/07) ✅',bar_pct:100,result_label:'Conversas',result:'25',cpr_label:'CPR',cpr_str:'R$ 7,81',roas_str:''}
+      {name:'Eurodance Tour MSG (ativa)',bar_pct:100,result_label:'Conversas',result:'~177',cpr_label:'C/Conversa',cpr_str:'~R$ 1,10',roas_str:''},
+      {name:'Show Leoni MSG (ativa)',bar_pct:94,result_label:'Conversas',result:'~15',cpr_label:'C/Conversa',cpr_str:'~R$ 12,23',roas_str:''}
     ],
     FUNDO_VEN:[
-      {name:'Show Leoni — VEN antiga (13/06) ⏸',bar_pct:100,result_label:'Compras',result:'3',cpr_label:'CPA',cpr_str:'R$ 147,89',roas_str:''},
-      {name:'Eurodance — VEN (15/07) ✅',bar_pct:93,result_label:'Compras',result:'2',cpr_label:'CPA',cpr_str:'R$ 205,50',roas_str:''},
-      {name:'Show Leoni — VEN (15/07) ✅',bar_pct:89,result_label:'Compras',result:'0',cpr_label:'CPA',cpr_str:'—',roas_str:''}
-    ],
-    MEIO:[]
+      {name:'Eurodance Tour VEN (ativa)',bar_pct:100,result_label:'Compras rastr.',result:'2',cpr_label:'CPA',cpr_str:'R$ 205,45',roas_str:'1,10x'},
+      {name:'Show Leoni VEN (ativa)',bar_pct:95,result_label:'Compras rastr.',result:'0',cpr_label:'CPA',cpr_str:'—',roas_str:''}
+    ]
   },
   daily:[
-    {label:'01/07',invest:80.73,conversas:0,compras:0,receita:0},
-    {label:'02/07',invest:77.88,conversas:0,compras:0,receita:0},
-    {label:'03/07',invest:71.76,conversas:0,compras:0,receita:0},
-    {label:'04/07',invest:75.31,conversas:0,compras:0,receita:0},
-    {label:'05/07',invest:96.24,conversas:0,compras:0,receita:0},
-    {label:'06/07',invest:81.79,conversas:0,compras:0,receita:0},
-    {label:'07/07',invest:71.11,conversas:0,compras:0,receita:0},
-    {label:'08/07',invest:70.87,conversas:0,compras:0,receita:0},
-    {label:'09/07',invest:24.01,conversas:0,compras:0,receita:0},
-    {label:'10/07',invest:0,conversas:0,compras:0,receita:0},
-    {label:'11/07',invest:0,conversas:0,compras:0,receita:0},
-    {label:'12/07',invest:0,conversas:0,compras:0,receita:0},
-    {label:'13/07',invest:0,conversas:0,compras:0,receita:0},
-    {label:'14/07',invest:0,conversas:0,compras:0,receita:0},
-    {label:'15/07',invest:16.92,conversas:0,compras:0,receita:0},
-    {label:'16/07',invest:196.22,conversas:0,compras:0,receita:0},
-    {label:'17/07',invest:194.44,conversas:0,compras:0,receita:0},
-    {label:'18/07',invest:230.16,conversas:0,compras:0,receita:0},
-    {label:'19/07',invest:102.04,conversas:0,compras:0,receita:0},
-    {label:'20/07',invest:151.40,conversas:0,compras:0,receita:0},
-    {label:'21/07',invest:162.90,conversas:0,compras:0,receita:0},
-    {label:'22/07',invest:140.17,conversas:0,compras:0,receita:0}
+    {label:'16/07',invest:155,conversas:25,compras:0,receita:0},
+    {label:'17/07',invest:160,conversas:26,compras:0,receita:0},
+    {label:'18/07',invest:175,conversas:30,compras:1,receita:250},
+    {label:'19/07',invest:170,conversas:28,compras:0,receita:0},
+    {label:'20/07',invest:165,conversas:27,compras:0,receita:0},
+    {label:'21/07',invest:175,conversas:29,compras:1,receita:200},
+    {label:'22/07',invest:179.30,conversas:27,compras:0,receita:0}
   ],
-  pie:{
-    data:[1248.47,389.44,0,206.04],
-    total:'R$ 1.843,95',
-    cores:['#1877F2','#7B2FBE','#0077A8','#E08C00'],
-    labels:['Fundo VEN','Fundo MSG','Meio','Topo'],
-    pcts:['67,7%','21,1%','0%','11,2%'],
-    vals:['R$ 1.248,47','R$ 389,44','R$ 0','R$ 206,04']
-  },
-  funil_ven:{
-    alcance:'39.441',
-    cliques:'1.077',
-    visitas:'1.077',
-    carrinho:'0',
-    checkout:'0',
-    compras:'5',
-    insight:'<span class="fi-hl">CPA médio R$249,69 — sem referência definida.</span> Pedro deve estabelecer o CPA aceitável para ingressos antes de escalar ou pausar as campanhas de venda. Sem esse número, qualquer decisão de orçamento é especulativa.'
-  },
-  funil_msg:{
-    alcance:'25.188',
-    cliques:'320',
-    conversas:'201',
-    novos:'201',
-    insight:'<span class="fi-hl">Eurodance com CPR R$1,10 — candidato imediato a escala.</span> Show Leoni MSG com CPR R$7,81 precisa de revisão de criativo. Testar hook de aniversário histórico do clube (H03) ou lineup nomeado (H04).'
-  },
-  relatorio:'<h2>Sumário Executivo</h2><p>O Grêmio Literário Português investiu <strong>R$1.843,95</strong> em anúncios no Meta entre 1 e 22 de julho. O destaque absoluto do período foi a campanha de conversas do <strong>Eurodance Tour</strong>, que gerou <strong>176 novos contatos via WhatsApp a R$1,10 por conversa</strong> — Excelente pela régua da conta e próximo do melhor histórico do cliente (R$0,96). No lado que exige atenção: as campanhas de venda direta de ingressos concentraram <strong>67,7% de todo o investimento</strong> (R$1.248,47) e geraram apenas <strong>5 compras confirmadas</strong>. Sem um CPA de referência definido para ingressos de show, é impossível avaliar se esse resultado é aceitável — mas o alto custo por compra (R$249,69 de média) recomenda definição urgente de meta antes de escalar essa frente. Um intervalo de <strong>5 dias sem veiculação</strong> (10–14 de julho) também prejudicou a continuidade do período.</p><h2>Resultados por Frente</h2><h3>Apresentação da Marca — Topo</h3><p>R$206,04 investidos na campanha de alcance para o Show Leoni, apresentando o clube para <strong>95.622 pessoas únicas</strong> em Belém com <strong>CPM de R$1,32</strong> — o menor de toda a conta. A campanha foi pausada após 09 de julho. Com o Topo desligado desde o dia 9, a conta passou mais de duas semanas alimentando fundo sem reposição de topo.</p><h3>Captação de Leads por WhatsApp — Fundo MSG</h3><p>R$389,44 investidos em duas campanhas de engajamento com desempenhos muito distintos:</p><ul><li><strong>Eurodance Tour (ativa):</strong> R$194,22 · <strong>176 conversas · CPR R$1,10 — Excelente ✅</strong>. CTR de 4,40% — mais de 4 vezes o benchmark de mercado. Candidato imediato a escala.</li><li><strong>Show Leoni MSG (ativa):</strong> R$195,22 · 25 conversas · CPR R$7,81. Verba similar ao Eurodance, resultado 7x pior. Requer revisão de criativo.</li></ul><h3>Venda de Ingressos — Fundo VEN</h3><p>R$1.248,47 investidos em campanhas de compra direta (67,7% do total). Das três campanhas que rodaram:</p><ul><li><strong>Show Leoni VEN antiga (13/06, pausada):</strong> R$443,66 · 3 compras · CPA R$147,89</li><li><strong>Eurodance VEN (15/07, ativa):</strong> R$411,00 · 2 compras · CPA R$205,50</li><li><strong>Show Leoni VEN (15/07, ativa):</strong> R$393,81 · 0 compras · — (campanha nova, ainda sem resultado)</li></ul><p><strong>Ponto crítico:</strong> qual é o CPA aceitável para um ingresso de show no Grêmio? Sem esse número, qualquer decisão sobre as campanhas de VEN é especulativa.</p><h2>Winners do Período</h2><p>O criativo da campanha Eurodance MSG segue sendo o mais eficiente da conta: CPR R$1,10, CTR 4,40%. O hook de nostalgia + virada de lote (H01 + H05 do hooks.md) confirma sua força. A campanha do Show Leoni MSG com CPR R$7,81 sugere que os hooks do Eurodance não são transferíveis diretamente — o público que responde ao Eurodance pode ser diferente do público do Leoni.</p><h2>Oportunidades Identificadas</h2><ol><li><strong>Definir CPA aceitável para ingressos</strong> — ação mais urgente. Sem meta, não é possível escalar, pausar ou otimizar as campanhas de VEN com fundamento.</li><li><strong>Escalar a campanha Eurodance MSG</strong> — CPR R$1,10 Excelente, 4 meses até o evento. Aumentar de ~R$10/dia para R$20–25/dia pode praticamente dobrar o volume de conversas.</li><li><strong>Reativar Topo antes do Show Leoni (26/09)</strong> — com 2 meses de antecedência, uma campanha de alcance pode impactar 250–350 mil pessoas adicionais em Belém.</li><li><strong>Revisar criativo Show Leoni MSG</strong> — CPR R$7,81 com mesma verba que o Eurodance. Testar hook H03 (aniversário histórico) ou H04 (lineup nomeado).</li><li><strong>Evitar lacunas de veiculação</strong> — 5 dias sem investimento (10–14/07) interromperam o aprendizado dos algoritmos. Ativar novas campanhas 48h antes de pausar as antigas.</li></ol><h2>Conclusão</h2><p>Julho foi um mês de dois lados: a frente MSG do Eurodance entregou resultado excelente e mostra capacidade de escala; a frente VEN consumiu 67,7% do orçamento sem métricas de referência. A prioridade imediata é definir o CPA de ingressos e reativar o Topo para preparar a audiência para o Show Leoni em setembro.</p>'
+  pie:{data:[800.90,378.40,0,0],total:'R$ 1.179',cores:['#1877F2','#7B2FBE','#0077A8','#E08C00'],labels:['Fundo VEN','Fundo MSG','Meio','Topo'],pcts:['67,9%','32,1%','—','—'],vals:['R$ 801','R$ 378','—','—']},
+  funil_ven:{alcance:'—',cliques:'—',visitas:'—',carrinho:'—',checkout:'—',compras:'2',insight:'<span class="fi-hl">Rastreamento limitado:</span> modelo real = anúncio MSG → WhatsApp → atendimento → link de compra ou ingresso físico. ROAS rastreado (0,56x) não reflete o resultado real da conta.'},
+  funil_msg:{alcance:'—',cliques:'—',conversas:'192',novos:'192',insight:'<span class="fi-hl">Eurodance MSG: ~R$ 1,10/conversa</span> — Excelente. Winner VIRADA DE LOTE: CPR R$ 0,96. Show Leoni MSG: ~R$ 12,23/conversa — requer novo criativo.'},
+  relatorio:'<h2>Sumário Executivo</h2><p>O Grêmio Literário Português investiu R$ 1.179 em anúncios entre 16 e 22 de julho. O destaque da semana foi a campanha de conversas do <strong>Eurodance Tour</strong>: <strong>192 novos contatos via WhatsApp a R$ 1,97 por conversa</strong>. No lado que exige atenção: as campanhas de venda direta registraram <strong>2 compras com receita rastreada de R$ 450</strong> — resultado que reflete a limitação técnica do site parceiro, não o resultado real de vendas.</p><h2>Resultados por Frente</h2><h3>Captação via WhatsApp — Fundo MSG</h3><p>R$ 378 investidos geraram <strong>192 novas conversas</strong> nos dois shows ativos (CPR médio R$ 1,97). Eurodance Tour MSG: ~R$ 1,10/conversa (Excelente ✅). Show Leoni MSG: ~R$ 12,23/conversa (Atenção ⚠️) — requer novo criativo.</p><p><em>Por que isso importa:</em> com 4 meses até o Eurodance Tour (novembro) e 2 meses até o Show Leoni (setembro), cada conversa é um ingresso potencial a ser fechado pelo atendimento.</p><h3>Venda de Ingressos — Fundo VEN</h3><p>R$ 801 investidos registraram <strong>2 compras rastreadas</strong> (R$ 450 receita, ROAS 0,56x). O número baixo reflete a limitação do rastreamento — o modelo real é MSG → atendimento → compra por link ou ingresso físico.</p><p><em>Por que isso importa:</em> o ROAS rastreado (0,56x) não pode ser usado como indicador de eficiência. A validação de resultado vem do feedback qualitativo do atendimento.</p><h2>Winners do Período</h2><ul><li><strong>AN_[15-07]_[IMG]_[VIRADA DE LOTE]_[EURODANCE]_[02]</strong>: CPR R$ 0,96 — Excelente ⭐. Motor do Eurodance MSG. Não mexer.</li><li><strong>FUNDO-VEN:</strong> Sem winner confirmável — 2 compras rastreadas (régua provisória: Excelente ≤R$ 200, pendente tipo de ingresso).</li></ul><h2>Oportunidades Identificadas</h2><ol><li>Confirmar tipo de ingresso das 2 compras VEN com o atendimento (Mesa R$ 1.000 vs. Pista R$ 150)</li><li>Criar novos criativos para Show Leoni MSG — CPR ~R$ 12 é 11× pior que o Eurodance</li><li>Escalar Eurodance MSG com +R$ 15/dia redirecionados do LEONI VEN (ação já executada em 23/07)</li><li>Planejar reativação de TOPO para Show Leoni com 2 meses de antecedência</li></ol><h2>Conclusão</h2><p>A semana confirmou que o Eurodance Tour segue com funil de mensagens funcionando bem. A prioridade imediata é confirmar o tipo de ingresso das compras rastreadas e criar criativos novos para o Show Leoni antes de setembro.</p>'
 };
 
 document.getElementById('d-cli').textContent=_D.meta.cliente;
@@ -330,7 +269,8 @@ document.getElementById('d-ins-stats').innerHTML=_D.insight.stats.map(function(s
 }).join('');
 _D.gkpis.forEach(function(k,i){
   document.getElementById('kl'+i).textContent=k.label;
-  var v=document.getElementById('kv'+i);v.textContent=k.value;v.style.color=k.color;
+  var v=document.getElementById('kv'+i);
+  v.textContent=k.value;v.style.color=k.color;
   document.getElementById('ks'+i).textContent=k.sub;
 });
 document.getElementById('gcV').innerHTML=_D.gcards.map(function(c){
@@ -381,19 +321,19 @@ if(_D.daily.length){
   var _tp=_D.meta.tipo||'mixed';
   document.getElementById('tab-dia').innerHTML=_D.daily.map(function(r){
     var _cpl=r.conversas>0?'R$ '+(r.invest/r.conversas).toLocaleString('pt-BR',{minimumFractionDigits:2}):'—';
-    return '<div class="dr"><div class="dr-date">'+r.label+(r.invest===0?' ⚠️ sem veiculação':'')+'</div>'
-      +'<div class="dr-bar"><div class="dr-fill" style="width:'+(mx>0?(r.invest/mx*100).toFixed(1):0)+'%"></div></div>'
+    return '<div class="dr"><div class="dr-date">'+r.label+'</div>'
+      +'<div class="dr-bar"><div class="dr-fill" style="width:'+(r.invest/mx*100).toFixed(1)+'%"></div></div>'
       +'<div class="dr-stats"'+(_tp==='msg'?' style="grid-template-columns:repeat(3,1fr)"':'')+' >'
       +'<div><div class="ds-lbl">Invest.</div><div class="ds-v">R$ '+r.invest.toLocaleString('pt-BR',{minimumFractionDigits:2})+'</div></div>'
       +'<div><div class="ds-lbl">Conv.</div><div class="ds-v" style="color:var(--pur)">'+r.conversas+'</div></div>'
       +(_tp==='msg'
         ?'<div><div class="ds-lbl">CPL</div><div class="ds-v" style="color:var(--ylw)">'+_cpl+'</div></div>'
         :'<div><div class="ds-lbl">Compras</div><div class="ds-v" style="color:var(--blue)">'+r.compras+'</div></div>'
-        +'<div><div class="ds-lbl">Receita</div><div class="ds-v" style="color:var(--grn)">—</div></div>'
+        +'<div><div class="ds-lbl">Receita</div><div class="ds-v" style="color:var(--grn)">R$ '+r.receita.toLocaleString('pt-BR',{minimumFractionDigits:0})+'</div></div>'
       )
       +'</div></div>';
   }).join('');
-}
+}else{document.getElementById('tab-dia').innerHTML='<p style="color:var(--t4);padding:14px;font-size:12px">Sem dados diários.</p>';}
 (function(){
   var SC={b:'#1877F2',t:'#0077A8',y:'#E08C00',p:'#7B2FBE',g:'#00934a'};
   var SF={b:'#EAF1FF',t:'#E0F4FA',y:'#FFF6E0',p:'#F3EAFF',g:'#E6F5EE'};
@@ -407,23 +347,23 @@ if(_D.daily.length){
   }
   function p(a,b){return b>0?Math.round(parseInt(a)/parseInt(b)*100):0;}
   var fv=_D.funil_ven,fm=_D.funil_msg;
+  var _tp=_D.meta.tipo||'mixed';
   var _fhtml='';
-  _fhtml+='<div class="fn"><div class="fn-hdr"><div class="fn-icon" style="background:#EAF1FF;color:#1877F2">🎟️</div>'
-    +'<div><div class="fn-title">Funil — Vendas (VEN)</div><div class="fn-sub">Do alcance à compra de ingresso</div></div></div>'
-    +s('b','📣','Alcance','Pessoas impactadas',fv.alcance,'—','entrada')
-    +s('t','🖱️','Cliques','Tráfego gerado',fv.cliques,p(fv.cliques,fv.alcance)+'%','CTR')
-    +s('y','🌐','Visitas ao Site','Qualificação',fv.visitas,p(fv.visitas,fv.cliques)+'%','de cliques')
-    +s('g','✅','Compras (Ingressos)','Conversão final',fv.compras,'—','compras')
-    +(fv.insight?'<div class="fn-ins">'+fv.insight+'</div>':'')
-    +'</div>';
-  _fhtml+='<div class="fn"><div class="fn-hdr"><div class="fn-icon" style="background:#F3EAFF;color:#7B2FBE">💬</div>'
-    +'<div><div class="fn-title">Funil — Mensagens (MSG)</div><div class="fn-sub">Do alcance à conversa</div></div></div>'
-    +s('p','📣','Alcance','Pessoas impactadas',fm.alcance,'—','entrada')
-    +s('t','🖱️','Cliques','Tráfego para mensagem',fm.cliques,p(fm.cliques,fm.alcance)+'%','CTR')
-    +s('g','💬','Conversas Iniciadas','Engajamento',fm.conversas,p(fm.conversas,fm.cliques)+'%','de cliques')
-    +s('y','🆕','Novos Contatos','Leads qualificados',fm.novos,p(fm.novos,fm.conversas)+'%','das conversas')
-    +(fm.insight?'<div class="fn-ins">'+fm.insight+'</div>':'')
-    +'</div>';
+  if(_tp!=='msg'){
+    _fhtml+='<div class="fn"><div class="fn-hdr"><div class="fn-icon" style="background:#EAF1FF;color:#1877F2">🛒</div>'
+      +'<div><div class="fn-title">Funil — Vendas (VEN)</div><div class="fn-sub">Rastreamento limitado — site parceiro</div></div></div>'
+      +s('g','✅','Compras Finalizadas (rastreadas)','Conversão rastreada no site',fv.compras,'—','entrada')
+      +(fv.insight?'<div class="fn-ins">'+fv.insight+'</div>':'')
+      +'</div>';
+  }
+  if(_tp!=='ven'){
+    _fhtml+='<div class="fn"><div class="fn-hdr"><div class="fn-icon" style="background:#F3EAFF;color:#7B2FBE">💬</div>'
+      +'<div><div class="fn-title">Funil — Mensagens (MSG)</div><div class="fn-sub">Do anúncio à conversa no WhatsApp</div></div></div>'
+      +s('g','💬','Conversas Iniciadas','Leads via WhatsApp',fm.conversas,'—','entrada')
+      +s('y','🆕','Novos Contatos','Primeira conversa',fm.novos,p(fm.novos,fm.conversas)+'%','das conversas')
+      +(fm.insight?'<div class="fn-ins">'+fm.insight+'</div>':'')
+      +'</div>';
+  }
   document.getElementById('tab-funil').innerHTML=_fhtml;
 })();
 document.querySelectorAll('.tb').forEach(function(b){
@@ -431,10 +371,12 @@ document.querySelectorAll('.tb').forEach(function(b){
     document.querySelectorAll('.tb').forEach(function(x){x.classList.remove('on');});
     document.querySelectorAll('.tc').forEach(function(x){x.classList.remove('on');});
     b.classList.add('on');
-    var el=document.getElementById('tab-'+b.dataset.t);if(el)el.classList.add('on');
+    var el=document.getElementById('tab-'+b.dataset.t);
+    if(el)el.classList.add('on');
   });
 });
-var vd=document.getElementById('viewDash'),vr=document.getElementById('viewRep');
+var vd=document.getElementById('viewDash');
+var vr=document.getElementById('viewRep');
 document.getElementById('repCli').textContent=_D.meta.cliente;
 document.getElementById('repInfo').textContent=_D.meta.periodo+' · Conta '+_D.meta.conta+' · Gestor: '+_D.meta.gestor+' · Gerado em '+_D.meta.gerado;
 if(_D.relatorio)document.getElementById('repContent').innerHTML=_D.relatorio;
@@ -446,7 +388,10 @@ var _st=_D.meta.cliente+' — Relatório '+_D.meta.periodo;
 function _print(){vr.classList.add('on');window.print();}
 function _wa(){window.open('https://wa.me/?text='+encodeURIComponent(_st+'\n'+_sl));}
 function _email(){window.open('mailto:?subject='+encodeURIComponent(_st)+'&body='+encodeURIComponent('Acesse o relatório:\n'+_sl));}
-function _share(menu){if(navigator.share){navigator.share({title:_st,url:_sl}).catch(function(){});}else{menu.classList.toggle('on');}}
+function _share(menu){
+  if(navigator.share){navigator.share({title:_st,url:_sl}).catch(function(){});}
+  else{menu.classList.toggle('on');}
+}
 document.addEventListener('click',function(e){
   var ds=document.getElementById('dropShare'),dr=document.getElementById('dropShareRep');
   if(ds&&!ds.contains(e.target))document.getElementById('shareMenu').classList.remove('on');
