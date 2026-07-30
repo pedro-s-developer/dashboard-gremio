@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -19,24 +19,38 @@ body{background:var(--bg);color:var(--t);font-family:'Poppins',sans-serif;paddin
 .drop-menu.on{display:block}
 .drop-item{display:flex;align-items:center;gap:8px;padding:10px 14px;font-size:11px;font-weight:600;color:var(--t2);cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:'Poppins',sans-serif;white-space:nowrap}
 .drop-item:hover{background:var(--bs)}
-/* Calendar */
+/* Range picker */
 .cal-drop{margin-left:auto}
-.cal-menu{min-width:280px;padding:14px;right:0;left:auto}
-.cal-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.cal-nav-btn{background:none;border:none;font-size:16px;cursor:pointer;color:var(--t2);padding:4px 10px;border-radius:6px;font-weight:700}
+.cal-menu{padding:0;right:0;left:auto;overflow:visible;width:min(680px,calc(100vw - 40px))}
+.cal-hdr{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--bs)}
+.cal-hdr-label{font-size:12px;font-weight:800;color:var(--t)}
+.cal-hdr-close{background:none;border:none;font-size:18px;cursor:pointer;color:var(--t3);padding:0 4px;line-height:1}
+.cal-body{display:grid;grid-template-columns:150px 1fr;min-height:280px}
+.cal-presets{border-right:1px solid var(--bs);padding:8px 0;overflow-y:auto}
+.cal-preset{display:block;width:100%;padding:9px 16px;font-size:11px;font-weight:600;color:var(--t2);border:none;background:none;text-align:left;cursor:pointer;font-family:'Poppins',sans-serif}
+.cal-preset:hover{background:var(--bs)}
+.cal-preset.on{background:var(--blu);color:var(--blue);font-weight:800}
+.cal-months{padding:14px 16px}
+.cal-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px}
+.cal-nav-btn{background:none;border:1px solid var(--b);width:24px;height:24px;border-radius:6px;font-size:14px;cursor:pointer;color:var(--t2);display:flex;align-items:center;justify-content:center;padding:0;line-height:1}
 .cal-nav-btn:hover{background:var(--bs)}
 .cal-nav-btn:disabled{opacity:.3;cursor:not-allowed}
-.cal-month{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--t)}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
-.cal-dow{font-size:8px;font-weight:700;color:var(--t4);padding:4px 0;text-transform:uppercase}
-.cal-day{font-size:10px;font-weight:600;padding:6px 2px;border-radius:4px;cursor:default;color:var(--t3)}
-.cal-day.has-data{background:var(--blu);color:var(--blue);cursor:pointer;font-weight:700}
-.cal-day.has-data:hover{background:var(--blue);color:#fff}
-.cal-day.active-week{background:var(--blue);color:#fff;font-weight:900}
+.cal-month-lbl{flex:1;text-align:center;font-size:11px;font-weight:800;color:var(--t);text-transform:uppercase;letter-spacing:.5px}
+.cal-grids{display:grid;grid-template-columns:1fr;gap:14px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px}
+.cal-dow{font-size:8px;font-weight:700;color:var(--t4);padding:3px 0;text-transform:uppercase;text-align:center}
+.cal-day{font-size:10px;font-weight:600;padding:6px 0;text-align:center;cursor:default;color:var(--t3);border-radius:0}
+.cal-day.has-data{color:var(--t);cursor:pointer}
+.cal-day.has-data:hover{background:var(--bs)}
+.cal-day.in-range{background:var(--blu);color:var(--blue)}
+.cal-day.range-start,.cal-day.range-end{background:var(--blue);color:#fff;font-weight:800}
+.cal-day.range-start{border-radius:4px 0 0 4px}
+.cal-day.range-end{border-radius:0 4px 4px 0}
+.cal-day.range-start.range-end{border-radius:4px}
 .cal-day.other-month{opacity:.25}
-.cal-legend{margin-top:10px;padding-top:10px;border-top:1px solid var(--bs);display:flex;gap:10px;font-size:9px;color:var(--t3);justify-content:center;flex-wrap:wrap}
-.cal-legend span{display:inline-flex;align-items:center;gap:4px}
-.cal-legend i{width:8px;height:8px;border-radius:2px;display:inline-block}
+.cal-day.no-data{color:var(--t4);opacity:.4}
+.cal-footer{display:flex;justify-content:flex-end;gap:8px;padding:10px 14px;border-top:1px solid var(--bs)}
+.cal-footer .act-btn{font-size:11px;padding:6px 14px}
 /* View toggle */
 .view-rep{display:none}.view-rep.on{display:block}
 /* Dashboard */
@@ -176,7 +190,24 @@ h1{font-size:22px;font-weight:900;letter-spacing:-.5px;line-height:1;margin:5px 
   </div>
   <div class="drop cal-drop" id="dropCal">
     <button class="act-btn" id="btnCal">📅 <span id="calLabel">Período</span> ▾</button>
-    <div class="drop-menu cal-menu" id="calMenu"></div>
+    <div class="drop-menu cal-menu" id="calMenu">
+      <div class="cal-hdr">
+        <span class="cal-hdr-label" id="calRangeLabel">Período</span>
+        <button class="cal-hdr-close" id="calClose">×</button>
+      </div>
+      <div class="cal-body">
+        <div class="cal-presets" id="calPresets"></div>
+        <div class="cal-months">
+          <div class="cal-nav">
+            <button class="cal-nav-btn" id="calPrev">‹</button>
+            <span class="cal-month-lbl" id="calMonthLeft"></span>
+            <span class="cal-month-lbl" id="calMonthRight"></span>
+            <button class="cal-nav-btn" id="calNext">›</button>
+          </div>
+          <div class="cal-grids">
+            <div class="cal-grid" id="calGridLeft"></div>
+            <div class="cal-grid" id="calGridRight"></div>
+          </div>
   </div>
 </div>
 
@@ -647,10 +678,12 @@ function renderSemana(s){
   document.getElementById('repContent').innerHTML=s.relatorio||'<p style="color:var(--t4)">Sem relatório escrito para esta semana.</p>';
 }
 
-// Calendário
+// Calendário — Range Picker adaptado para semanas
 (function initCalendar(){
   var MES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-  var DOW=['S','T','Q','Q','S','S','D']; // Seg a Dom
+  var DOW=['S','T','Q','Q','S','S','D'];
+  var monthLeft=null;
+  var _tempIdx=null; // índice temporário (antes de Aplicar)
 
   // Mapa: 'AAAA-MM-DD' -> índice em _D.semanas
   var dataMap={};
@@ -663,85 +696,106 @@ function renderSemana(s){
     }
   });
 
-  // Mês atual da navegação
-  var navDate=_D.semanas.length?new Date(_D.semanas[0].fim+'T00:00:00'):new Date();
-  navDate.setDate(1);
-
-  function iso(d){return d.toISOString().slice(0,10);}
-  function sameWeekIds(idx){
-    var s=_D.semanas[idx];if(!s)return{};
-    var out={};var d=new Date(s.inicio+'T00:00:00');var fim=new Date(s.fim+'T00:00:00');
-    while(d<=fim){out[iso(d)]=1;d.setDate(d.getDate()+1);}
-    return out;
-  }
-
-  function draw(){
-    var y=navDate.getFullYear(),m=navDate.getMonth();
-    var first=new Date(y,m,1);
-    var firstDow=(first.getDay()+6)%7; // Seg=0 ... Dom=6
-    var daysInMonth=new Date(y,m+1,0).getDate();
-    var activeIdx=_D.semanas.indexOf(_currentSemana);
-    var activeDays=sameWeekIds(activeIdx);
-
-    var html='<div class="cal-nav">'
-      +'<button class="cal-nav-btn" id="calPrev">‹</button>'
-      +'<span class="cal-month">'+MES[m]+' '+y+'</span>'
-      +'<button class="cal-nav-btn" id="calNext">›</button>'
-      +'</div><div class="cal-grid">';
-    DOW.forEach(function(d){html+='<div class="cal-dow">'+d+'</div>';});
-
-    // Dias do mês anterior (preencher grid)
-    var prevMonthDays=new Date(y,m,0).getDate();
-    for(var i=firstDow-1;i>=0;i--){
-      html+='<div class="cal-day other-month">'+(prevMonthDays-i)+'</div>';
-    }
-    // Dias do mês
-    for(var dd=1;dd<=daysInMonth;dd++){
-      var isoDate=iso(new Date(y,m,dd));
-      var cls='cal-day';
-      var handler='';
-      if(dataMap.hasOwnProperty(isoDate)){
-        cls+=' has-data';
-        var targetIdx=dataMap[isoDate];
-        handler=' data-idx="'+targetIdx+'"';
-        if(activeDays[isoDate])cls+=' active-week';
-      }
-      html+='<div class="'+cls+'"'+handler+'>'+dd+'</div>';
-    }
-    // Dias do próximo mês (preencher grid até múltiplo de 7)
-    var total=firstDow+daysInMonth;
-    var rest=(7-(total%7))%7;
-    for(var j=1;j<=rest;j++)html+='<div class="cal-day other-month">'+j+'</div>';
-
-    html+='</div><div class="cal-legend">'
-      +'<span><i style="background:var(--blu)"></i>Semana com dados</span>'
-      +'<span><i style="background:var(--blue)"></i>Semana ativa</span>'
-      +'</div>';
-
-    var menu=document.getElementById('calMenu');
-    menu.innerHTML=html;
-    document.getElementById('calPrev').addEventListener('click',function(e){e.stopPropagation();navDate.setMonth(navDate.getMonth()-1);draw();});
-    document.getElementById('calNext').addEventListener('click',function(e){e.stopPropagation();navDate.setMonth(navDate.getMonth()+1);draw();});
-    menu.querySelectorAll('.cal-day.has-data').forEach(function(el){
-      el.addEventListener('click',function(e){
+  function drawPresets(){
+    var html=_D.semanas.slice(0,8).map(function(s,i){
+      var isOn=_tempIdx===i;
+      var parts=s.label.split(' de ');
+      var shortLbl=parts.length>=4?parts[0]+' a '+parts[2]+' '+parts[3]:s.label;
+      return '<button class="cal-preset'+(isOn?' on':'')+'" data-i="'+i+'">'+shortLbl+'</button>';
+    }).join('');
+    document.getElementById('calPresets').innerHTML=html;
+    document.getElementById('calPresets').querySelectorAll('.cal-preset').forEach(function(btn){
+      btn.addEventListener('click',function(e){
         e.stopPropagation();
-        var idx=parseInt(el.dataset.idx,10);
-        renderSemana(_D.semanas[idx]);
-        menu.classList.remove('on');
+        var k=parseInt(btn.dataset.i,10);
+        _tempIdx=k;
+        var s=_D.semanas[k];
+        var fim=new Date(s.fim+'T00:00:00');
+        monthLeft=new Date(fim.getFullYear(),fim.getMonth()-1,1);
+        drawAll();
       });
     });
   }
+
+  function drawMonth(gridId,monthDate){
+    var y=monthDate.getFullYear(),m=monthDate.getMonth();
+    var first=new Date(y,m,1);
+    var firstDow=(first.getDay()+6)%7;
+    var daysInMonth=new Date(y,m+1,0).getDate();
+    var prevMonthDays=new Date(y,m,0).getDate();
+    var html='';
+    DOW.forEach(function(d){html+='<div class="cal-dow">'+d+'</div>';});
+    for(var i=firstDow-1;i>=0;i--)html+='<div class="cal-day other-month">'+(prevMonthDays-i)+'</div>';
+    for(var dd=1;dd<=daysInMonth;dd++){
+      var isoD=y+'-'+String(m+1).padStart(2,'0')+'-'+String(dd).padStart(2,'0');
+      var weekIdx=dataMap.hasOwnProperty(isoD)?dataMap[isoD]:null;
+      var cls='cal-day';
+      if(weekIdx!==null){
+        cls+=' has-data';
+        if(_tempIdx===weekIdx){
+          cls+=' in-range';
+          var sw=_D.semanas[weekIdx];
+          if(isoD===sw.inicio)cls+=' range-start';
+          if(isoD===sw.fim)cls+=' range-end';
+        }
+      }else{
+        cls+=' no-data';
+      }
+      html+='<div class="'+cls+'"'+(weekIdx!==null?' data-w="'+weekIdx+'"':'')+'>'+dd+'</div>';
+    }
+    var total=firstDow+daysInMonth;
+    var rest=(7-(total%7))%7;
+    for(var j=1;j<=rest;j++)html+='<div class="cal-day other-month">'+j+'</div>';
+    var grid=document.getElementById(gridId);
+    grid.innerHTML=html;
+    grid.querySelectorAll('.cal-day.has-data').forEach(function(el){
+      el.addEventListener('click',function(e){
+        e.stopPropagation();
+        _tempIdx=parseInt(el.dataset.w,10);
+        drawAll();
+      });
+    });
+  }
+
+  function drawNav(){
+    if(!monthLeft){
+      var recent=_D.semanas.length?new Date(_D.semanas[0].fim+'T00:00:00'):new Date();
+      monthLeft=new Date(recent.getFullYear(),recent.getMonth()-1,1);
+    }
+    var right=new Date(monthLeft.getFullYear(),monthLeft.getMonth()+1,1);
+    document.getElementById('calMonthLeft').textContent=MES[monthLeft.getMonth()]+' '+monthLeft.getFullYear();
+    document.getElementById('calMonthRight').textContent=MES[right.getMonth()]+' '+right.getFullYear();
+    drawMonth('calGridLeft',monthLeft);
+    drawMonth('calGridRight',right);
+  }
+
+  function drawHdr(){
+    var lbl=(_tempIdx!==null&&_D.semanas[_tempIdx])?_D.semanas[_tempIdx].label:'Selecione uma semana';
+    document.getElementById('calRangeLabel').textContent=lbl;
+  }
+
+  function drawAll(){drawPresets();drawNav();drawHdr();}
 
   document.getElementById('btnCal').addEventListener('click',function(e){
     e.stopPropagation();
     var menu=document.getElementById('calMenu');
     if(!menu.classList.contains('on')){
-      // Reabre no mês da semana ativa
-      var s=_currentSemana||_D.semanas[0];
-      if(s){navDate=new Date(s.fim+'T00:00:00');navDate.setDate(1);}
-      draw();
+      _tempIdx=_D.semanas.indexOf(_currentSemana);
+      if(_tempIdx<0)_tempIdx=0;
+      var s=_D.semanas[_tempIdx];
+      if(s){var fim=new Date(s.fim+'T00:00:00');monthLeft=new Date(fim.getFullYear(),fim.getMonth()-1,1);}
+      drawAll();
     }
     menu.classList.toggle('on');
+  });
+  document.getElementById('calPrev').addEventListener('click',function(e){e.stopPropagation();monthLeft=new Date(monthLeft.getFullYear(),monthLeft.getMonth()-1,1);drawAll();});
+  document.getElementById('calNext').addEventListener('click',function(e){e.stopPropagation();monthLeft=new Date(monthLeft.getFullYear(),monthLeft.getMonth()+1,1);drawAll();});
+  document.getElementById('calClose').addEventListener('click',function(e){e.stopPropagation();document.getElementById('calMenu').classList.remove('on');});
+  document.getElementById('calCancel').addEventListener('click',function(e){e.stopPropagation();document.getElementById('calMenu').classList.remove('on');});
+  document.getElementById('calApply').addEventListener('click',function(e){
+    e.stopPropagation();
+    if(_tempIdx!==null&&_D.semanas[_tempIdx]){renderSemana(_D.semanas[_tempIdx]);}
+    document.getElementById('calMenu').classList.remove('on');
   });
 })();
 
