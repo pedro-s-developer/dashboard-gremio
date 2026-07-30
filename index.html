@@ -165,6 +165,8 @@ h1{font-size:22px;font-weight:900;letter-spacing:-.5px;line-height:1;margin:5px 
   .fn-sv{font-size:20px;min-width:90px}
   .rep h1{font-size:28px}
   .rep h2{font-size:17px}
+  .cal-grids{grid-template-columns:1fr 1fr}
+  .cal-menu{width:680px}
 }
 @media print{
   .act-bar,.rep-pbar{display:none!important}
@@ -699,8 +701,8 @@ function renderSemana(s){
   function drawPresets(){
     var html=_D.semanas.slice(0,8).map(function(s,i){
       var isOn=_tempIdx===i;
-      var parts=s.label.split(' de ');
-      var shortLbl=parts.length>=4?parts[0]+' a '+parts[2]+' '+parts[3]:s.label;
+      var dm=s.label.match(/(\d+)\s+a\s+(\d+)\s+de\s+(\w{3})/i);
+      var shortLbl=dm?(dm[1]+'–'+dm[2]+' '+dm[3]):s.label.substring(0,14);
       return '<button class="cal-preset'+(isOn?' on':'')+'" data-i="'+i+'">'+shortLbl+'</button>';
     }).join('');
     document.getElementById('calPresets').innerHTML=html;
