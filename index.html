@@ -909,10 +909,9 @@ function renderFunilTab(D, inicio, fim){
   }
   // MSG funnel
   if(tipo!=='ven' && (m.reach>0 || m.results>0)){
-    var _wa = m.clicks_wa > 0 ? m.clicks_wa : m.results;
-    var _conv = m.clicks_wa > 0 ? m.results : 0;
-    var mp1 = pct(_wa, m.reach);
-    var mp2 = _conv > 0 ? pct(_conv, _wa) : 0;
+    var haWA = m.clicks_wa > 0;
+    var mp1 = haWA ? pct(m.clicks_wa, m.reach) : pct(m.results, m.reach);
+    var mp2 = haWA && m.results > 0 ? pct(m.results, m.clicks_wa) : 0;
     html += '<div class="funnel-container">'
       + '<div class="funnel-header">'
       +   '<div class="funnel-header-left"><div class="funnel-type-icon msg">💬</div><div><div class="funnel-title">Funil de Conversa (WhatsApp)</div><div class="funnel-subtitle">Do alcance à conversa</div></div></div>'
@@ -920,10 +919,12 @@ function renderFunilTab(D, inicio, fim){
       + '</div>'
       + '<div class="funnel-reach-banner"><span style="font-size:18px;">👁</span><div><div class="funnel-reach-label">Alcance total</div><div class="funnel-reach-val">'+_fmtNuma(m.reach)+' pessoas</div></div><span class="funnel-reach-arrow">↓</span></div>'
       + '<div class="funnel-stages">'
-      +   stg('s-blue','🖱','Cliques WA','Etapa 1 de 2', _wa, mp1, 'do alcance')
-      +   (_conv > 0 ? stg('s-purple','💬','Conversas iniciadas','Etapa 2 de 2', _conv, mp2, 'dos cliques') : '')
+      +   (haWA ? stg('s-blue','🖱','Cliques WA','Etapa 1 de 2', m.clicks_wa, mp1, 'do alcance') : '')
+      +   (haWA ? (m.results > 0 ? stg('s-purple','💬','Conversas iniciadas','Etapa 2 de 2', m.results, mp2, 'dos cliques') : '') : stg('s-purple','💬','Conversas iniciadas','Resultado', m.results, mp1, 'do alcance'))
       + '</div>'
-      + (_wa>0?'<div class="funnel-insight"><div class="funnel-insight-icon">✨</div><div class="funnel-insight-text">De <span class="funnel-insight-hl">'+_fmtNuma(m.reach)+' pessoas alcançadas</span>, '+_fmtNuma(_wa)+' clicaram no WhatsApp. Custo médio de <span class="funnel-insight-hl">'+_fmtBRLa(m.spend/_wa)+' por clique</span>.</div></div>':'')
+      + (haWA
+          ? (m.clicks_wa>0?'<div class="funnel-insight"><div class="funnel-insight-icon">✨</div><div class="funnel-insight-text">De <span class="funnel-insight-hl">'+_fmtNuma(m.reach)+' pessoas alcançadas</span>, '+_fmtNuma(m.clicks_wa)+' clicaram no WhatsApp. Custo médio de <span class="funnel-insight-hl">'+_fmtBRLa(m.spend/m.clicks_wa)+' por clique</span>.</div></div>':'')
+          : (m.results>0?'<div class="funnel-insight"><div class="funnel-insight-icon">✨</div><div class="funnel-insight-text">De <span class="funnel-insight-hl">'+_fmtNuma(m.reach)+' pessoas alcançadas</span>, '+_fmtNuma(m.results)+' iniciaram uma conversa. Custo médio de <span class="funnel-insight-hl">'+_fmtBRLa(m.spend/m.results)+' por conversa</span>.</div></div>':''))
       + '</div>';
   }
   // VEN funnel
