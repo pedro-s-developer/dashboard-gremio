@@ -992,6 +992,7 @@ var _DYN_MIN=null, _DYN_MAX=null;
   _D.DAILY = derived.DAILY;
   _D.LABELS = derived.LABELS;
   _D.RECEITA_SERIES = derived.RECEITA_SERIES;
+  if(typeof cReceita!=='undefined'&&cReceita){cReceita.data.labels=_D.LABELS;cReceita.data.datasets[0].data=_D.RECEITA_SERIES;cReceita.update();}
 })();
 
 // ═══════════════════════════════════════════════════════════
@@ -1084,7 +1085,7 @@ var cPie=new Chart(document.getElementById('chartPie'),{
 });
 
 // ── CHART 4: Receita diária ───────────────────────────────────
-new Chart(document.getElementById('chartReceita'),{
+var cReceita=new Chart(document.getElementById('chartReceita'),{
   type:'bar',
   data:{labels:_D.LABELS,datasets:[{label:'Receita (R$)',data:_D.RECEITA_SERIES,backgroundColor:'rgba(0,147,74,0.7)',borderColor:'#00934a',borderWidth:0.5,borderRadius:4}]},
   options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:function(ctx){return 'Receita: R$ '+ctx.parsed.y.toLocaleString('pt-BR',{minimumFractionDigits:2});}}}},
@@ -1217,7 +1218,7 @@ function applyFilter(s){
   c2.data.datasets[0].label=fd.cpr_label;
   c2.update();
   // resize charts caso tenham sido ocultados anteriormente
-  setTimeout(function(){c1.resize();c2.resize();if(cPie)cPie.resize();},100);
+  setTimeout(function(){c1.resize();c2.resize();if(cPie)cPie.resize();if(cReceita)cReceita.resize();},100);
   updateHero(s);
 }
 
