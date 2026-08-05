@@ -342,14 +342,16 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
   .header img{height:44px!important;}
   .h-title{font-size:20px;}
   .h-meta{font-size:9px;}
-  .h-bottom{margin-top:10px;width:100%;}
-  .h-bottom .cal-wrap{display:block;width:100%;}
-  .h-bottom .cal-btn{width:100%;justify-content:center;}
-  /* ── Action bar mobile ── */
-  .action-bar{flex-direction:column!important;}
-  .action-bar .cal-btn{width:100%;justify-content:center;}
-  #dropShare{width:100%!important;display:block!important;}
-  #dropShare>#btnShare{width:100%;justify-content:center;}
+  .h-bottom{margin-top:8px;width:100%;display:flex;justify-content:flex-end;}
+  .h-bottom .cal-wrap{display:inline-block;width:auto;}
+  .h-bottom .cal-btn{width:auto;}
+  /* ── Action bar → rodapé via flex order ── */
+  .page{display:flex;flex-direction:column;}
+  .action-bar{order:100;flex-direction:row!important;flex-wrap:wrap;gap:6px;}
+  .action-bar .cal-btn{width:auto;}
+  #dropShare{width:auto!important;display:inline-block!important;}
+  #dropShare>#btnShare{width:auto;}
+  .footer{order:101;}
   /* ── KPIs ── */
   .kpi{padding:12px;}
   .kpi-label{font-size:10px;letter-spacing:0.5px;}
