@@ -497,11 +497,11 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
   <div class="chart-card">
     <div class="table-head-area" style="margin-bottom:12px;">
       <div class="chart-title">Resultado por dia — todos os funis</div>
-      <div class="chart-sub">Investimento, conversas, compras e receita</div>
+      <div class="chart-sub">Invest. VEN, ROI, compras e receita</div>
     </div>
     <div class="dt-header">
       <span class="th">Dia</span><span class="th">Volume</span>
-      <span class="th r">Invest.</span><span class="th r">Conv.</span><span class="th r">Compras</span><span class="th r">Receita</span>
+      <span class="th r">Invest. VEN</span><span class="th r">ROI</span><span class="th r">Compras</span><span class="th r">Receita</span>
     </div>
     <div id="dayTableBody"></div>
   </div>
@@ -676,8 +676,9 @@ function _buildDAILY(D, inicio, fim){
   D.campanhas.forEach(function(c){
     c.dias.forEach(function(d){
       if(d.data<inicio||d.data>fim) return;
-      if(!byDate[d.data]) byDate[d.data] = {label:_isoToLblA(d.data), invest:0, conversas:0, compras:0, receita:0};
+      if(!byDate[d.data]) byDate[d.data] = {label:_isoToLblA(d.data), invest:0, investVen:0, conversas:0, compras:0, receita:0};
       byDate[d.data].invest += d.spend||0;
+      if(c.funil === 'FUNDO_VEN') byDate[d.data].investVen += d.spend||0;
       byDate[d.data].compras += d.compras||0;
       byDate[d.data].receita += d.receita||0;
       if(c.funil === 'FUNDO_MSG') byDate[d.data].conversas += d.results||0;
@@ -1096,31 +1097,30 @@ var cReceita=new Chart(document.getElementById('chartReceita'),{
 if(_D.meta.tipo==='msg'){var _rc=document.getElementById('chartReceita');if(_rc&&_rc.closest){var _rcc=_rc.closest('.chart-card');if(_rcc)_rcc.style.display='none';}}
 (function(){
   var daily=_D.DAILY;
-  var maxInvest=Math.max.apply(null,daily.map(function(r){return r.invest;}));
+  var maxInvestVen=Math.max.apply(null,daily.map(function(r){return r.investVen||0;}));
   var html='';
   daily.forEach(function(r){
-    var pct=(r.invest/maxInvest*100).toFixed(1);
+    var pct=maxInvestVen>0?((r.investVen||0)/maxInvestVen*100).toFixed(1):0;
     html+='<div class="dt-row">'
       +'<div class="dt-date">'+r.label+'</div>'
       +'<div class="dt-bar-track"><div class="dt-bar-fill" style="width:'+pct+'%;background:#C8102E;"></div></div>'
       +'<div class="dt-stats">'
-      +'<div><div class="dt-stat-label">Invest.</div><div class="dt-stat-val" style="text-align:right">R$ '+r.invest.toLocaleString('pt-BR',{minimumFractionDigits:2})+'</div></div>'
-      +'<div><div class="dt-stat-label">Conv.</div><div class="dt-stat-val" style="color:var(--purple);text-align:right">'+r.conversas+'</div></div>'
+      +'<div><div class="dt-stat-label">Invest. VEN</div><div class="dt-stat-val" style="text-align:right">R$ '+(r.investVen||0).toLocaleString('pt-BR',{minimumFractionDigits:2})+'</div></div>'
+      +'<div><div class="dt-stat-label">ROI</div><div class="dt-stat-val" style="color:var(--green);text-align:right">'+((r.investVen||0)>0?(((r.receita-(r.investVen||0))/(r.investVen||0))*100).toFixed(0)+'%':'—')+'</div></div>'
       +'<div><div class="dt-stat-label">Compras</div><div class="dt-stat-val" style="color:var(--blue);text-align:right">'+r.compras+'</div></div>'
       +'<div><div class="dt-stat-label">Receita</div><div class="dt-stat-val" style="color:var(--green);text-align:right">R$ '+r.receita.toLocaleString('pt-BR',{minimumFractionDigits:0})+'</div></div>'
       +'</div></div>';
   });
   // Totais
-  var totInvest=daily.reduce(function(a,r){return a+r.invest;},0);
-  var totConv=daily.reduce(function(a,r){return a+r.conversas;},0);
+  var totInvestVen=daily.reduce(function(a,r){return a+(r.investVen||0);},0);
   var totComp=daily.reduce(function(a,r){return a+r.compras;},0);
   var totRec=daily.reduce(function(a,r){return a+r.receita;},0);
   html+='<div class="dt-row" style="background:#F7F8FA;border-top:2px solid var(--border);border-radius:0 0 8px 8px;font-weight:900;">'
     +'<div class="dt-date" style="color:var(--text2);font-size:10px;text-transform:uppercase;letter-spacing:0.5px;">TOTAL 15 dias</div>'
     +'<div class="dt-bar-track"><div class="dt-bar-fill" style="width:100%;background:var(--purple);"></div></div>'
     +'<div class="dt-stats">'
-    +'<div><div class="dt-stat-label">Invest.</div><div class="dt-stat-val" style="text-align:right">R$ '+totInvest.toLocaleString('pt-BR',{minimumFractionDigits:2})+'</div></div>'
-    +'<div><div class="dt-stat-label">Conv.</div><div class="dt-stat-val" style="color:var(--purple);text-align:right">'+totConv+'</div></div>'
+    +'<div><div class="dt-stat-label">Invest. VEN</div><div class="dt-stat-val" style="text-align:right">R$ '+totInvestVen.toLocaleString('pt-BR',{minimumFractionDigits:2})+'</div></div>'
+    +'<div><div class="dt-stat-label">ROI</div><div class="dt-stat-val" style="color:var(--green);text-align:right">'+(totInvestVen>0?(((totRec-totInvestVen)/totInvestVen)*100).toFixed(0)+'%':'—')+'</div></div>'
     +'<div><div class="dt-stat-label">Compras</div><div class="dt-stat-val" style="color:var(--blue);text-align:right">'+totComp+'</div></div>'
     +'<div><div class="dt-stat-label">Receita</div><div class="dt-stat-val" style="color:var(--green);text-align:right">R$ '+totRec.toLocaleString('pt-BR',{minimumFractionDigits:0})+'</div></div>'
     +'</div></div>';
@@ -1398,30 +1398,29 @@ function renderRange(startIso,endIso){
 
   // ── Day table rebuild ─────────────────────────────────────
   var daily=agg.daily;
-  var maxI=Math.max.apply(null,daily.map(function(r){return r.invest;}));
+  var maxIV=Math.max.apply(null,daily.map(function(r){return r.investVen||0;}));
   var dtHtml='';
   daily.forEach(function(r){
-    var pct=(r.invest/maxI*100).toFixed(1);
+    var pct=maxIV>0?((r.investVen||0)/maxIV*100).toFixed(1):0;
     dtHtml+='<div class="dt-row">'
       +'<div class="dt-date">'+r.label+'</div>'
       +'<div class="dt-bar-track"><div class="dt-bar-fill" style="width:'+pct+'%;background:#C8102E;"></div></div>'
       +'<div class="dt-stats">'
-      +'<div><div class="dt-stat-label">Invest.</div><div class="dt-stat-val" style="text-align:right">R$ '+r.invest.toLocaleString('pt-BR',{minimumFractionDigits:2})+'</div></div>'
-      +'<div><div class="dt-stat-label">Conv.</div><div class="dt-stat-val" style="color:var(--purple);text-align:right">'+r.conversas+'</div></div>'
+      +'<div><div class="dt-stat-label">Invest. VEN</div><div class="dt-stat-val" style="text-align:right">R$ '+(r.investVen||0).toLocaleString('pt-BR',{minimumFractionDigits:2})+'</div></div>'
+      +'<div><div class="dt-stat-label">ROI</div><div class="dt-stat-val" style="color:var(--green);text-align:right">'+((r.investVen||0)>0?(((r.receita-(r.investVen||0))/(r.investVen||0))*100).toFixed(0)+'%':'—')+'</div></div>'
       +'<div><div class="dt-stat-label">Compras</div><div class="dt-stat-val" style="color:var(--blue);text-align:right">'+r.compras+'</div></div>'
       +'<div><div class="dt-stat-label">Receita</div><div class="dt-stat-val" style="color:var(--green);text-align:right">R$ '+r.receita.toLocaleString('pt-BR',{minimumFractionDigits:0})+'</div></div>'
       +'</div></div>';
   });
-  var tI=daily.reduce(function(a,r){return a+r.invest;},0);
-  var tC=daily.reduce(function(a,r){return a+r.conversas;},0);
+  var tIV=daily.reduce(function(a,r){return a+(r.investVen||0);},0);
   var tP=daily.reduce(function(a,r){return a+r.compras;},0);
   var tR2=daily.reduce(function(a,r){return a+r.receita;},0);
   dtHtml+='<div class="dt-row" style="background:#F7F8FA;border-top:2px solid var(--border);border-radius:0 0 8px 8px;font-weight:900;">'
     +'<div class="dt-date" style="color:var(--text2);font-size:10px;text-transform:uppercase;letter-spacing:0.5px;">TOTAL '+nDays+' dias</div>'
     +'<div class="dt-bar-track"><div class="dt-bar-fill" style="width:100%;background:var(--purple);"></div></div>'
     +'<div class="dt-stats">'
-    +'<div><div class="dt-stat-label">Invest.</div><div class="dt-stat-val" style="text-align:right">R$ '+tI.toLocaleString('pt-BR',{minimumFractionDigits:2})+'</div></div>'
-    +'<div><div class="dt-stat-label">Conv.</div><div class="dt-stat-val" style="color:var(--purple);text-align:right">'+tC+'</div></div>'
+    +'<div><div class="dt-stat-label">Invest. VEN</div><div class="dt-stat-val" style="text-align:right">R$ '+tIV.toLocaleString('pt-BR',{minimumFractionDigits:2})+'</div></div>'
+    +'<div><div class="dt-stat-label">ROI</div><div class="dt-stat-val" style="color:var(--green);text-align:right">'+(tIV>0?(((tR2-tIV)/tIV)*100).toFixed(0)+'%':'—')+'</div></div>'
     +'<div><div class="dt-stat-label">Compras</div><div class="dt-stat-val" style="color:var(--blue);text-align:right">'+tP+'</div></div>'
     +'<div><div class="dt-stat-label">Receita</div><div class="dt-stat-val" style="color:var(--green);text-align:right">R$ '+tR2.toLocaleString('pt-BR',{minimumFractionDigits:0})+'</div></div>'
     +'</div></div>';
