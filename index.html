@@ -444,7 +444,7 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
   </div>
   <div class="h-bottom" style="align-items:center;gap:10px;">
     <div class="cal-wrap">
-      <button class="cal-btn" id="calBtn">📅 <span id="calBtnLabel">01/07 – 15/07</span> ▾</button>
+      <button class="cal-btn" id="calBtn"><span id="calBtnLabel">01/07 – 15/07</span> ▾</button>
       <div class="cal-drop" id="calDrop">
         <div class="cal-presets" id="calPresets"></div>
         <div class="cal-nav" style="display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-bottom:1px solid var(--border-soft);"><button id="calPrev" style="background:none;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:14px;color:var(--text3);padding:2px 10px;line-height:1;">‹</button><span id="calMonthLabel" style="font-size:12px;font-weight:700;color:var(--text2);">—</span><button id="calNext" style="background:none;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:14px;color:var(--text3);padding:2px 10px;line-height:1;">›</button></div>
@@ -461,12 +461,12 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
 
 <!-- ACTION BAR -->
 <div class="action-bar" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;align-items:center;">
-  <button id="btnDl" class="cal-btn" style="padding:6px 12px;">📥 Baixar PDF</button>
+  <button id="btnDl" class="cal-btn" style="padding:6px 12px;">↓ Baixar PDF</button>
   <div id="dropShare" style="position:relative;display:inline-block;">
-    <button id="btnShare" class="cal-btn" style="padding:6px 12px;">📤 Compartilhar ▾</button>
+    <button id="btnShare" class="cal-btn" style="padding:6px 12px;">Compartilhar ▾</button>
     <div id="shareMenu" style="display:none;position:absolute;top:calc(100% + 4px);left:0;background:var(--white);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(15,23,36,0.14);z-index:100;min-width:150px;overflow:hidden;">
-      <button id="shareWA" class="cal-preset" style="display:block;width:100%;text-align:left;padding:8px 12px;background:none;border:none;cursor:pointer;font-size:11px;color:var(--text2);">💬 WhatsApp</button>
-      <button id="shareEmail" class="cal-preset" style="display:block;width:100%;text-align:left;padding:8px 12px;background:none;border:none;cursor:pointer;font-size:11px;color:var(--text2);">✉️ E-mail</button>
+      <button id="shareWA" class="cal-preset" style="display:block;width:100%;text-align:left;padding:8px 12px;background:none;border:none;cursor:pointer;font-size:11px;color:var(--text2);">WhatsApp</button>
+      <button id="shareEmail" class="cal-preset" style="display:block;width:100%;text-align:left;padding:8px 12px;background:none;border:none;cursor:pointer;font-size:11px;color:var(--text2);">E-mail</button>
     </div>
   </div>
 </div>
@@ -792,10 +792,10 @@ function renderObjCards(D, inicio, fim){
   // Ordem: FUNDO_VEN, FUNDO_MSG, MEIO, TOPO (fundo → topo)
   var order = active.slice(); // já vem na ordem correta de detectActiveSegments
   var META = {
-    TOPO: {bg:'#FFF9EC', border:'rgba(224,140,0,0.3)', bar:'#E08C00', color:'#E08C00', icon:'🎯', title:'Topo — Awareness'},
-    MEIO: {bg:'#E0F4FA', border:'rgba(0,119,168,0.3)', bar:'#0077A8', color:'#0077A8', icon:'🌐', title:'Meio — Tráfego'},
-    FUNDO_MSG: {bg:'var(--purple-bg)', border:'rgba(200,16,46,0.3)', bar:'#C8102E', color:'#C8102E', icon:'💬', title:'Fundo — Conversas (MSG)', cls:'msg'},
-    FUNDO_VEN: {bg:'var(--blue-bg)', border:'rgba(24,119,242,0.3)', bar:'#1877F2', color:'#1877F2', icon:'🛒', title:'Fundo — Vendas (VEN)', cls:'ven'}
+    TOPO: {bg:'#FFF9EC', border:'rgba(224,140,0,0.3)', bar:'#E08C00', color:'#E08C00', icon:'T', title:'Topo — Awareness'},
+    MEIO: {bg:'#E0F4FA', border:'rgba(0,119,168,0.3)', bar:'#0077A8', color:'#0077A8', icon:'M', title:'Meio — Tráfego'},
+    FUNDO_MSG: {bg:'var(--purple-bg)', border:'rgba(200,16,46,0.3)', bar:'#C8102E', color:'#C8102E', icon:'C', title:'Fundo — Conversas (MSG)', cls:'msg'},
+    FUNDO_VEN: {bg:'var(--blue-bg)', border:'rgba(24,119,242,0.3)', bar:'#1877F2', color:'#1877F2', icon:'V', title:'Fundo — Vendas (VEN)', cls:'ven'}
   };
 
   container.innerHTML = order.map(function(seg){
@@ -983,17 +983,17 @@ function renderFunilTab(D, inicio, fim){
     var mp2 = haWA && m.results > 0 ? pct(m.results, m.clicks_wa) : 0;
     html += '<div class="funnel-container">'
       + '<div class="funnel-header">'
-      +   '<div class="funnel-header-left"><div class="funnel-type-icon msg">💬</div><div><div class="funnel-title">Funil de Conversa (WhatsApp)</div><div class="funnel-subtitle">Do alcance à conversa</div></div></div>'
+      +   '<div class="funnel-header-left"><div class="funnel-type-icon msg">C</div><div><div class="funnel-title">Funil de Conversa (WhatsApp)</div><div class="funnel-subtitle">Do alcance à conversa</div></div></div>'
       +   '<span class="funnel-tag msg">MSG</span>'
       + '</div>'
-      + '<div class="funnel-reach-banner"><span style="font-size:18px;">👁</span><div><div class="funnel-reach-label">Alcance total</div><div class="funnel-reach-val">'+_fmtNuma(m.reach)+' pessoas</div></div><span class="funnel-reach-arrow">↓</span></div>'
+      + '<div class="funnel-reach-banner"><span style="font-size:16px;font-weight:700;color:var(--text3);">◉</span><div><div class="funnel-reach-label">Alcance total</div><div class="funnel-reach-val">'+_fmtNuma(m.reach)+' pessoas</div></div><span class="funnel-reach-arrow">↓</span></div>'
       + '<div class="funnel-stages">'
-      +   (haWA ? stg('s-blue','🖱','Cliques WA','Etapa 1 de 2', m.clicks_wa, mp1, 'do alcance') : '')
-      +   (haWA ? (m.results > 0 ? stg('s-purple','💬','Conversas iniciadas','Etapa 2 de 2', m.results, mp2, 'dos cliques') : '') : stg('s-purple','💬','Conversas iniciadas','Resultado', m.results, mp1, 'do alcance'))
+      +   (haWA ? stg('s-blue','↗','Cliques WA','Etapa 1 de 2', m.clicks_wa, mp1, 'do alcance') : '')
+      +   (haWA ? (m.results > 0 ? stg('s-purple','C','Conversas iniciadas','Etapa 2 de 2', m.results, mp2, 'dos cliques') : '') : stg('s-purple','C','Conversas iniciadas','Resultado', m.results, mp1, 'do alcance'))
       + '</div>'
       + (haWA
-          ? (m.clicks_wa>0?'<div class="funnel-insight"><div class="funnel-insight-icon">✨</div><div class="funnel-insight-text">De <span class="funnel-insight-hl">'+_fmtNuma(m.reach)+' pessoas alcançadas</span>, '+_fmtNuma(m.clicks_wa)+' clicaram no WhatsApp. Custo médio de <span class="funnel-insight-hl">'+_fmtBRLa(m.spend/m.clicks_wa)+' por clique</span>.</div></div>':'')
-          : (m.results>0?'<div class="funnel-insight"><div class="funnel-insight-icon">✨</div><div class="funnel-insight-text">De <span class="funnel-insight-hl">'+_fmtNuma(m.reach)+' pessoas alcançadas</span>, '+_fmtNuma(m.results)+' iniciaram uma conversa. Custo médio de <span class="funnel-insight-hl">'+_fmtBRLa(m.spend/m.results)+' por conversa</span>.</div></div>':''))
+          ? (m.clicks_wa>0?'<div class="funnel-insight"><div class="funnel-insight-icon">▸</div><div class="funnel-insight-text">De <span class="funnel-insight-hl">'+_fmtNuma(m.reach)+' pessoas alcançadas</span>, '+_fmtNuma(m.clicks_wa)+' clicaram no WhatsApp. Custo médio de <span class="funnel-insight-hl">'+_fmtBRLa(m.spend/m.clicks_wa)+' por clique</span>.</div></div>':'')
+          : (m.results>0?'<div class="funnel-insight"><div class="funnel-insight-icon">▸</div><div class="funnel-insight-text">De <span class="funnel-insight-hl">'+_fmtNuma(m.reach)+' pessoas alcançadas</span>, '+_fmtNuma(m.results)+' iniciaram uma conversa. Custo médio de <span class="funnel-insight-hl">'+_fmtBRLa(m.spend/m.results)+' por conversa</span>.</div></div>':''))
       + '</div>';
   }
   // VEN funnel
@@ -1004,17 +1004,17 @@ function renderFunilTab(D, inicio, fim){
     var vp4 = pct(v.compras, v.init_checkout>0?v.init_checkout:v.reach);
     html += '<div class="funnel-container">'
       + '<div class="funnel-header">'
-      +   '<div class="funnel-header-left"><div class="funnel-type-icon ven">🛒</div><div><div class="funnel-title">Funil de Vendas</div><div class="funnel-subtitle">Do alcance à compra finalizada</div></div></div>'
+      +   '<div class="funnel-header-left"><div class="funnel-type-icon ven">V</div><div><div class="funnel-title">Funil de Vendas</div><div class="funnel-subtitle">Do alcance à compra finalizada</div></div></div>'
       +   '<span class="funnel-tag ven">VEN</span>'
       + '</div>'
-      + '<div class="funnel-reach-banner"><span style="font-size:18px;">👁</span><div><div class="funnel-reach-label">Alcance total</div><div class="funnel-reach-val">'+_fmtNuma(v.reach)+' pessoas</div></div><span class="funnel-reach-arrow">↓</span></div>'
+      + '<div class="funnel-reach-banner"><span style="font-size:16px;font-weight:700;color:var(--text3);">◉</span><div><div class="funnel-reach-label">Alcance total</div><div class="funnel-reach-val">'+_fmtNuma(v.reach)+' pessoas</div></div><span class="funnel-reach-arrow">↓</span></div>'
       + '<div class="funnel-stages">'
-      +   stg('s-blue','📄','Page Views','Etapa 1 de 4', v.view_content, vp1, 'do alcance')
-      +   stg('s-yellow','🛒','Adicionou ao carrinho','Etapa 2 de 4', v.add_to_cart, vp2, v.view_content>0?'dos views':'do alcance')
-      +   stg('s-teal','💳','Iniciou checkout','Etapa 3 de 4', v.init_checkout, vp3, v.add_to_cart>0?'do carrinho':'dos views')
-      +   stg('s-green','✅','Compras finalizadas','Etapa 4 de 4', v.compras, vp4, v.init_checkout>0?'do checkout':'do alcance')
+      +   stg('s-blue','P','Page Views','Etapa 1 de 4', v.view_content, vp1, 'do alcance')
+      +   stg('s-yellow','C','Adicionou ao carrinho','Etapa 2 de 4', v.add_to_cart, vp2, v.view_content>0?'dos views':'do alcance')
+      +   stg('s-teal','◈','Iniciou checkout','Etapa 3 de 4', v.init_checkout, vp3, v.add_to_cart>0?'do carrinho':'dos views')
+      +   stg('s-green','✓','Compras finalizadas','Etapa 4 de 4', v.compras, vp4, v.init_checkout>0?'do checkout':'do alcance')
       + '</div>'
-      + (v.compras>0 && v.receita>0 ? '<div class="funnel-insight"><div class="funnel-insight-icon">✨</div><div class="funnel-insight-text">'+_fmtNuma(v.compras)+' compras geraram <span class="funnel-insight-hl">R$ '+_fmtNuma(v.receita)+' em receita</span> — ROAS de <span class="funnel-insight-hl">'+(v.receita/v.spend).toFixed(2).replace('.',',')+'x</span>.</div></div>':'')
+      + (v.compras>0 && v.receita>0 ? '<div class="funnel-insight"><div class="funnel-insight-icon">▸</div><div class="funnel-insight-text">'+_fmtNuma(v.compras)+' compras geraram <span class="funnel-insight-hl">R$ '+_fmtNuma(v.receita)+' em receita</span> — ROAS de <span class="funnel-insight-hl">'+(v.receita/v.spend).toFixed(2).replace('.',',')+'x</span>.</div></div>':'')
       + '</div>';
   }
   container.innerHTML = html || '<p style="color:var(--text4);padding:14px;font-size:12px">Sem dados de funil neste período.</p>';
