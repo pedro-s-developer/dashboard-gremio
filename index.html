@@ -338,6 +338,68 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
 .cal-drop.open{display:flex;animation:fadeUp 0.18s ease;}
 @media(max-width:767px){
   .cal-drop{position:fixed!important;top:64px!important;left:12px!important;right:12px!important;width:auto!important;max-width:none!important;max-height:calc(100vh - 80px);overflow-y:auto;}
+  /* ── Header mobile ── */
+  .header img{height:44px!important;}
+  .h-title{font-size:20px;}
+  .h-meta{font-size:9px;}
+  .h-bottom{margin-top:10px;width:100%;}
+  .h-bottom .cal-wrap{display:block;width:100%;}
+  .h-bottom .cal-btn{width:100%;justify-content:center;}
+  /* ── Action bar mobile ── */
+  .action-bar{flex-direction:column!important;}
+  .action-bar .cal-btn{width:100%;justify-content:center;}
+  #dropShare{width:100%!important;display:block!important;}
+  #dropShare>#btnShare{width:100%;justify-content:center;}
+  /* ── KPIs ── */
+  .kpi{padding:12px;}
+  .kpi-label{font-size:10px;letter-spacing:0.5px;}
+  .kpi-val{font-size:18px;}
+  .kpi-sub{font-size:10px;}
+  /* ── Insight hero ── */
+  .insight{padding:16px;}
+  .insight-text{font-size:13px;}
+  .insight-stat-label{font-size:10px;}
+  .insight-stat-val{font-size:13px;}
+  /* ── Filter / Tabs ── */
+  .filter-btn{font-size:10px;padding:6px 12px;min-height:36px;}
+  .tab-btn{font-size:10px;padding:6px 8px;min-height:36px;}
+  /* ── Section / Group labels ── */
+  .sec-title{letter-spacing:1.5px;}
+  .camp-group-title{font-size:11px;}
+  .camp-group-sub{font-size:10px;}
+  .camp-group-badge{font-size:10px;}
+  /* ── Obj cards ── */
+  .obj-body{padding:14px;}
+  .obj-num{font-size:28px;}
+  .obj-cpr{font-size:22px;}
+  .obj-sec{gap:6px;}
+  .obj-sec-val{font-size:11px;}
+  .obj-sec-label{font-size:10px;}
+  /* ── Campaign table (mobile cards) ── */
+  .t-name{font-size:11px;}
+  .t-stat-label{font-size:10px;}
+  .t-result,.t-cpr,.t-extra{font-size:12px;}
+  .tf-val{font-size:13px;}
+  .tf-label{font-size:10px;}
+  /* ── Day summary ── */
+  .day-val{font-size:16px;}
+  .day-label{font-size:10px;}
+  .day-sub{font-size:10px;}
+  /* ── Daily table: 4 cols → 2×2 ── */
+  .dt-stats{grid-template-columns:1fr 1fr;gap:6px 8px;}
+  .dt-stat-label{font-size:10px;}
+  .dt-stat-val{font-size:11px;}
+  .dt-date{font-size:10px;}
+  /* ── Funnel ── */
+  .funnel-reach-val{font-size:15px;}
+  .funnel-reach-label{font-size:10px;}
+  .stage-value{font-size:20px;}
+  .stage-rate-val{font-size:13px;}
+  .stage-name{font-size:10px;}
+  .stage-order{font-size:10px;}
+  .funnel-insight-text{font-size:11px;}
+  /* ── Footer ── */
+  .footer{flex-direction:column;align-items:flex-start;gap:4px;}
 }
 .cal-presets{display:flex;gap:5px;flex-wrap:wrap;padding:12px 14px 10px;border-bottom:1px solid var(--border-soft);}
 .cal-preset{font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;padding:4px 11px;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all 0.15s;}
