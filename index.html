@@ -674,11 +674,12 @@ function _buildSKPIS(FDx, totInv){
     if(seg === 'FUNDO_VEN'){
       var totRec = (f.receita || []).reduce(function(a,b){return a+b;},0);
       var roas = k.invest>0 ? totRec/k.invest : 0;
+      var roiVen = roas>0 ? roas.toFixed(1).replace('.',',')+'x' : '—';
       kpis = [
         {label:'Investido', value:_fmtBRLa(k.invest,0), raw:k.invest, color:'var(--text)', sub:pct(k.invest)},
         {label:'Compras', value:_fmtNuma(k.results), raw:k.results, color:'var(--blue)', sub:'no período'},
-        {label:'Custo/Compra', value:k.results>0?_fmtBRLa(k.invest/k.results):'—', raw:k.results>0?k.invest/k.results:0, color:'var(--yellow)', sub:'CPA'},
-        {label:'Receita', value:_fmtBRLa(totRec,0), raw:totRec, color:'var(--green)', sub:roas>0?'ROAS '+roas.toFixed(2).replace('.',',')+'x':'—'}
+        {label:'Retorno', value:_fmtBRLa(totRec,0), raw:totRec, color:'var(--green)', sub:'receita atribuída'},
+        {label:'ROI', value:roiVen, raw:roas, color:'var(--yellow)', sub:'retorno sobre investimento'}
       ];
     } else if(seg === 'FUNDO_MSG'){
       kpis = [
@@ -1323,8 +1324,8 @@ function _buildRKPIS(segs,totInv){
     FUNDO_VEN:{legend:'Fundo — Vendas',kpis:[
       {label:'Investido',value:_fmtR(ven.totInv),raw:ven.totInv,color:'var(--text)',sub:pct(ven.totInv)},
       {label:'Compras',value:_fmtN(ven.totRes),raw:ven.totRes,color:'var(--blue)',sub:'no período'},
-      {label:'Custo/Compra',value:ven.totRes>0?_fmtR(ven.totInv/ven.totRes):'—',raw:ven.totRes>0?ven.totInv/ven.totRes:0,color:'var(--yellow)',sub:'ticket médio ~R$ 260'},
-      {label:'Receita',value:_fmtR(ven.totRec),raw:ven.totRec,color:'var(--green)',sub:ven.totInv>0?'ROAS '+(ven.totRec/ven.totInv).toFixed(2)+'x':'—'}
+      {label:'Retorno',value:_fmtR(ven.totRec),raw:ven.totRec,color:'var(--green)',sub:'receita atribuída'},
+      {label:'ROI',value:ven.totInv>0?(ven.totRec/ven.totInv).toFixed(1).replace('.',',')+'x':'—',raw:ven.totInv>0?ven.totRec/ven.totInv:0,color:'var(--yellow)',sub:'retorno sobre investimento'}
     ]},
     FUNDO_MSG:{legend:'Fundo — MSG',kpis:[
       {label:'Investido',value:_fmtR(msg.totInv),raw:msg.totInv,color:'var(--text)',sub:pct(msg.totInv)},
@@ -1397,11 +1398,12 @@ function renderRange(startIso,endIso){
 
   // ── Dynamic GERAL KPIs ───────────────────────────────────
   var roas=ven.totInv>0?ven.totRec/ven.totInv:0;
+  var roiStr=roas>0?roas.toFixed(1).replace('.',',')+'x':'—';
   window._geralKpis=[
     {label:'Investido total',value:'R$ '+_fmtN(totInv),color:'var(--text)',sub:nDays+' dias analisados'},
-    {label:'Receita',value:'R$ '+_fmtN(ven.totRec),color:'var(--green)',sub:roas>0?'ROAS '+roas.toFixed(2)+'x':'—'},
     {label:'Compras',value:_fmtN(ven.totRes),color:'var(--blue)',sub:'em '+nDays+' dias'},
-    {label:'Alcance',value:_fmtN(topo.totRes),color:'var(--text)',sub:'pessoas impactadas'},
+    {label:'Retorno',value:'R$ '+_fmtN(ven.totRec),color:'var(--green)',sub:'receita atribuída'},
+    {label:'ROI',value:roiStr,color:'var(--yellow)',sub:'retorno sobre investimento'},
   ];
   if(_D.meta.tipo==='msg'){window._geralKpis=[
     {label:'Investido total',value:'R$ '+_fmtN(totInv),color:'var(--text)',sub:nDays+' dias analisados'},
