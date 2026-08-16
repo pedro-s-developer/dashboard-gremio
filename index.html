@@ -928,7 +928,7 @@ function renderCampanhasTab(D){
     return '<div class="camp-group'+(idx>0?' collapsed':'')+'">'
       + '<div class="camp-group-head" onclick="toggleGroup(this)">'
       +   '<div class="camp-group-head-left">'
-      +     '<span class="camp-group-badge '+m.badge+'">'+m.tag+'</span>'
+
       +     '<div><div class="camp-group-title">'+m.title+' — '+camps.length+' campanha'+(camps.length>1?'s':'')+'</div><div class="camp-group-sub">'+subtxt+'</div></div>'
       +   '</div>'
       +   '<span class="camp-group-chevron">▼</span>'
