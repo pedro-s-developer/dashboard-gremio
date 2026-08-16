@@ -920,7 +920,12 @@ function renderCampanhasTab(D){
         + '</div>';
     }).join('');
 
-    var footRoas = seg==='FUNDO_VEN' && roasAvg!==null ? '<div><div class="tf-label">ROAS</div><div class="tf-val" style="color:var(--green);">'+roasAvg.toFixed(2).replace('.',',')+'x</div></div>' : '<div><div class="tf-label">Campanhas</div><div class="tf-val">'+camps.length+'</div></div>';
+    var totNC=seg==='FUNDO_MSG'?camps.reduce(function(a,c){return a+(c.novos_contatos||0);},0):0;
+    var footExtra=seg==='FUNDO_VEN'&&roasAvg!==null
+      ?'<div><div class="tf-label">ROAS</div><div class="tf-val" style="color:var(--green);">'+roasAvg.toFixed(2).replace('.',',')+'x</div></div>'
+      :seg==='FUNDO_MSG'
+      ?'<div><div class="tf-label">Nov. Contatos</div><div class="tf-val" style="color:var(--teal);">'+_fmtNuma(totNC)+'</div></div>'
+      :'<div><div class="tf-label">Campanhas</div><div class="tf-val">'+camps.length+'</div></div>';
 
     return '<div class="camp-group'+(idx>0?' collapsed':'')+'">'
       + '<div class="camp-group-head" onclick="toggleGroup(this)">'
@@ -939,8 +944,9 @@ function renderCampanhasTab(D){
       +   '<div class="t-foot">'
       +     '<div><div class="tf-label">Total '+m.tag.split(' ')[0]+'</div><div class="tf-val">R$ '+_fmtNuma(totInv)+'</div></div>'
       +     '<div><div class="tf-label">'+m.resultLbl+'</div><div class="tf-val" style="color:'+m.color+';">'+_fmtNuma(totRes)+'</div></div>'
+      +     (seg==='FUNDO_MSG'?footExtra:'')
       +     '<div><div class="tf-label">'+m.cprLbl+' Médio</div><div class="tf-val" style="color:var(--yellow);">'+(cprAvg>0?_fmtBRLa(cprAvg):'—')+'</div></div>'
-      +     footRoas
+      +     (seg!=='FUNDO_MSG'?footExtra:'')
       +   '</div>'
       + '</div>'
       + '</div>';
