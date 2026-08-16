@@ -796,10 +796,10 @@ function renderObjCards(D, inicio, fim){
   // Ordem: FUNDO_VEN, FUNDO_MSG, MEIO, TOPO (fundo → topo)
   var order = active.slice(); // já vem na ordem correta de detectActiveSegments
   var META = {
-    TOPO: {bg:'#FFF9EC', border:'rgba(224,140,0,0.3)', bar:'#E08C00', color:'#E08C00', icon:'T', title:'Campanhas de Topo'},
-    MEIO: {bg:'#E0F4FA', border:'rgba(0,119,168,0.3)', bar:'#0077A8', color:'#0077A8', icon:'M', title:'Campanhas de Meio'},
-    FUNDO_MSG: {bg:'var(--purple-bg)', border:'rgba(200,16,46,0.3)', bar:'#C8102E', color:'#C8102E', icon:'C', title:'Campanhas de Mensagem', cls:'msg'},
-    FUNDO_VEN: {bg:'var(--blue-bg)', border:'rgba(24,119,242,0.3)', bar:'#1877F2', color:'#1877F2', icon:'V', title:'Campanhas de Venda', cls:'ven'}
+    TOPO: {bg:'#FFF9EC', border:'rgba(224,140,0,0.3)', bar:'#E08C00', color:'#E08C00', icon:'T', title:'Campanha de Topo de Funil'},
+    MEIO: {bg:'#E0F4FA', border:'rgba(0,119,168,0.3)', bar:'#0077A8', color:'#0077A8', icon:'M', title:'Campanha de Meio de Funil'},
+    FUNDO_MSG: {bg:'var(--purple-bg)', border:'rgba(200,16,46,0.3)', bar:'#C8102E', color:'#C8102E', icon:'C', title:'Campanha de Mensagem', cls:'msg'},
+    FUNDO_VEN: {bg:'var(--blue-bg)', border:'rgba(24,119,242,0.3)', bar:'#1877F2', color:'#1877F2', icon:'V', title:'Campanha de Venda', cls:'ven'}
   };
 
   container.innerHTML = order.map(function(seg){
@@ -881,10 +881,10 @@ function renderCampanhasTab(D){
   if(!container) return;
   var CAMPS = D.CAMPS || {};
   var META = {
-    FUNDO_VEN: {badge:'fundo-ven', tag:'FUNDO VEN', title:'Campanhas de Venda', color:'#1877F2', resultLbl:'Compras', cprLbl:'C/Compra', extraLbl:'ROAS', extraColor:'var(--green)'},
-    FUNDO_MSG: {badge:'fundo-msg', tag:'FUNDO MSG', title:'Campanhas de Mensagem', color:'#C8102E', resultLbl:'Conversas', cprLbl:'C/Conversa', extraLbl:'—', extraColor:'var(--teal)'},
-    MEIO:      {badge:'meio', tag:'MEIO', title:'Campanhas de Meio', color:'#0077A8', resultLbl:'Visitas', cprLbl:'C/Visita', extraLbl:'—', extraColor:'var(--text2)'},
-    TOPO:      {badge:'topo', tag:'TOPO', title:'Campanhas de Topo', color:'#E08C00', resultLbl:'Alcance', cprLbl:'CPM', extraLbl:'—', extraColor:'var(--text2)'}
+    FUNDO_VEN: {badge:'fundo-ven', tag:'FUNDO VEN', title:'Campanha de Venda', color:'#1877F2', resultLbl:'Compras', cprLbl:'C/Compra', extraLbl:'ROAS', extraColor:'var(--green)'},
+    FUNDO_MSG: {badge:'fundo-msg', tag:'FUNDO MSG', title:'Campanha de Mensagem', color:'#C8102E', resultLbl:'Conversas', cprLbl:'C/Conversa', extraLbl:'—', extraColor:'var(--teal)'},
+    MEIO:      {badge:'meio', tag:'MEIO', title:'Campanha de Meio de Funil', color:'#0077A8', resultLbl:'Visitas', cprLbl:'C/Visita', extraLbl:'—', extraColor:'var(--text2)'},
+    TOPO:      {badge:'topo', tag:'TOPO', title:'Campanha de Topo de Funil', color:'#E08C00', resultLbl:'Alcance', cprLbl:'CPM', extraLbl:'—', extraColor:'var(--text2)'}
   };
   var order = ['FUNDO_VEN','FUNDO_MSG','MEIO','TOPO'];
   var html = order.map(function(seg, idx){
