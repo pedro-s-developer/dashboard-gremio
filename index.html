@@ -283,10 +283,10 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
   .obj-cpr{font-size:34px;}
 
   /* Camp table — desktop grid */
-  .t-header{display:grid;grid-template-columns:5fr 4fr 1.2fr 1.2fr 1.5fr;gap:16px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:4px;}
+  .t-header{display:grid;grid-template-columns:5fr 1.5fr 1.5fr 1.5fr;gap:16px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:4px;}
   .th{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:1px;color:var(--text4);}
   .th.r{text-align:right;}
-  .t-row{display:grid;grid-template-columns:5fr 4fr 1.2fr 1.2fr 1.5fr;align-items:center;gap:16px;padding:12px 8px;border-radius:8px;transition:background 0.15s;}
+  .t-row{display:grid;grid-template-columns:5fr 1.5fr 1.5fr 1.5fr;align-items:center;gap:16px;padding:12px 8px;border-radius:8px;transition:background 0.15s;}
   .t-row:hover{background:#FAFBFC;}
   .tc-name{margin-bottom:0;}
   .tc-bar{margin:0;}
@@ -296,8 +296,8 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
   .t-foot{grid-template-columns:repeat(4,1fr);}
 
   /* Day table — desktop */
-  .dt-header{display:grid;grid-template-columns:1fr 3fr 1.5fr 1.2fr 1.5fr 1.5fr;gap:12px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:4px;}
-  .dt-row{display:grid;grid-template-columns:1fr 3fr 1.5fr 1.2fr 1.5fr 1.5fr;align-items:center;gap:12px;padding:9px 8px;border-radius:8px;transition:background 0.15s;}
+  .dt-header{display:grid;grid-template-columns:1fr 1.5fr 1.2fr 1.5fr 1.5fr;gap:12px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:4px;}
+  .dt-row{display:grid;grid-template-columns:1fr 1.5fr 1.2fr 1.5fr 1.5fr;align-items:center;gap:12px;padding:9px 8px;border-radius:8px;transition:background 0.15s;}
   .dt-row:hover{background:#FAFBFC;}
   .dt-date{margin-bottom:0;font-size:11px;}
   .dt-bar-track{margin-bottom:0;}
@@ -564,7 +564,7 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
       <div class="chart-sub">Invest. VEN, ROI, compras e receita</div>
     </div>
     <div class="dt-header">
-      <span class="th">Dia</span><span class="th">Volume</span>
+      <span class="th">Dia</span>
       <span class="th r">Invest. VEN</span><span class="th r">ROI</span><span class="th r">Compras</span><span class="th r">Receita</span>
     </div>
     <div id="dayTableBody"></div>
@@ -908,7 +908,6 @@ function renderCampanhasTab(D){
       }
       return '<div class="t-row">'
         + '<div class="tc-name"><div class="t-name">'+c.name+'</div><div class="t-meta"><span class="t-tag '+tagCls+'">'+tag+'</span><span class="t-invest">R$ '+c.invest.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'</span></div></div>'
-        + '<div class="tc-bar"><div class="t-bar-track"><div class="t-bar-fill" style="width:'+c.bar_pct+'%;background:'+m.color+';"></div></div></div>'
         + '<div class="t-mobile-stats">'
         + '<div><div class="t-stat-label">'+m.resultLbl+'</div><div class="t-result '+tagCls+'">'+_fmtNuma(c.result)+'</div></div>'
         + '<div><div class="t-stat-label">'+m.cprLbl+'</div><div class="t-cpr">'+(c.cpr>0?_fmtBRLa(c.cpr):'—')+'</div></div>'
@@ -929,7 +928,7 @@ function renderCampanhasTab(D){
       + '</div>'
       + '<div class="camp-group-body">'
       +   '<div class="t-header">'
-      +     '<span class="th">Campanha</span><span class="th">Volume</span>'
+      +     '<span class="th">Campanha</span>'
       +     '<span class="th r">'+m.resultLbl+'</span><span class="th r">'+m.cprLbl+'</span><span class="th r">'+(seg==='FUNDO_VEN'?'ROAS':'Investido')+'</span>'
       +   '</div>'
       +   rows
@@ -1162,13 +1161,10 @@ var cReceita=new Chart(document.getElementById('chartReceita'),{
 if(_D.meta.tipo==='msg'){var _rc=document.getElementById('chartReceita');if(_rc&&_rc.closest){var _rcc=_rc.closest('.chart-card');if(_rcc)_rcc.style.display='none';}}
 (function(){
   var daily=_D.DAILY;
-  var maxInvestVen=Math.max.apply(null,daily.map(function(r){return r.investVen||0;}));
   var html='';
   daily.forEach(function(r){
-    var pct=maxInvestVen>0?((r.investVen||0)/maxInvestVen*100).toFixed(1):0;
     html+='<div class="dt-row">'
       +'<div class="dt-date">'+r.label+'</div>'
-      +'<div class="dt-bar-track"><div class="dt-bar-fill" style="width:'+pct+'%;background:#C8102E;"></div></div>'
       +'<div class="dt-stats">'
       +'<div><div class="dt-stat-label">Invest. VEN</div><div class="dt-stat-val" style="text-align:right">R$ '+(r.investVen||0).toLocaleString('pt-BR',{minimumFractionDigits:2})+'</div></div>'
       +'<div><div class="dt-stat-label">ROI</div><div class="dt-stat-val" style="color:var(--green);text-align:right">'+((r.investVen||0)>0?(((r.receita-(r.investVen||0))/(r.investVen||0))*100).toFixed(0)+'%':'—')+'</div></div>'
@@ -1182,7 +1178,6 @@ if(_D.meta.tipo==='msg'){var _rc=document.getElementById('chartReceita');if(_rc&
   var totRec=daily.reduce(function(a,r){return a+r.receita;},0);
   html+='<div class="dt-row" style="background:#F7F8FA;border-top:2px solid var(--border);border-radius:0 0 8px 8px;font-weight:900;">'
     +'<div class="dt-date" style="color:var(--text2);font-size:10px;text-transform:uppercase;letter-spacing:0.5px;">TOTAL 15 dias</div>'
-    +'<div class="dt-bar-track"><div class="dt-bar-fill" style="width:100%;background:var(--purple);"></div></div>'
     +'<div class="dt-stats">'
     +'<div><div class="dt-stat-label">Invest. VEN</div><div class="dt-stat-val" style="text-align:right">R$ '+totInvestVen.toLocaleString('pt-BR',{minimumFractionDigits:2})+'</div></div>'
     +'<div><div class="dt-stat-label">ROI</div><div class="dt-stat-val" style="color:var(--green);text-align:right">'+(totInvestVen>0?(((totRec-totInvestVen)/totInvestVen)*100).toFixed(0)+'%':'—')+'</div></div>'
@@ -1464,13 +1459,10 @@ function renderRange(startIso,endIso){
 
   // ── Day table rebuild ─────────────────────────────────────
   var daily=agg.daily;
-  var maxIV=Math.max.apply(null,daily.map(function(r){return r.investVen||0;}));
   var dtHtml='';
   daily.forEach(function(r){
-    var pct=maxIV>0?((r.investVen||0)/maxIV*100).toFixed(1):0;
     dtHtml+='<div class="dt-row">'
       +'<div class="dt-date">'+r.label+'</div>'
-      +'<div class="dt-bar-track"><div class="dt-bar-fill" style="width:'+pct+'%;background:#C8102E;"></div></div>'
       +'<div class="dt-stats">'
       +'<div><div class="dt-stat-label">Invest. VEN</div><div class="dt-stat-val" style="text-align:right">R$ '+(r.investVen||0).toLocaleString('pt-BR',{minimumFractionDigits:2})+'</div></div>'
       +'<div><div class="dt-stat-label">ROI</div><div class="dt-stat-val" style="color:var(--green);text-align:right">'+((r.investVen||0)>0?(((r.receita-(r.investVen||0))/(r.investVen||0))*100).toFixed(0)+'%':'—')+'</div></div>'
@@ -1483,7 +1475,6 @@ function renderRange(startIso,endIso){
   var tR2=daily.reduce(function(a,r){return a+r.receita;},0);
   dtHtml+='<div class="dt-row" style="background:#F7F8FA;border-top:2px solid var(--border);border-radius:0 0 8px 8px;font-weight:900;">'
     +'<div class="dt-date" style="color:var(--text2);font-size:10px;text-transform:uppercase;letter-spacing:0.5px;">TOTAL '+nDays+' dias</div>'
-    +'<div class="dt-bar-track"><div class="dt-bar-fill" style="width:100%;background:var(--purple);"></div></div>'
     +'<div class="dt-stats">'
     +'<div><div class="dt-stat-label">Invest. VEN</div><div class="dt-stat-val" style="text-align:right">R$ '+tIV.toLocaleString('pt-BR',{minimumFractionDigits:2})+'</div></div>'
     +'<div><div class="dt-stat-label">ROI</div><div class="dt-stat-val" style="color:var(--green);text-align:right">'+(tIV>0?(((tR2-tIV)/tIV)*100).toFixed(0)+'%':'—')+'</div></div>'
