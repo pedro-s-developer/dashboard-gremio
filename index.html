@@ -904,7 +904,7 @@ function renderCampanhasTab(D){
       if(seg==='FUNDO_VEN' && c.roas!==null && c.roas!==undefined){
         extraHtml = '<div><div class="t-stat-label">ROAS</div><div class="t-extra">'+c.roas.toFixed(2).replace('.',',')+'x</div></div>';
       } else {
-        extraHtml = '<div></div>';
+        extraHtml = '<div><div class="t-stat-label">Investido</div><div class="t-extra">R$ '+c.invest.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'</div></div>';
       }
       return '<div class="t-row">'
         + '<div class="tc-name"><div class="t-name">'+c.name+'</div><div class="t-meta"><span class="t-tag '+tagCls+'">'+tag+'</span><span class="t-invest">R$ '+c.invest.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'</span></div></div>'
@@ -930,7 +930,7 @@ function renderCampanhasTab(D){
       + '<div class="camp-group-body">'
       +   '<div class="t-header">'
       +     '<span class="th">Campanha</span><span class="th">Volume</span>'
-      +     '<span class="th r">'+m.resultLbl+'</span><span class="th r">'+m.cprLbl+'</span><span class="th r">'+(seg==='FUNDO_VEN'?'ROAS':'—')+'</span>'
+      +     '<span class="th r">'+m.resultLbl+'</span><span class="th r">'+m.cprLbl+'</span><span class="th r">'+(seg==='FUNDO_VEN'?'ROAS':'Investido')+'</span>'
       +   '</div>'
       +   rows
       +   '<div class="t-foot">'
