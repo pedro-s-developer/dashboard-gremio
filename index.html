@@ -283,7 +283,7 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
   .obj-cpr{font-size:34px;}
 
   /* Camp table — desktop grid */
-  .t-header{display:grid;grid-template-columns:5fr 1.5fr 1.5fr 1.5fr;gap:16px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:4px;}
+  .t-header{display:grid;grid-template-columns:5fr 1.5fr 1.5fr 1.5fr 1.5fr;gap:16px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:4px;}
   .th{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:1px;color:var(--text4);}
   .th.r{text-align:right;}
   .t-row{display:grid;grid-template-columns:5fr 1.5fr 1.5fr 1.5fr;align-items:center;gap:16px;padding:12px 8px;border-radius:8px;transition:background 0.15s;}
@@ -614,12 +614,13 @@ function _dailyForSegment(D, seg, inicio, fim){
     if(c.funil !== seg) return;
     c.dias.forEach(function(d){
       if(d.data < inicio || d.data > fim) return;
-      if(!byDate[d.data]) byDate[d.data] = {spend:0,reach:0,impr:0,results:0,compras:0,receita:0,view_content:0,add_to_cart:0,init_checkout:0,clicks_wa:0};
+      if(!byDate[d.data]) byDate[d.data] = {spend:0,reach:0,impr:0,results:0,compras:0,receita:0,view_content:0,add_to_cart:0,init_checkout:0,clicks_wa:0,novos_contatos:0};
       var b = byDate[d.data];
       b.spend += d.spend||0; b.reach += d.reach||0; b.impr += d.impr||0;
       b.results += (seg==='FUNDO_MSG'?(d.conversas||d.results||0):(d.results||0)); b.compras += d.compras||0; b.receita += d.receita||0;
       b.view_content += d.view_content||0; b.add_to_cart += d.add_to_cart||0;
       b.init_checkout += d.init_checkout||0; b.clicks_wa += d.clicks_wa||0;
+      b.novos_contatos += d.novos_contatos||0;
     });
   });
   return byDate;
@@ -713,11 +714,12 @@ function _buildCAMPS(D, inicio, fim){
   var out = {FUNDO_VEN:[], FUNDO_MSG:[], MEIO:[], TOPO:[]};
   D.campanhas.forEach(function(c){
     if(!out[c.funil]) return;
-    var agg = {spend:0,reach:0,impr:0,results:0,compras:0,receita:0};
+    var agg = {spend:0,reach:0,impr:0,results:0,compras:0,receita:0,novos_contatos:0};
     c.dias.forEach(function(d){
       if(d.data<inicio||d.data>fim) return;
       agg.spend+=d.spend||0; agg.reach+=d.reach||0; agg.impr+=d.impr||0;
       agg.results+=d.results||0; agg.compras+=d.compras||0; agg.receita+=d.receita||0;
+      if(c.funil==='FUNDO_MSG') agg.novos_contatos+=d.novos_contatos||0;
     });
     if(agg.spend === 0) return;
     var seg = c.funil;
@@ -726,7 +728,7 @@ function _buildCAMPS(D, inicio, fim){
     var result = seg==='TOPO'?agg.reach:seg==='FUNDO_VEN'?(agg.compras||agg.results):agg.results;
     var cpr = seg==='TOPO'?(agg.impr>0?agg.spend/(agg.impr/1000):0):(result>0?agg.spend/result:0);
     var roas = seg==='FUNDO_VEN' && agg.spend>0 ? agg.receita/agg.spend : null;
-    out[seg].push({name:c.label||c.name, invest:agg.spend, result:result, result_label:resultLabel, tag:tag, cpr:cpr, roas:roas, receita:agg.receita, novos_contatos:0, bar_pct:0});
+    out[seg].push({name:c.label||c.name, invest:agg.spend, result:result, result_label:resultLabel, tag:tag, cpr:cpr, roas:roas, receita:agg.receita, novos_contatos:agg.novos_contatos, bar_pct:0});
   });
   Object.keys(out).forEach(function(seg){
     out[seg].sort(function(a,b){return b.invest-a.invest;});
@@ -741,12 +743,13 @@ function _buildDAILY(D, inicio, fim){
   D.campanhas.forEach(function(c){
     c.dias.forEach(function(d){
       if(d.data<inicio||d.data>fim) return;
-      if(!byDate[d.data]) byDate[d.data] = {label:_isoToLblA(d.data), invest:0, investVen:0, conversas:0, compras:0, receita:0};
+      if(!byDate[d.data]) byDate[d.data] = {label:_isoToLblA(d.data), invest:0, investVen:0, conversas:0, novos_contatos:0, compras:0, receita:0};
       byDate[d.data].invest += d.spend||0;
       if(c.funil === 'FUNDO_VEN') byDate[d.data].investVen += d.spend||0;
       byDate[d.data].compras += d.compras||0;
       byDate[d.data].receita += d.receita||0;
       if(c.funil === 'FUNDO_MSG') byDate[d.data].conversas += d.results||0;
+      if(c.funil === 'FUNDO_MSG') byDate[d.data].novos_contatos += d.novos_contatos||0;
     });
   });
   return Object.keys(byDate).sort().map(function(k){return byDate[k];});
@@ -910,6 +913,7 @@ function renderCampanhasTab(D){
         + '<div class="tc-name"><div class="t-name">'+c.name+'</div><div class="t-meta"><span class="t-tag '+tagCls+'">'+tag+'</span><span class="t-invest">R$ '+c.invest.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'</span></div></div>'
         + '<div class="t-mobile-stats">'
         + '<div><div class="t-stat-label">'+m.resultLbl+'</div><div class="t-result '+tagCls+'">'+_fmtNuma(c.result)+'</div></div>'
+        + (seg==='FUNDO_MSG'?'<div><div class="t-stat-label">Nov. Contatos</div><div class="t-result" style="color:var(--teal);">'+(c.novos_contatos||0)+'</div></div>':'')
         + '<div><div class="t-stat-label">'+m.cprLbl+'</div><div class="t-cpr">'+(c.cpr>0?_fmtBRLa(c.cpr):'—')+'</div></div>'
         + extraHtml
         + '</div>'
@@ -929,7 +933,7 @@ function renderCampanhasTab(D){
       + '<div class="camp-group-body">'
       +   '<div class="t-header">'
       +     '<span class="th">Campanha</span>'
-      +     '<span class="th r">'+m.resultLbl+'</span><span class="th r">'+m.cprLbl+'</span><span class="th r">'+(seg==='FUNDO_VEN'?'ROAS':'Investido')+'</span>'
+      +     '<span class="th r">'+m.resultLbl+'</span>'+(seg==='FUNDO_MSG'?'<span class="th r">Nov. Contatos</span>':'')+'<span class="th r">'+m.cprLbl+'</span><span class="th r">'+(seg==='FUNDO_VEN'?'ROAS':'Investido')+'</span>'
       +   '</div>'
       +   rows
       +   '<div class="t-foot">'
@@ -949,7 +953,7 @@ function renderFunilTab(D, inicio, fim){
   if(!container) return;
   // Somar métricas específicas de VEN e MSG do range
   var v = {reach:0, view_content:0, add_to_cart:0, init_checkout:0, compras:0, spend:0, receita:0};
-  var m = {reach:0, clicks_wa:0, results:0, spend:0};
+  var m = {reach:0, clicks_wa:0, results:0, novos_contatos:0, spend:0};
   D.campanhas.forEach(function(c){
     c.dias.forEach(function(d){
       if(d.data<inicio||d.data>fim) return;
@@ -961,6 +965,7 @@ function renderFunilTab(D, inicio, fim){
       } else if(c.funil==='FUNDO_MSG'){
         m.reach+=d.reach||0; m.clicks_wa+=d.clicks_wa||0;
         m.results+=(d.conversas||d.results||0); m.spend+=d.spend||0;
+        m.novos_contatos+=d.novos_contatos||0;
       }
     });
   });
@@ -979,8 +984,12 @@ function renderFunilTab(D, inicio, fim){
   // MSG funnel
   if(tipo!=='ven' && (m.reach>0 || m.results>0)){
     var haWA = m.clicks_wa > 0;
+    var hasNC = m.novos_contatos > 0;
+    var nStg = (haWA?1:0)+1+(hasNC?1:0);
     var mp1 = haWA ? pct(m.clicks_wa, m.reach) : pct(m.results, m.reach);
     var mp2 = haWA && m.results > 0 ? pct(m.results, m.clicks_wa) : 0;
+    var mp3 = hasNC && m.results > 0 ? pct(m.novos_contatos, m.results) : 0;
+    var convOrder = haWA ? ('Etapa 2 de '+nStg) : (hasNC ? 'Etapa 1 de 2' : 'Resultado');
     html += '<div class="funnel-container">'
       + '<div class="funnel-header">'
       +   '<div class="funnel-header-left"><div class="funnel-type-icon msg">C</div><div><div class="funnel-title">Funil de Conversa (WhatsApp)</div><div class="funnel-subtitle">Do alcance à conversa</div></div></div>'
@@ -988,8 +997,9 @@ function renderFunilTab(D, inicio, fim){
       + '</div>'
       + '<div class="funnel-reach-banner"><span style="font-size:16px;font-weight:700;color:var(--text3);">◉</span><div><div class="funnel-reach-label">Alcance total</div><div class="funnel-reach-val">'+_fmtNuma(m.reach)+' pessoas</div></div><span class="funnel-reach-arrow">↓</span></div>'
       + '<div class="funnel-stages">'
-      +   (haWA ? stg('s-blue','↗','Cliques WA','Etapa 1 de 2', m.clicks_wa, mp1, 'do alcance') : '')
-      +   (haWA ? (m.results > 0 ? stg('s-purple','C','Conversas iniciadas','Etapa 2 de 2', m.results, mp2, 'dos cliques') : '') : stg('s-purple','C','Conversas iniciadas','Resultado', m.results, mp1, 'do alcance'))
+      +   (haWA ? stg('s-blue','↗','Cliques WA','Etapa 1 de '+nStg, m.clicks_wa, mp1, 'do alcance') : '')
+      +   (haWA ? (m.results > 0 ? stg('s-purple','C','Conversas iniciadas',convOrder, m.results, mp2, 'dos cliques') : '') : stg('s-purple','C','Conversas iniciadas',convOrder, m.results, mp1, 'do alcance'))
+      +   (hasNC ? stg('s-teal','★','Novos Contatos','Etapa '+nStg+' de '+nStg, m.novos_contatos, mp3, 'das conversas') : '')
       + '</div>'
       + (haWA
           ? (m.clicks_wa>0?'<div class="funnel-insight"><div class="funnel-insight-icon">▸</div><div class="funnel-insight-text">De <span class="funnel-insight-hl">'+_fmtNuma(m.reach)+' pessoas alcançadas</span>, '+_fmtNuma(m.clicks_wa)+' clicaram no WhatsApp. Custo médio de <span class="funnel-insight-hl">'+_fmtBRLa(m.spend/m.clicks_wa)+' por clique</span>.</div></div>':'')
