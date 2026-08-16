@@ -796,10 +796,10 @@ function renderObjCards(D, inicio, fim){
   // Ordem: FUNDO_VEN, FUNDO_MSG, MEIO, TOPO (fundo → topo)
   var order = active.slice(); // já vem na ordem correta de detectActiveSegments
   var META = {
-    TOPO: {bg:'#FFF9EC', border:'rgba(224,140,0,0.3)', bar:'#E08C00', color:'#E08C00', icon:'T', title:'Topo — Awareness'},
-    MEIO: {bg:'#E0F4FA', border:'rgba(0,119,168,0.3)', bar:'#0077A8', color:'#0077A8', icon:'M', title:'Meio — Tráfego'},
-    FUNDO_MSG: {bg:'var(--purple-bg)', border:'rgba(200,16,46,0.3)', bar:'#C8102E', color:'#C8102E', icon:'C', title:'Fundo — Conversas (MSG)', cls:'msg'},
-    FUNDO_VEN: {bg:'var(--blue-bg)', border:'rgba(24,119,242,0.3)', bar:'#1877F2', color:'#1877F2', icon:'V', title:'Fundo — Vendas (VEN)', cls:'ven'}
+    TOPO: {bg:'#FFF9EC', border:'rgba(224,140,0,0.3)', bar:'#E08C00', color:'#E08C00', icon:'T', title:'Campanhas de Topo'},
+    MEIO: {bg:'#E0F4FA', border:'rgba(0,119,168,0.3)', bar:'#0077A8', color:'#0077A8', icon:'M', title:'Campanhas de Meio'},
+    FUNDO_MSG: {bg:'var(--purple-bg)', border:'rgba(200,16,46,0.3)', bar:'#C8102E', color:'#C8102E', icon:'C', title:'Campanhas de Mensagem', cls:'msg'},
+    FUNDO_VEN: {bg:'var(--blue-bg)', border:'rgba(24,119,242,0.3)', bar:'#1877F2', color:'#1877F2', icon:'V', title:'Campanhas de Venda', cls:'ven'}
   };
 
   container.innerHTML = order.map(function(seg){
@@ -881,10 +881,10 @@ function renderCampanhasTab(D){
   if(!container) return;
   var CAMPS = D.CAMPS || {};
   var META = {
-    FUNDO_VEN: {badge:'fundo-ven', tag:'FUNDO VEN', title:'Fundo de vendas', color:'#1877F2', resultLbl:'Compras', cprLbl:'C/Compra', extraLbl:'ROAS', extraColor:'var(--green)'},
-    FUNDO_MSG: {badge:'fundo-msg', tag:'FUNDO MSG', title:'Fundo de conversas', color:'#C8102E', resultLbl:'Conversas', cprLbl:'C/Conversa', extraLbl:'—', extraColor:'var(--teal)'},
-    MEIO:      {badge:'meio', tag:'MEIO', title:'Meio do funil', color:'#0077A8', resultLbl:'Visitas', cprLbl:'C/Visita', extraLbl:'—', extraColor:'var(--text2)'},
-    TOPO:      {badge:'topo', tag:'TOPO', title:'Topo do funil', color:'#E08C00', resultLbl:'Alcance', cprLbl:'CPM', extraLbl:'—', extraColor:'var(--text2)'}
+    FUNDO_VEN: {badge:'fundo-ven', tag:'FUNDO VEN', title:'Campanhas de Venda', color:'#1877F2', resultLbl:'Compras', cprLbl:'C/Compra', extraLbl:'ROAS', extraColor:'var(--green)'},
+    FUNDO_MSG: {badge:'fundo-msg', tag:'FUNDO MSG', title:'Campanhas de Mensagem', color:'#C8102E', resultLbl:'Conversas', cprLbl:'C/Conversa', extraLbl:'—', extraColor:'var(--teal)'},
+    MEIO:      {badge:'meio', tag:'MEIO', title:'Campanhas de Meio', color:'#0077A8', resultLbl:'Visitas', cprLbl:'C/Visita', extraLbl:'—', extraColor:'var(--text2)'},
+    TOPO:      {badge:'topo', tag:'TOPO', title:'Campanhas de Topo', color:'#E08C00', resultLbl:'Alcance', cprLbl:'CPM', extraLbl:'—', extraColor:'var(--text2)'}
   };
   var order = ['FUNDO_VEN','FUNDO_MSG','MEIO','TOPO'];
   var html = order.map(function(seg, idx){
@@ -896,9 +896,7 @@ function renderCampanhasTab(D){
     var totRec = camps.reduce(function(a,c){return a+(c.receita||0);},0);
     var cprAvg = totRes>0 ? totInv/totRes : 0;
     var roasAvg = totInv>0 && seg==='FUNDO_VEN' ? totRec/totInv : null;
-    var subtxt = 'R$ '+_fmtNuma(totInv)+' investidos · '+_fmtNuma(totRes)+' '+m.resultLbl.toLowerCase();
-    if(seg==='FUNDO_VEN' && roasAvg!==null) subtxt += ' · ROAS '+roasAvg.toFixed(2).replace('.',',')+'x';
-    else if(cprAvg>0) subtxt += ' · '+_fmtBRLa(cprAvg)+'/'+m.resultLbl.toLowerCase();
+    var subtxt = 'Valor Investido · Resultado · Custo por Resultado';
 
     var rows = camps.map(function(c){
       var tag = c.tag ? c.tag.toUpperCase() : m.badge.toUpperCase();
@@ -1425,13 +1423,13 @@ function renderRange(startIso,endIso){
   // ── Update hero texts dynamically for ALL segments ───────
   var hlR=ven.totInv>0?'R$ '+_fmtN(ven.totRec):'—';
   var hlROAS=ven.totInv>0?roas.toFixed(2).replace('.',',')+'x':'—';
-  var geralParts=['Em <span class="insight-hl">'+nDays+' dias</span>, <span class="insight-hl">R$ '+_fmtN(totInv)+' investidos</span>'];
-  if(ven.totInv>0) geralParts.push('geraram <span class="insight-hl">'+hlR+' em receita</span> — ROAS de <span class="insight-hl">'+hlROAS+'</span>');
-  if(msg.totInv>0) geralParts.push('com <span class="insight-hl">'+_fmtN(msg.totRes)+' conversas</span> abertas');
-  if(topo.totInv>0) geralParts.push('e <span class="insight-hl">'+_fmtN(topo.totRes)+' pessoas</span> impactadas');
+  var geralText='No intervalo de <span class="insight-hl">'+nDays+' dias</span>, foi investido <span class="insight-hl">R$ '+_fmtN(totInv)+'</span>';
+  if(topo.totInv>0||msg.totInv>0) geralText+=', alcançamos <span class="insight-hl">'+_fmtN(topo.totRes||0)+' pessoas</span>';
+  if(ven.totInv>0) geralText+=', tivemos <span class="insight-hl">'+_fmtN(ven.totRes)+' compras</span> que geraram <span class="insight-hl">'+hlR+' de receita</span>, isso dá uma ROI de <span class="insight-hl">'+hlROAS+'</span>';
+  if(msg.totInv>0) geralText+='. E criamos <span class="insight-hl">'+_fmtN(msg.totRes)+' oportunidades</span> com conversas no WhatsApp';
   HERO_DATA.GERAL={
-    text: geralParts.join(' ')+'.',
-    stats:[{l:'Receita Atribuída',v:'R$ '+_fmtN(ven.totRec)},{l:'ROAS (Vendas)',v:hlROAS},{l:'Conversas MSG',v:_fmtN(msg.totRes)}]
+    text: geralText+'.',
+    stats:[{l:'Receita Atribuída',v:'R$ '+_fmtN(ven.totRec)},{l:'ROI',v:hlROAS},{l:'Conversas MSG',v:_fmtN(msg.totRes)}]
   };
   HERO_DATA.FUNDO_VEN={
     text: 'As campanhas de venda converteram <span class="insight-hl">'+_fmtN(ven.totRes)+' compras</span> com <span class="insight-hl">R$ '+_fmtN(ven.totInv)+' investidos</span> em '+nDays+' dias — ROAS de <span class="insight-hl">'+hlROAS+'</span>, custo médio de <span class="insight-hl">'+(ven.totRes>0?_fmtR(ven.totInv/ven.totRes):'—')+'/compra</span>.',
