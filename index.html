@@ -1582,7 +1582,7 @@ function renderRange(startIso,endIso){
         var key=btn.dataset.p;
         if(key==='custom'){ _temp.preset='custom'; _temp.step=0; }
         else{ var r=applyPresetR(key); if(r){_temp=Object.assign({},r,{step:0}); monthShown=new Date(_fromIso(r.fim).getFullYear(),_fromIso(r.fim).getMonth(),1);} }
-        _drawAll();
+        window.calApply();
       });
     });
   }
