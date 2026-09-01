@@ -136,47 +136,42 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
 .obj-sec-label{font-size:9px;color:var(--text3);margin-top:2px;}
 
 /* ── CAMPANHAS ── */
-.camp-group{background:var(--white);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;}
-.camp-group-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;cursor:pointer;user-select:none;transition:background 0.15s;}
-.camp-group-head:hover{background:#FAFBFC;}
-.camp-group-head-left{display:flex;align-items:center;gap:8px;}
-.camp-group-badge{font-size:9px;font-weight:900;letter-spacing:1px;padding:3px 8px;border-radius:5px;text-transform:uppercase;}
-.camp-group-badge.topo{background:#FFF6E0;color:#E08C00;}
-.camp-group-badge.meio{background:#E0F4FA;color:#0077A8;}
-.camp-group-badge.fundo-msg{background:#FAEAEA;color:#C8102E;}
-.camp-group-badge.fundo-ven{background:#EAF1FF;color:#1877F2;}
-.camp-group-title{font-size:12px;font-weight:800;color:var(--text);}
-.camp-group-sub{font-size:9px;color:var(--text3);font-family:'IBM Plex Mono',monospace;margin-top:2px;}
-.camp-group-chevron{font-size:12px;color:var(--text3);transition:transform 0.2s;font-family:monospace;flex-shrink:0;}
-.camp-group.collapsed .camp-group-chevron{transform:rotate(-90deg);}
-.camp-group-body{padding:0 14px 14px;}
-.camp-group.collapsed .camp-group-body{display:none;}
-
-/* ── CAMP TABLE ROWS (responsive via display:contents trick) ── */
-.t-header{display:none;}/* hidden on mobile */
-.t-row{display:block;padding:12px 0;border-bottom:1px solid var(--border-soft);}
-.t-row:last-of-type{border-bottom:none;}
-.tc-name{margin-bottom:7px;}
-.t-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px;}
-.t-meta{display:flex;align-items:center;gap:6px;}
-.t-tag{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:1px;padding:2px 6px;border-radius:4px;}
-.t-tag.lead{background:var(--teal-bg);color:var(--teal);}
-.t-tag.msg{background:var(--purple-bg);color:var(--purple);}
-.t-tag.ven{background:var(--blue-bg);color:var(--blue);}
-.t-tag.topo{background:#FFF6E0;color:#E08C00;}
-.t-invest{font-size:9px;color:var(--text4);font-family:'IBM Plex Mono',monospace;}
-.tc-bar{margin:6px 0;}
-.t-bar-track{height:5px;background:var(--border-soft);border-radius:3px;overflow:hidden;}
-.t-bar-fill{height:100%;border-radius:3px;animation:barIn 0.8s cubic-bezier(0.16,1,0.3,1) both;}
-.t-mobile-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:6px;}
-.t-result{font-size:13px;font-weight:900;font-family:'IBM Plex Mono',monospace;}
-.t-result.lead{color:var(--teal);}.t-result.msg{color:var(--purple);}.t-result.ven{color:var(--blue);}.t-result.topo{color:var(--yellow);}
-.t-cpr{font-size:13px;font-weight:700;font-family:'IBM Plex Mono',monospace;color:var(--yellow);}
-.t-extra{font-size:12px;font-weight:700;font-family:'IBM Plex Mono',monospace;color:var(--green);}
-.t-stat-label{font-size:8px;color:var(--text4);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;}
-.t-foot{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-top:12px;border-top:1px solid var(--border);margin-top:12px;}
-.tf-label{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:0.5px;color:var(--text4);margin-bottom:3px;}
-.tf-val{font-size:15px;font-weight:900;font-family:'IBM Plex Mono',monospace;}
+.campanhas-section{--cs-surface:#FFFFFF;--cs-surface-2:#FAFAF9;--cs-border:#E7E5E4;--cs-ink-1:#0C0A09;--cs-ink-2:#292524;--cs-ink-3:#57534E;--cs-ink-4:#78716C;--cs-pos:#059669;--cs-pos-bg:#ECFDF5;--cs-neg:#DC2626;--cs-neg-bg:#FEF2F2;--cs-warn:#D97706;--cs-warn-bg:#FFFBEB;--cs-accent:#0284C7;--cs-accent-soft:#E0F2FE;--cs-brand-red:#E31E24;font-variant-numeric:tabular-nums;}
+.campanhas-section *,.campanhas-section *::before,.campanhas-section *::after{box-sizing:border-box;}
+.camp-group{background:var(--cs-surface);border:1px solid var(--cs-border);border-radius:14px;margin-bottom:10px;overflow:hidden;}
+.camp-head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;cursor:pointer;user-select:none;transition:background 0.12s;}
+.camp-head:hover{background:var(--cs-surface-2);}
+.camp-head-left{display:flex;align-items:center;gap:10px;}
+.camp-badge{font-size:10px;font-weight:700;letter-spacing:0.8px;padding:4px 9px;border-radius:5px;text-transform:uppercase;}
+.badge-topo{background:var(--cs-warn-bg);color:var(--cs-warn);}
+.badge-meio{background:var(--cs-accent-soft);color:var(--cs-accent);}
+.badge-fundo-msg{background:var(--cs-neg-bg);color:var(--cs-brand-red);}
+.badge-fundo-ven{background:var(--cs-pos-bg);color:var(--cs-pos);}
+.camp-title{font-size:13px;font-weight:700;color:var(--cs-ink-1);}
+.camp-sub{font-size:11px;color:var(--cs-ink-4);font-family:'JetBrains Mono',ui-monospace,monospace;margin-top:2px;font-weight:500;}
+.camp-chevron{width:16px;height:16px;color:var(--cs-ink-4);transition:transform 0.18s;flex-shrink:0;}
+.camp-group.collapsed .camp-chevron{transform:rotate(-90deg);}
+.camp-body{padding:0 18px 16px;}
+.camp-group.collapsed .camp-body{display:none;}
+.camp-table-header{display:none;}
+.camp-row{padding:14px 8px;border-bottom:1px solid var(--cs-border);}
+.camp-row:last-child{border-bottom:none;}
+.camp-name-cell{margin-bottom:8px;}
+.camp-name{font-size:13px;font-weight:600;color:var(--cs-ink-1);margin-bottom:6px;line-height:1.35;word-break:break-word;}
+.camp-name-meta{display:flex;align-items:center;gap:8px;font-size:11px;}
+.camp-invest-inline{color:var(--cs-ink-4);font-family:'JetBrains Mono',ui-monospace,monospace;font-weight:500;}
+.camp-bar-cell{margin:8px 0;}
+.camp-bar-track{height:5px;background:var(--cs-surface-2);border-radius:3px;overflow:hidden;}
+.camp-bar-fill{height:100%;border-radius:3px;background:var(--cs-accent);transition:width 0.8s cubic-bezier(0.16,1,0.3,1);}
+.camp-mobile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;}
+.camp-mobile-stats.cols-2{grid-template-columns:repeat(2,1fr);}
+.camp-mstat-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--cs-ink-4);margin-bottom:2px;}
+.camp-result,.camp-cpr,.camp-extra{font-size:14px;font-weight:700;font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--cs-ink-1);}
+.camp-extra{color:var(--cs-pos);}
+.camp-cpr{color:var(--cs-ink-3);}
+.camp-foot{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-top:14px;border-top:1px solid var(--cs-border);margin-top:14px;}
+.camp-foot-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--cs-ink-4);margin-bottom:4px;}
+.camp-foot-val{font-size:15px;font-weight:800;font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--cs-ink-1);}
 
 /* ── POR DIA ── */
 .day-summary{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
@@ -283,17 +278,19 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
   .obj-cpr{font-size:34px;}
 
   /* Camp table — desktop grid */
-  .t-header{display:grid;grid-template-columns:5fr 1.5fr 1.5fr 1.5fr 1.5fr;gap:16px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:4px;}
-  .th{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:1px;color:var(--text4);}
-  .th.r{text-align:right;}
-  .t-row{display:grid;grid-template-columns:5fr 1.5fr 1.5fr 1.5fr 1.5fr;align-items:center;gap:16px;padding:12px 8px;border-radius:8px;transition:background 0.15s;}
-  .t-row:hover{background:#FAFBFC;}
-  .tc-name{margin-bottom:0;}
-  .tc-bar{margin:0;}
-  .t-mobile-stats{display:contents;}/* transparent to grid on desktop */
-  .t-result,.t-cpr,.t-extra{text-align:right;font-size:15px;}
-  .t-stat-label{display:none;}
-  .t-foot{grid-template-columns:repeat(4,1fr);}
+  .camp-table-header{display:grid;grid-template-columns:4fr 1.4fr 1.4fr 1.4fr;gap:16px;padding:10px 8px;border-bottom:1px solid var(--cs-border);margin-bottom:6px;}
+  .camp-table-header.cols-3{grid-template-columns:4fr 1.4fr 1.4fr;}
+  .camp-table-header .th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--cs-ink-4);}
+  .camp-table-header .th.r{text-align:right;}
+  .camp-row{display:grid;grid-template-columns:4fr 1.4fr 1.4fr 1.4fr;align-items:center;gap:16px;padding:12px 8px;border-radius:6px;}
+  .camp-row.cols-3{grid-template-columns:4fr 1.4fr 1.4fr;}
+  .camp-row:hover{background:var(--cs-surface-2);}
+  .camp-name-cell{margin-bottom:0;}
+  .camp-bar-cell{margin:0;}
+  .camp-mobile-stats{display:contents;}
+  .camp-mstat-label{display:none;}
+  .camp-result,.camp-cpr,.camp-extra{text-align:right;}
+  .camp-foot{grid-template-columns:repeat(4,1fr);}
 
   /* Day table — desktop */
   .dt-header{display:grid;grid-template-columns:1fr 1.5fr 1.2fr 1.5fr 1.5fr;gap:12px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:4px;}
@@ -367,9 +364,6 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
   .tab-btn{font-size:10px;padding:6px 8px;min-height:36px;}
   /* ── Section / Group labels ── */
   .sec-title{letter-spacing:1.5px;}
-  .camp-group-title{font-size:11px;}
-  .camp-group-sub{font-size:10px;}
-  .camp-group-badge{font-size:10px;}
   /* ── Obj cards ── */
   .obj-body{padding:14px;}
   .obj-num{font-size:28px;}
@@ -377,12 +371,6 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
   .obj-sec{gap:6px;}
   .obj-sec-val{font-size:11px;}
   .obj-sec-label{font-size:10px;}
-  /* ── Campaign table (mobile cards) ── */
-  .t-name{font-size:11px;}
-  .t-stat-label{font-size:10px;}
-  .t-result,.t-cpr,.t-extra{font-size:12px;}
-  .tf-val{font-size:13px;}
-  .tf-label{font-size:10px;}
   /* ── Day summary ── */
   .day-val{font-size:16px;}
   .day-label{font-size:10px;}
@@ -543,7 +531,7 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
 </div>
 
 <!-- TAB: CAMPANHAS -->
-<div class="tab-content active" id="tab-campanhas"></div>
+<div class="tab-content active campanhas-section" id="tab-campanhas"></div>
 
 <!-- TAB: POR DIA -->
 <div class="tab-content" id="tab-dia">
@@ -876,80 +864,125 @@ function renderObjCards(D, inicio, fim){
   }).join('');
 }
 
-function renderCampanhasTab(D){
+function _csFmt(n, dec){
+  dec = dec == null ? 2 : dec;
+  return 'R$ ' + (n || 0).toLocaleString('pt-BR', {minimumFractionDigits:dec, maximumFractionDigits:dec});
+}
+function _csNum(n){ return Math.round(n || 0).toLocaleString('pt-BR'); }
+
+function renderCampanhasSection(grupos){
   var container = document.getElementById('tab-campanhas');
   if(!container) return;
-  var CAMPS = D.CAMPS || {};
-  var META = {
-    FUNDO_VEN: {badge:'fundo-ven', tag:'FUNDO VEN', title:'Campanha de Venda', color:'#1877F2', resultLbl:'Compras', cprLbl:'C/Compra', extraLbl:'ROAS', extraColor:'var(--green)'},
-    FUNDO_MSG: {badge:'fundo-msg', tag:'FUNDO MSG', title:'Campanha de Mensagem', color:'#C8102E', resultLbl:'Conversas', cprLbl:'C/Conversa', extraLbl:'—', extraColor:'var(--teal)'},
-    MEIO:      {badge:'meio', tag:'MEIO', title:'Campanha de Meio de Funil', color:'#0077A8', resultLbl:'Visitas', cprLbl:'C/Visita', extraLbl:'—', extraColor:'var(--text2)'},
-    TOPO:      {badge:'topo', tag:'TOPO', title:'Campanha de Topo de Funil', color:'#E08C00', resultLbl:'Alcance', cprLbl:'CPM', extraLbl:'—', extraColor:'var(--text2)'}
-  };
-  var order = ['FUNDO_VEN','FUNDO_MSG','MEIO','TOPO'];
-  var html = order.map(function(seg, idx){
-    var camps = CAMPS[seg];
-    if(!camps || !camps.length) return '';
-    var m = META[seg];
-    var totInv = camps.reduce(function(a,c){return a+c.invest;},0);
-    var totRes = camps.reduce(function(a,c){return a+c.result;},0);
-    var totRec = camps.reduce(function(a,c){return a+(c.receita||0);},0);
-    var cprAvg = totRes>0 ? totInv/totRes : 0;
-    var roasAvg = totInv>0 && seg==='FUNDO_VEN' ? totRec/totInv : null;
-    var subtxt = 'Valor Investido · Resultado · Custo por Resultado';
 
-    var rows = camps.map(function(c){
-      var tag = c.tag ? c.tag.toUpperCase() : m.badge.toUpperCase();
-      var tagCls = c.tag || (seg==='FUNDO_VEN'?'ven':seg==='FUNDO_MSG'?'msg':seg==='MEIO'?'lead':'topo');
-      var extraHtml = '';
-      if(seg==='FUNDO_VEN' && c.roas!==null && c.roas!==undefined){
-        extraHtml = '<div><div class="t-stat-label">ROAS</div><div class="t-extra">'+c.roas.toFixed(2).replace('.',',')+'x</div></div>';
-      } else {
-        extraHtml = '<div><div class="t-stat-label">Investido</div><div class="t-extra">R$ '+c.invest.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'</div></div>';
-      }
-      return '<div class="t-row">'
-        + '<div class="tc-name"><div class="t-name">'+c.name+'</div><div class="t-meta"><span class="t-tag '+tagCls+'">'+tag+'</span><span class="t-invest">R$ '+c.invest.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'</span></div></div>'
-        + '<div class="t-mobile-stats">'
-        + '<div><div class="t-stat-label">'+m.resultLbl+'</div><div class="t-result '+tagCls+'">'+_fmtNuma(c.result)+'</div></div>'
-        + (seg==='FUNDO_MSG'?'<div><div class="t-stat-label">Nov. Contatos</div><div class="t-result" style="color:var(--teal);">'+(c.novos_contatos||0)+'</div></div>':'')
-        + '<div><div class="t-stat-label">'+m.cprLbl+'</div><div class="t-cpr">'+(c.cpr>0?_fmtBRLa(c.cpr):'—')+'</div></div>'
-        + extraHtml
-        + '</div>'
-        + '</div>';
+  var html = grupos.map(function(g){
+    if(!g.camps || g.camps.length === 0) return '';
+    var totalInv = g.camps.reduce(function(a,c){ return a + c.invest; }, 0);
+    var totalRes = g.camps.reduce(function(a,c){ return a + c.result; }, 0);
+    var hasCols4 = g.hasExtra;
+    var colsCls  = hasCols4 ? '' : ' cols-3';
+
+    var rowsHTML = g.camps.map(function(c){
+      var extraColor = c.extraColor || 'var(--cs-ink-3)';
+      var extraCell = hasCols4
+        ? (c.extra
+            ? '<div class="camp-extra" style="color:'+extraColor+';">' +
+                '<div class="camp-mstat-label">'+g.extraLabel+'</div>'+c.extra+'</div>'
+            : '<div></div>')
+        : '';
+      return '<div class="camp-row'+colsCls+'">' +
+        '<div class="camp-name-cell">' +
+          '<div class="camp-name">'+c.name+'</div>' +
+          '<div class="camp-name-meta">' +
+            '<span class="camp-invest-inline">'+_csFmt(c.invest,0)+'</span>' +
+          '</div>' +
+          '<div class="camp-bar-cell">' +
+            '<div class="camp-bar-track">' +
+              '<div class="camp-bar-fill" style="width:'+c.bar_pct+'%;"></div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="camp-mobile-stats'+(hasCols4?'':' cols-2')+'">' +
+          '<div class="camp-result">' +
+            '<div class="camp-mstat-label">'+g.resultLabel+'</div>' +
+            _csNum(c.result) +
+          '</div>' +
+          '<div class="camp-cpr">' +
+            '<div class="camp-mstat-label">'+g.cprLabel+'</div>' +
+            (c.cpr > 0 ? _csFmt(c.cpr) : '—') +
+          '</div>' +
+          extraCell +
+        '</div>' +
+      '</div>';
     }).join('');
 
-    var totNC=seg==='FUNDO_MSG'?camps.reduce(function(a,c){return a+(c.novos_contatos||0);},0):0;
-    var footExtra=seg==='FUNDO_VEN'&&roasAvg!==null
-      ?'<div><div class="tf-label">ROAS</div><div class="tf-val" style="color:var(--green);">'+roasAvg.toFixed(2).replace('.',',')+'x</div></div>'
-      :seg==='FUNDO_MSG'
-      ?'<div><div class="tf-label">Nov. Contatos</div><div class="tf-val" style="color:var(--teal);">'+_fmtNuma(totNC)+'</div></div>'
-      :'<div><div class="tf-label">Campanhas</div><div class="tf-val">'+camps.length+'</div></div>';
+    var lastFootBlock = g.showReceita
+      ? '<div><div class="camp-foot-label">Receita</div>' +
+          '<div class="camp-foot-val" style="color:var(--cs-pos);">'+_csFmt(g.totalReceita||0,0)+'</div></div>'
+      : '<div><div class="camp-foot-label">Campanhas</div>' +
+          '<div class="camp-foot-val">'+g.camps.length+'</div></div>';
 
-    return '<div class="camp-group'+(idx>0?' collapsed':'')+'">'
-      + '<div class="camp-group-head" onclick="toggleGroup(this)">'
-      +   '<div class="camp-group-head-left">'
+    var extraHeaderCell = hasCols4
+      ? '<span class="th r">'+g.extraLabel+'</span>'
+      : '';
 
-      +     '<div><div class="camp-group-title">'+m.title+' — '+camps.length+' campanha'+(camps.length>1?'s':'')+'</div><div class="camp-group-sub">'+subtxt+'</div></div>'
-      +   '</div>'
-      +   '<span class="camp-group-chevron">▼</span>'
-      + '</div>'
-      + '<div class="camp-group-body">'
-      +   '<div class="t-header">'
-      +     '<span class="th">Campanha</span>'
-      +     '<span class="th r">'+m.resultLbl+'</span>'+(seg==='FUNDO_MSG'?'<span class="th r">Nov. Contatos</span>':'')+'<span class="th r">'+m.cprLbl+'</span><span class="th r">'+(seg==='FUNDO_VEN'?'ROAS':'Investido')+'</span>'
-      +   '</div>'
-      +   rows
-      +   '<div class="t-foot">'
-      +     '<div><div class="tf-label">Total '+m.tag.split(' ')[0]+'</div><div class="tf-val">R$ '+_fmtNuma(totInv)+'</div></div>'
-      +     '<div><div class="tf-label">'+m.resultLbl+'</div><div class="tf-val" style="color:'+m.color+';">'+_fmtNuma(totRes)+'</div></div>'
-      +     (seg==='FUNDO_MSG'?footExtra:'')
-      +     '<div><div class="tf-label">'+m.cprLbl+' Médio</div><div class="tf-val" style="color:var(--yellow);">'+(cprAvg>0?_fmtBRLa(cprAvg):'—')+'</div></div>'
-      +     (seg!=='FUNDO_MSG'?footExtra:'')
-      +   '</div>'
-      + '</div>'
-      + '</div>';
+    return '<div class="camp-group">' +
+      '<div class="camp-head" onclick="this.parentElement.classList.toggle('collapsed')">' +
+        '<div class="camp-head-left">' +
+          '<span class="camp-badge '+g.badge+'">'+g.label+'</span>' +
+          '<div>' +
+            '<div class="camp-title">'+g.camps.length+' '+(g.camps.length===1?'campanha ativa':'campanhas ativas')+'</div>' +
+            '<div class="camp-sub">'+_csFmt(totalInv,0)+' · '+_csNum(totalRes)+' '+g.resultLabel.toLowerCase()+'</div>' +
+          '</div>' +
+        '</div>' +
+        '<svg class="camp-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
+          '<polyline points="6 9 12 15 18 9"/>' +
+        '</svg>' +
+      '</div>' +
+      '<div class="camp-body">' +
+        '<div class="camp-table-header'+colsCls+'">' +
+          '<span class="th">Campanha</span>' +
+          '<span class="th r">'+g.resultLabel+'</span>' +
+          '<span class="th r">'+g.cprLabel+'</span>' +
+          extraHeaderCell +
+        '</div>' +
+        rowsHTML +
+        '<div class="camp-foot">' +
+          '<div><div class="camp-foot-label">Investido</div><div class="camp-foot-val">'+_csFmt(totalInv,0)+'</div></div>' +
+          '<div><div class="camp-foot-label">'+g.resultLabel+'</div><div class="camp-foot-val">'+_csNum(totalRes)+'</div></div>' +
+          '<div><div class="camp-foot-label">Custo médio</div><div class="camp-foot-val">'+(totalRes>0?_csFmt(totalInv/totalRes):'—')+'</div></div>' +
+          lastFootBlock +
+        '</div>' +
+      '</div>' +
+    '</div>';
   }).join('');
-  container.innerHTML = html || '<p style="color:var(--text4);padding:14px;font-size:12px">Sem campanhas neste período.</p>';
+
+  container.innerHTML = html || '<p style="color:var(--cs-ink-4);padding:14px;font-size:12px">Sem campanhas neste período.</p>';
+}
+
+function renderCampanhasTab(D){
+  var CAMPS = D.CAMPS || {};
+  var META = {
+    FUNDO_VEN: {label:'Fundo — Vendas',    badge:'badge-fundo-ven', resultLabel:'Compras',   cprLabel:'Custo unit.', extraLabel:'ROAS',        hasExtra:true,  showReceita:true},
+    FUNDO_MSG: {label:'Fundo — Mensagens', badge:'badge-fundo-msg', resultLabel:'Conversas', cprLabel:'Custo/Conv.', extraLabel:'',            hasExtra:false, showReceita:false},
+    MEIO:      {label:'Meio — Tráfego',    badge:'badge-meio',      resultLabel:'Visitas',   cprLabel:'Custo/Visita',extraLabel:'',            hasExtra:false, showReceita:false},
+    TOPO:      {label:'Topo — Alcance',    badge:'badge-topo',      resultLabel:'Alcance',   cprLabel:'CPM',         extraLabel:'',            hasExtra:false, showReceita:false}
+  };
+  var grupos = ['FUNDO_VEN','FUNDO_MSG','MEIO','TOPO'].map(function(seg){
+    var camps = CAMPS[seg];
+    if(!camps || !camps.length) return null;
+    var m = META[seg];
+    var totalReceita = camps.reduce(function(a,c){ return a+(c.receita||0); }, 0);
+    var mappedCamps = camps.map(function(c){
+      var extra = null, extraColor = 'var(--cs-ink-3)';
+      if(seg==='FUNDO_VEN' && c.roas!=null){
+        extra = c.roas.toFixed(2).replace('.',',')+'x';
+        extraColor = 'var(--cs-pos)';
+      }
+      return {name:c.name, invest:c.invest, result:c.result, cpr:c.cpr, extra:extra, extraColor:extraColor, bar_pct:c.bar_pct};
+    });
+    return {seg:seg, label:m.label, badge:m.badge, resultLabel:m.resultLabel, cprLabel:m.cprLabel, extraLabel:m.extraLabel, hasExtra:m.hasExtra, showReceita:m.showReceita, totalReceita:totalReceita, camps:mappedCamps};
+  }).filter(Boolean);
+  renderCampanhasSection(grupos);
 }
 
 function renderFunilTab(D, inicio, fim){
@@ -1234,9 +1267,9 @@ function applyFilter(s){
 
   // ── Visão GERAL: mostra cards, esconde gráficos ─────────────
   // Expand/collapse grupos de campanhas
-  var segBadge={GERAL:null,FUNDO_VEN:'fundo-ven',FUNDO_MSG:'fundo-msg',MEIO:'meio',TOPO:'topo'};
+  var segBadge={GERAL:null,FUNDO_VEN:'badge-fundo-ven',FUNDO_MSG:'badge-fundo-msg',MEIO:'badge-meio',TOPO:'badge-topo'};
   document.querySelectorAll('.camp-group').forEach(function(g){
-    var badge=g.querySelector('.camp-group-badge');
+    var badge=g.querySelector('.camp-badge');
     if(!badge)return;
     if(s==='GERAL'||!segBadge[s]){
       g.classList.add('collapsed');
