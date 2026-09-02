@@ -767,7 +767,7 @@ function renderObjCards(D, inicio, fim){
   var container = document.getElementById('objCardsContainer');
   if(!container) return;
 
-  // ── Aggregate metrics per segment ────────────────────────
+  // Aggregate metrics per segment
   var AGG = {
     TOPO:      {n:0, spend:0, reach:0, impr:0, results:0},
     MEIO:      {n:0, spend:0, results:0, impr:0, clicks:0},
@@ -802,7 +802,7 @@ function renderObjCards(D, inicio, fim){
   var totInv = AGG.TOPO.spend + AGG.MEIO.spend + AGG.FUNDO_MSG.spend + AGG.FUNDO_VEN.spend;
   var nDays  = Math.round((new Date(fim+'T00:00:00') - new Date(inicio+'T00:00:00')) / 86400000) + 1;
 
-  // ── SVG Icons ─────────────────────────────────────────────
+  // SVG Icons
   var _IC = {
     broadcast: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.9 19.1a10 10 0 0 1 0-14.2M7.8 16.2a6 6 0 0 1 0-8.4M12 12h.01M16.2 7.8a6 6 0 0 1 0 8.4M19.1 4.9a10 10 0 0 1 0 14.2"/></svg>',
     click:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11H1l8-8v6l8-8v14l-8-8v6z"/></svg>',
@@ -810,13 +810,13 @@ function renderObjCards(D, inicio, fim){
     cart:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>'
   };
 
-  // ── Formatters (local, sem poluir escopo global) ──────────
+  // Formatters
   function _fB(n,d){d=d==null?2:d;return 'R$ '+(n||0).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});}
   function _fBc(n){if(n>=1000000)return 'R$ '+(n/1000000).toFixed(1).replace('.',',')+'M';if(n>=1000)return 'R$ '+(n/1000).toFixed(1).replace('.',',')+'k';return 'R$ '+Math.round(n).toLocaleString('pt-BR');}
   function _fN(n){return Math.round(n||0).toLocaleString('pt-BR');}
   function _fNc(n){if(n>=1000000)return (n/1000000).toFixed(1).replace('.',',')+'M';if(n>=1000)return (n/1000).toFixed(1).replace('.',',')+'k';return Math.round(n||0).toLocaleString('pt-BR');}
 
-  // ── Build data objects ────────────────────────────────────
+  // Build data objects
   var data = {};
   var t = AGG.TOPO;
   if(t.n>0) data.topo = {camps:t.n, spend:t.spend, reach:t.reach, cpm:(t.impr>0?t.spend/t.impr*1000:0), impressoes:t.impr, share_pct:(totInv>0?Math.round(t.spend/totInv*100):0)};
@@ -827,82 +827,98 @@ function renderObjCards(D, inicio, fim){
   var v = AGG.FUNDO_VEN;
   if(v.n>0) data.vendas = {camps:v.n, spend:v.spend, compras:v.results, receita:v.receita, roas:(v.spend>0?v.receita/v.spend:0), cpa:(v.results>0?v.spend/v.results:0), page_views:v.view_content, checkouts:v.init_checkout};
 
-  // ── Render ────────────────────────────────────────────────
-  var html = '';
+  // Layout: 1 diag + 1 obj -> side by side in a single diag-grid row
+  var nDiag = (data.topo?1:0) + (data.meio?1:0);
+  var nObj  = (data.msg?1:0)  + (data.vendas?1:0);
+  var singleRow = (nDiag === 1 && nObj === 1);
 
-  // Linha 1: Diagnóstico (Topo + Meio) — só renderiza se existir ao menos 1
-  if(data.topo||data.meio){
-    html += '<div class="diag-grid">';
-    if(data.topo){
-      var td=data.topo;
-      html += '<div class="diag-card topo">'
-        +'<div class="diag-header"><div class="diag-title-block"><div class="diag-icon topo">'+_IC.broadcast+'</div>'
-        +'<div><div class="diag-label">Topo — Alcance</div><div class="diag-camp-count">'+td.camps+' '+(td.camps===1?'campanha ativa':'campanhas ativas')+'</div></div></div>'
-        +'<div class="diag-spend-badge">'+_fB(td.spend,0)+'</div></div>'
-        +'<div class="diag-body">'
-        +'<div><div class="diag-metric-label">Alcance</div><div class="diag-metric-val">'+_fNc(td.reach)+'</div><div class="diag-metric-sub">pessoas impactadas</div></div>'
-        +'<div><div class="diag-metric-label">CPM</div><div class="diag-metric-val warn">'+_fB(td.cpm)+'</div><div class="diag-metric-sub">custo / mil impressões</div></div>'
-        +'</div>'
-        +'<div class="diag-footer">'
-        +'<div><div class="diag-foot-label">Impressões</div><div class="diag-foot-val">'+_fNc(td.impressoes)+'</div></div>'
-        +'<div><div class="diag-foot-label">% do invest.</div><div class="diag-foot-val">'+td.share_pct+'%</div></div>'
-        +'</div></div>';
-    }
-    if(data.meio){
-      var md=data.meio;
-      html += '<div class="diag-card meio">'
-        +'<div class="diag-header"><div class="diag-title-block"><div class="diag-icon meio">'+_IC.click+'</div>'
-        +'<div><div class="diag-label">Meio — Tráfego</div><div class="diag-camp-count">'+md.camps+' '+(md.camps===1?'campanha ativa':'campanhas ativas')+'</div></div></div>'
-        +'<div class="diag-spend-badge">'+_fB(md.spend,0)+'</div></div>'
-        +'<div class="diag-body">'
-        +'<div><div class="diag-metric-label">Visitas</div><div class="diag-metric-val accent">'+_fNc(md.visitas)+'</div><div class="diag-metric-sub">à página</div></div>'
-        +'<div><div class="diag-metric-label">Custo/visita</div><div class="diag-metric-val">'+_fB(md.cpv)+'</div><div class="diag-metric-sub">eficiência</div></div>'
-        +'</div>'
-        +'<div class="diag-footer">'
-        +'<div><div class="diag-foot-label">Cliques</div><div class="diag-foot-val">'+_fNc(md.cliques)+'</div></div>'
-        +'<div><div class="diag-foot-label">% do invest.</div><div class="diag-foot-val">'+md.share_pct+'%</div></div>'
-        +'</div></div>';
-    }
-    html += '</div>';
+  // Card builders
+  function _topoCard(td){
+    return '<div class="diag-card topo">'
+      +'<div class="diag-header"><div class="diag-title-block"><div class="diag-icon topo">'+_IC.broadcast+'</div>'
+      +'<div><div class="diag-label">Topo — Alcance</div><div class="diag-camp-count">'+td.camps+' '+(td.camps===1?'campanha ativa':'campanhas ativas')+'</div></div></div>'
+      +'<div class="diag-spend-badge">'+_fB(td.spend,0)+'</div></div>'
+      +'<div class="diag-body">'
+      +'<div><div class="diag-metric-label">Alcance</div><div class="diag-metric-val">'+_fNc(td.reach)+'</div><div class="diag-metric-sub">pessoas impactadas</div></div>'
+      +'<div><div class="diag-metric-label">CPM</div><div class="diag-metric-val warn">'+_fB(td.cpm)+'</div><div class="diag-metric-sub">custo / mil impressões</div></div>'
+      +'</div>'
+      +'<div class="diag-footer">'
+      +'<div><div class="diag-foot-label">Impressões</div><div class="diag-foot-val">'+_fNc(td.impressoes)+'</div></div>'
+      +'<div><div class="diag-foot-label">% do invest.</div><div class="diag-foot-val">'+td.share_pct+'%</div></div>'
+      +'</div></div>';
   }
 
-  // Linha 2: Resultado (MSG + Vendas)
-  if(data.msg||data.vendas){
-    html += '<div class="obj-grid">';
-    if(data.msg){
-      var gd=data.msg;
-      var mpd=gd.dias>0?gd.conversas/gd.dias:0;
-      html += '<div class="obj-card msg">'
-        +'<div class="obj-header"><div class="obj-title-block"><div class="obj-icon msg">'+_IC.message+'</div>'
-        +'<div><div class="obj-label">Conversas WhatsApp</div><div class="obj-camp-count">'+_fN(gd.conversas)+' conversas iniciadas</div></div></div>'
-        +'<div class="obj-spend-badge">'+_fB(gd.spend,0)+'</div></div>'
-        +'<div class="obj-body">'
-        +'<div><div class="obj-metric-label">Conversas</div><div class="obj-metric-val msg">'+_fN(gd.conversas)+'</div><div class="obj-metric-sub">'+Math.round(mpd)+'/dia em média</div></div>'
-        +'<div><div class="obj-metric-label">Custo médio</div><div class="obj-metric-val">'+_fB(gd.cpl)+'</div><div class="obj-metric-sub">por conversa</div></div>'
-        +'</div>'
-        +'<div class="obj-footer">'
-        +'<div><div class="obj-foot-label">Alcance</div><div class="obj-foot-val">'+_fNc(gd.reach)+'</div></div>'
-        +'<div><div class="obj-foot-label">Cliques WA</div><div class="obj-foot-val">'+_fNc(gd.cliques_wa)+'</div></div>'
-        +'<div><div class="obj-foot-label">Investido</div><div class="obj-foot-val">'+_fB(gd.spend,0)+'</div></div>'
-        +'</div></div>';
-    }
-    if(data.vendas){
-      var vd=data.vendas;
-      html += '<div class="obj-card ven">'
-        +'<div class="obj-header"><div class="obj-title-block"><div class="obj-icon ven">'+_IC.cart+'</div>'
-        +'<div><div class="obj-label">Venda de Ingressos</div><div class="obj-camp-count">'+_fN(vd.compras)+' compras finalizadas</div></div></div>'
-        +'<div class="obj-spend-badge">'+_fB(vd.spend,0)+'</div></div>'
-        +'<div class="obj-body">'
-        +'<div><div class="obj-metric-label">Receita</div><div class="obj-metric-val pos">'+_fBc(vd.receita)+'</div><div class="obj-metric-sub">'+_fN(vd.compras)+' compras</div></div>'
-        +'<div><div class="obj-metric-label">ROAS</div><div class="obj-metric-val warn">'+vd.roas.toFixed(1).replace('.',',')+'x</div><div class="obj-metric-sub">CPA '+_fB(vd.cpa)+'</div></div>'
-        +'</div>'
-        +'<div class="obj-footer">'
-        +'<div><div class="obj-foot-label">Page views</div><div class="obj-foot-val">'+_fNc(vd.page_views)+'</div></div>'
-        +'<div><div class="obj-foot-label">Checkouts</div><div class="obj-foot-val">'+_fNc(vd.checkouts)+'</div></div>'
-        +'<div><div class="obj-foot-label">Investido</div><div class="obj-foot-val">'+_fB(vd.spend,0)+'</div></div>'
-        +'</div></div>';
-    }
+  function _meioCard(md){
+    return '<div class="diag-card meio">'
+      +'<div class="diag-header"><div class="diag-title-block"><div class="diag-icon meio">'+_IC.click+'</div>'
+      +'<div><div class="diag-label">Meio — Tráfego</div><div class="diag-camp-count">'+md.camps+' '+(md.camps===1?'campanha ativa':'campanhas ativas')+'</div></div></div>'
+      +'<div class="diag-spend-badge">'+_fB(md.spend,0)+'</div></div>'
+      +'<div class="diag-body">'
+      +'<div><div class="diag-metric-label">Visitas</div><div class="diag-metric-val accent">'+_fNc(md.visitas)+'</div><div class="diag-metric-sub">à página</div></div>'
+      +'<div><div class="diag-metric-label">Custo/visita</div><div class="diag-metric-val">'+_fB(md.cpv)+'</div><div class="diag-metric-sub">eficiência</div></div>'
+      +'</div>'
+      +'<div class="diag-footer">'
+      +'<div><div class="diag-foot-label">Cliques</div><div class="diag-foot-val">'+_fNc(md.cliques)+'</div></div>'
+      +'<div><div class="diag-foot-label">% do invest.</div><div class="diag-foot-val">'+md.share_pct+'%</div></div>'
+      +'</div></div>';
+  }
+
+  function _msgCard(gd){
+    var mpd=gd.dias>0?gd.conversas/gd.dias:0;
+    return '<div class="obj-card msg">'
+      +'<div class="obj-header"><div class="obj-title-block"><div class="obj-icon msg">'+_IC.message+'</div>'
+      +'<div><div class="obj-label">Conversas WhatsApp</div><div class="obj-camp-count">'+_fN(gd.conversas)+' conversas iniciadas</div></div></div>'
+      +'<div class="obj-spend-badge">'+_fB(gd.spend,0)+'</div></div>'
+      +'<div class="obj-body">'
+      +'<div><div class="obj-metric-label">Conversas</div><div class="obj-metric-val msg">'+_fN(gd.conversas)+'</div><div class="obj-metric-sub">'+Math.round(mpd)+'/dia em média</div></div>'
+      +'<div><div class="obj-metric-label">Custo médio</div><div class="obj-metric-val">'+_fB(gd.cpl)+'</div><div class="obj-metric-sub">por conversa</div></div>'
+      +'</div>'
+      +'<div class="obj-footer">'
+      +'<div><div class="obj-foot-label">Alcance</div><div class="obj-foot-val">'+_fNc(gd.reach)+'</div></div>'
+      +'<div><div class="obj-foot-label">Cliques WA</div><div class="obj-foot-val">'+_fNc(gd.cliques_wa)+'</div></div>'
+      +'<div><div class="obj-foot-label">Investido</div><div class="obj-foot-val">'+_fB(gd.spend,0)+'</div></div>'
+      +'</div></div>';
+  }
+
+  function _venCard(vd){
+    return '<div class="obj-card ven">'
+      +'<div class="obj-header"><div class="obj-title-block"><div class="obj-icon ven">'+_IC.cart+'</div>'
+      +'<div><div class="obj-label">Venda de Ingressos</div><div class="obj-camp-count">'+_fN(vd.compras)+' compras finalizadas</div></div></div>'
+      +'<div class="obj-spend-badge">'+_fB(vd.spend,0)+'</div></div>'
+      +'<div class="obj-body">'
+      +'<div><div class="obj-metric-label">Receita</div><div class="obj-metric-val pos">'+_fBc(vd.receita)+'</div><div class="obj-metric-sub">'+_fN(vd.compras)+' compras</div></div>'
+      +'<div><div class="obj-metric-label">ROAS</div><div class="obj-metric-val warn">'+vd.roas.toFixed(1).replace('.',',')+'x</div><div class="obj-metric-sub">CPA '+_fB(vd.cpa)+'</div></div>'
+      +'</div>'
+      +'<div class="obj-footer">'
+      +'<div><div class="obj-foot-label">Page views</div><div class="obj-foot-val">'+_fNc(vd.page_views)+'</div></div>'
+      +'<div><div class="obj-foot-label">Checkouts</div><div class="obj-foot-val">'+_fNc(vd.checkouts)+'</div></div>'
+      +'<div><div class="obj-foot-label">Investido</div><div class="obj-foot-val">'+_fB(vd.spend,0)+'</div></div>'
+      +'</div></div>';
+  }
+
+  // Render
+  var html = '';
+  if(singleRow){
+    // 1 diag + 1 obj: side by side in one row
+    html += '<div class="diag-grid">';
+    if(data.topo)   html += _topoCard(data.topo);
+    if(data.meio)   html += _meioCard(data.meio);
+    if(data.msg)    html += _msgCard(data.msg);
+    if(data.vendas) html += _venCard(data.vendas);
     html += '</div>';
+  } else {
+    if(data.topo||data.meio){
+      html += '<div class="diag-grid">';
+      if(data.topo) html += _topoCard(data.topo);
+      if(data.meio) html += _meioCard(data.meio);
+      html += '</div>';
+    }
+    if(data.msg||data.vendas){
+      html += '<div class="obj-grid">';
+      if(data.msg)    html += _msgCard(data.msg);
+      if(data.vendas) html += _venCard(data.vendas);
+      html += '</div>';
+    }
   }
 
   container.innerHTML = html;
