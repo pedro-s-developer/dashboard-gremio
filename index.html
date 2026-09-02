@@ -109,31 +109,46 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
 .tab-content{display:none;}
 .tab-content.active{display:block;animation:fadeUp 0.3s ease;}
 
-/* ── OBJ CARDS ── */
+/* ── OBJ CARDS v3 — hybrid ── */
 .obj-grid{display:grid;grid-template-columns:1fr;gap:10px;}
-.obj-card{background:var(--white);border:1px solid var(--border);border-radius:14px;position:relative;overflow:hidden;}
-.obj-card.msg{background:var(--purple-bg);border-color:rgba(200,16,46,0.3);}
-.obj-card.ven{background:var(--blue-bg);border-color:rgba(24,119,242,0.3);}
-.obj-bar{position:absolute;top:0;left:0;right:0;height:4px;}
-.obj-bar.msg{background:var(--purple);}.obj-bar.ven{background:var(--blue);}
-.obj-body{padding:18px;}
-.obj-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:8px;}
-.obj-head-left{display:flex;align-items:center;gap:10px;}
-.obj-icon{width:34px;height:34px;background:var(--white);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
-.obj-title{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:1px;}
-.obj-title.msg{color:var(--purple);}.obj-title.ven{color:var(--blue);}
-.obj-camps{font-size:9px;color:var(--text3);margin-top:2px;font-family:'IBM Plex Mono',monospace;}
-.obj-invest{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--blue);background:var(--white);border:1px solid rgba(24,119,242,0.2);border-radius:5px;padding:4px 8px;white-space:nowrap;}
-.obj-main{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
-.obj-num{font-size:34px;font-weight:900;line-height:1;margin-bottom:3px;}
-.obj-num.msg{color:var(--purple);}.obj-num.ven{color:var(--blue);}
-.obj-num-label{font-size:10px;color:var(--text3);}
-.obj-cpr{font-size:26px;font-weight:900;line-height:1;color:var(--yellow);margin-bottom:3px;}
-.obj-cpr-label{font-size:10px;color:var(--text3);}
-.obj-div{height:1px;background:var(--border);margin-bottom:12px;}
-.obj-sec{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-.obj-sec-val{font-size:12px;font-weight:900;font-family:'IBM Plex Mono',monospace;}
-.obj-sec-label{font-size:9px;color:var(--text3);margin-top:2px;}
+.diag-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:10px;}
+.diag-card,.obj-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:16px 18px;position:relative;overflow:hidden;}
+.diag-card::before,.obj-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--border);}
+.diag-card.topo::before{background:#D97706;}.diag-card.meio::before{background:#0284C7;}
+.obj-card{padding:20px 22px;}
+.obj-card.msg::before{background:#E31E24;}.obj-card.ven::before{background:#059669;}
+.diag-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;}
+.diag-title-block{display:flex;align-items:center;gap:10px;}
+.diag-icon{width:28px;height:28px;border-radius:7px;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--text3);flex-shrink:0;}
+.diag-icon.topo{background:#FFFBEB;color:#D97706;}.diag-icon.meio{background:#E0F2FE;color:#0284C7;}
+.diag-icon svg{width:14px;height:14px;stroke-width:2;}
+.diag-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);}
+.diag-camp-count{font-size:10px;color:var(--text4);margin-top:2px;font-weight:500;}
+.diag-spend-badge{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;padding:4px 8px;border-radius:5px;background:var(--bg);color:var(--text2);white-space:nowrap;border:1px solid var(--border);}
+.diag-body{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.diag-metric-label{font-size:10px;font-weight:600;color:var(--text4);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;}
+.diag-metric-val{font-size:22px;font-weight:800;color:var(--text);line-height:1;letter-spacing:-0.5px;}
+.diag-metric-val.warn{color:#D97706;}.diag-metric-val.accent{color:#0284C7;}
+.diag-metric-sub{font-size:10px;color:var(--text4);margin-top:3px;font-weight:500;}
+.diag-footer{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-top:12px;margin-top:12px;border-top:1px solid var(--border);}
+.diag-foot-label{font-size:9px;font-weight:700;color:var(--text4);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;}
+.diag-foot-val{font-size:12px;font-weight:700;color:var(--text2);font-family:'IBM Plex Mono',monospace;}
+.obj-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px;}
+.obj-title-block{display:flex;align-items:center;gap:10px;}
+.obj-icon{width:32px;height:32px;border-radius:8px;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--text3);flex-shrink:0;}
+.obj-icon.msg{background:#FEF2F2;color:#E31E24;}.obj-icon.ven{background:#ECFDF5;color:#059669;}
+.obj-icon svg{width:16px;height:16px;stroke-width:2;}
+.obj-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);}
+.obj-camp-count{font-size:11px;color:var(--text4);margin-top:2px;font-weight:500;}
+.obj-spend-badge{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;padding:5px 9px;border-radius:6px;background:var(--bg);color:var(--text2);white-space:nowrap;border:1px solid var(--border);}
+.obj-body{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.obj-metric-label{font-size:11px;font-weight:600;color:var(--text4);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;}
+.obj-metric-val{font-size:32px;font-weight:800;color:var(--text);line-height:1;letter-spacing:-1px;}
+.obj-metric-val.msg{color:#E31E24;}.obj-metric-val.pos{color:#059669;}.obj-metric-val.warn{color:#D97706;}
+.obj-metric-sub{font-size:11px;color:var(--text4);margin-top:4px;font-weight:500;}
+.obj-footer{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding-top:14px;border-top:1px solid var(--border);}
+.obj-foot-label{font-size:10px;font-weight:600;color:var(--text4);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;}
+.obj-foot-val{font-size:13px;font-weight:700;color:var(--text2);font-family:'IBM Plex Mono',monospace;}
 
 /* ── CAMPANHAS ── */
 .campanhas-section{--cs-surface:#FFFFFF;--cs-surface-2:#FAFAF9;--cs-border:#E7E5E4;--cs-ink-1:#0C0A09;--cs-ink-2:#292524;--cs-ink-3:#57534E;--cs-ink-4:#78716C;--cs-pos:#059669;--cs-pos-bg:#ECFDF5;--cs-neg:#DC2626;--cs-neg-bg:#FEF2F2;--cs-warn:#D97706;--cs-warn-bg:#FFFBEB;--cs-accent:#0284C7;--cs-accent-soft:#E0F2FE;--cs-brand-red:#E31E24;font-variant-numeric:tabular-nums;}
@@ -272,10 +287,10 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
   .tabs-list{display:inline-flex;height:46px;padding:4px;border-radius:12px;margin-bottom:20px;overflow:visible;}
   .tab-btn{font-size:12px;padding:8px 20px;border-radius:8px;}
 
-  /* Obj grid 2 cols no desktop */
+  /* Obj/Diag cards — desktop */
+  .diag-grid{grid-template-columns:1fr 1fr;gap:12px;}
   .obj-grid{grid-template-columns:1fr 1fr;gap:12px;}
-  .obj-num{font-size:46px;}
-  .obj-cpr{font-size:34px;}
+  .obj-metric-val{font-size:36px;}
 
   /* Camp table — desktop grid */
   .camp-table-header{display:grid;grid-template-columns:4fr 1.4fr 1.4fr 1.4fr;gap:16px;padding:10px 8px;border-bottom:1px solid var(--cs-border);margin-bottom:6px;}
@@ -491,7 +506,7 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
 
 <!-- GERAL CARDS (visível só quando filtro = GERAL) -->
 <div id="geralCards" style="display:none;margin-bottom:10px;">
-  <div class="obj-grid" id="objCardsContainer"></div>
+  <div id="objCardsContainer"></div>
 </div>
 
 <!-- CHARTS GRID -->
@@ -752,116 +767,145 @@ function renderObjCards(D, inicio, fim){
   var container = document.getElementById('objCardsContainer');
   if(!container) return;
 
-  var active = detectActiveSegments(D);
-  // Contar campanhas ativas por segmento e agregar métricas extras (impr, clicks_wa etc)
-  var extras = {TOPO:{impr:0,n:0}, MEIO:{impr:0,clicks:0,n:0}, FUNDO_MSG:{clicks_wa:0,n:0,bestCpr:Infinity}, FUNDO_VEN:{n:0}};
+  // ── Aggregate metrics per segment ────────────────────────
+  var AGG = {
+    TOPO:      {n:0, spend:0, reach:0, impr:0, results:0},
+    MEIO:      {n:0, spend:0, results:0, impr:0, clicks:0},
+    FUNDO_MSG: {n:0, spend:0, results:0, reach:0, clicks_wa:0},
+    FUNDO_VEN: {n:0, spend:0, results:0, receita:0, view_content:0, init_checkout:0}
+  };
   D.campanhas.forEach(function(c){
-    if(!extras[c.funil]) return;
-    var hasData = c.dias.some(function(d){return d.data>=inicio && d.data<=fim && (d.spend||0)>0;});
+    var a = AGG[c.funil]; if(!a) return;
+    var hasData = c.dias.some(function(d){
+      return d.data>=inicio && d.data<=fim && (d.spend||0)>0;
+    });
     if(!hasData) return;
-    extras[c.funil].n++;
-    var campSpend=0, campRes=0;
+    a.n++;
     c.dias.forEach(function(d){
       if(d.data<inicio||d.data>fim) return;
-      if(c.funil==='TOPO'){ extras.TOPO.impr += d.impr||0; }
-      if(c.funil==='MEIO'){ extras.MEIO.impr += d.impr||0; extras.MEIO.clicks += d.results||0; }
-      if(c.funil==='FUNDO_MSG'){ extras.FUNDO_MSG.clicks_wa += d.clicks_wa||0; }
-      campSpend += d.spend||0;
-      campRes += (c.funil==='FUNDO_MSG'?(d.conversas||d.results||0):(d.results||0));
+      a.spend += d.spend||0;
+      a.reach += d.reach||0;
+      a.impr  += d.impr||0;
+      if(c.funil==='FUNDO_VEN'){
+        a.results       += d.compras||d.results||0;
+        a.receita       += d.receita||0;
+        a.view_content  += d.view_content||0;
+        a.init_checkout += d.init_checkout||0;
+      } else {
+        a.results += d.results||0;
+        if(c.funil==='FUNDO_MSG') a.clicks_wa += d.clicks_wa||0;
+        if(c.funil==='MEIO')      a.clicks    += d.results||0;
+      }
     });
-    if(c.funil==='FUNDO_MSG' && campRes>0){
-      var cpr = campSpend/campRes;
-      if(cpr < extras.FUNDO_MSG.bestCpr) extras.FUNDO_MSG.bestCpr = cpr;
-    }
   });
 
-  // Total invest para calcular %
-  var totInv = 0;
-  ['TOPO','MEIO','FUNDO_MSG','FUNDO_VEN'].forEach(function(seg){
-    if(D.FILTER_DATA[seg]) totInv += D.FILTER_DATA[seg].kpi.invest;
-  });
+  var totInv = AGG.TOPO.spend + AGG.MEIO.spend + AGG.FUNDO_MSG.spend + AGG.FUNDO_VEN.spend;
+  var nDays  = Math.round((new Date(fim+'T00:00:00') - new Date(inicio+'T00:00:00')) / 86400000) + 1;
 
-  // Ordem: FUNDO_VEN, FUNDO_MSG, MEIO, TOPO (fundo → topo)
-  var order = active.slice(); // já vem na ordem correta de detectActiveSegments
-  var META = {
-    TOPO: {bg:'#FFF9EC', border:'rgba(224,140,0,0.3)', bar:'#E08C00', color:'#E08C00', icon:'T', title:'Campanha de Topo de Funil'},
-    MEIO: {bg:'#E0F4FA', border:'rgba(0,119,168,0.3)', bar:'#0077A8', color:'#0077A8', icon:'M', title:'Campanha de Meio de Funil'},
-    FUNDO_MSG: {bg:'var(--purple-bg)', border:'rgba(200,16,46,0.3)', bar:'#C8102E', color:'#C8102E', icon:'C', title:'Campanha de Mensagem', cls:'msg'},
-    FUNDO_VEN: {bg:'var(--blue-bg)', border:'rgba(24,119,242,0.3)', bar:'#1877F2', color:'#1877F2', icon:'V', title:'Campanha de Venda', cls:'ven'}
+  // ── SVG Icons ─────────────────────────────────────────────
+  var _IC = {
+    broadcast: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.9 19.1a10 10 0 0 1 0-14.2M7.8 16.2a6 6 0 0 1 0-8.4M12 12h.01M16.2 7.8a6 6 0 0 1 0 8.4M19.1 4.9a10 10 0 0 1 0 14.2"/></svg>',
+    click:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11H1l8-8v6l8-8v14l-8-8v6z"/></svg>',
+    message:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+    cart:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>'
   };
 
-  container.innerHTML = order.map(function(seg){
-    var m = META[seg];
-    var f = D.FILTER_DATA[seg];
-    if(!f) return '';
-    var k = f.kpi;
-    var n = extras[seg].n;
-    var pct = totInv>0 ? (k.invest/totInv*100).toFixed(1).replace('.',',')+'%' : '—';
+  // ── Formatters (local, sem poluir escopo global) ──────────
+  function _fB(n,d){d=d==null?2:d;return 'R$ '+(n||0).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});}
+  function _fBc(n){if(n>=1000000)return 'R$ '+(n/1000000).toFixed(1).replace('.',',')+'M';if(n>=1000)return 'R$ '+(n/1000).toFixed(1).replace('.',',')+'k';return 'R$ '+Math.round(n).toLocaleString('pt-BR');}
+  function _fN(n){return Math.round(n||0).toLocaleString('pt-BR');}
+  function _fNc(n){if(n>=1000000)return (n/1000000).toFixed(1).replace('.',',')+'M';if(n>=1000)return (n/1000).toFixed(1).replace('.',',')+'k';return Math.round(n||0).toLocaleString('pt-BR');}
 
-    var mainNum, mainNumLbl, cpr, cprLbl, sec1v, sec1l, sec2v, sec2l, sec3v, sec3l;
+  // ── Build data objects ────────────────────────────────────
+  var data = {};
+  var t = AGG.TOPO;
+  if(t.n>0) data.topo = {camps:t.n, spend:t.spend, reach:t.reach, cpm:(t.impr>0?t.spend/t.impr*1000:0), impressoes:t.impr, share_pct:(totInv>0?Math.round(t.spend/totInv*100):0)};
+  var me = AGG.MEIO;
+  if(me.n>0) data.meio = {camps:me.n, spend:me.spend, visitas:me.results, cpv:(me.results>0?me.spend/me.results:0), cliques:me.clicks, share_pct:(totInv>0?Math.round(me.spend/totInv*100):0)};
+  var g = AGG.FUNDO_MSG;
+  if(g.n>0) data.msg = {camps:g.n, spend:g.spend, conversas:g.results, cpl:(g.results>0?g.spend/g.results:0), cliques_wa:g.clicks_wa, reach:g.reach, dias:nDays};
+  var v = AGG.FUNDO_VEN;
+  if(v.n>0) data.vendas = {camps:v.n, spend:v.spend, compras:v.results, receita:v.receita, roas:(v.spend>0?v.receita/v.spend:0), cpa:(v.results>0?v.spend/v.results:0), page_views:v.view_content, checkouts:v.init_checkout};
 
-    if(seg==='TOPO'){
-      mainNum = _fmtNuma(k.results);
-      mainNumLbl = 'Pessoas alcançadas';
-      cpr = k.cpr>0 ? _fmtBRLa(k.cpr) : '—';
-      cprLbl = 'CPM';
-      sec1v = pct; sec1l = 'do Invest. Total';
-      sec2v = _fmtNuma(extras.TOPO.impr); sec2l = 'Impressões';
-      sec3v = '—'; sec3l = 'Visitas ao IG';
-    } else if(seg==='MEIO'){
-      mainNum = _fmtNuma(k.results);
-      mainNumLbl = 'Visitas à página';
-      cpr = k.cpr>0 ? _fmtBRLa(k.cpr) : '—';
-      cprLbl = 'Custo por Visita';
-      sec1v = pct; sec1l = 'do Invest. Total';
-      sec2v = _fmtNuma(extras.MEIO.clicks); sec2l = 'Cliques';
-      var ctr = extras.MEIO.impr>0 ? (extras.MEIO.clicks/extras.MEIO.impr*100).toFixed(2).replace('.',',')+'%' : '—';
-      sec3v = ctr; sec3l = 'CTR médio';
-    } else if(seg==='FUNDO_MSG'){
-      mainNum = _fmtNuma(k.results);
-      mainNumLbl = 'Conversas iniciadas';
-      cpr = k.cpr>0 ? _fmtBRLa(k.cpr) : '—';
-      cprLbl = 'Custo por Conversa';
-      sec1v = pct; sec1l = 'do Invest. Total';
-      sec2v = extras.FUNDO_MSG.clicks_wa>0 ? _fmtNuma(extras.FUNDO_MSG.clicks_wa) : '—'; sec2l = 'Cliques WA';
-      sec3v = extras.FUNDO_MSG.bestCpr!==Infinity ? _fmtBRLa(extras.FUNDO_MSG.bestCpr) : '—'; sec3l = 'Melhor CPR';
-    } else if(seg==='FUNDO_VEN'){
-      mainNum = _fmtNuma(k.results);
-      mainNumLbl = 'Compras finalizadas';
-      cpr = k.cpr>0 ? _fmtBRLa(k.cpr) : '—';
-      cprLbl = 'Custo por Venda';
-      var totRec = (f.receita||[]).reduce(function(a,b){return a+b;},0);
-      var roas = k.invest>0 ? totRec/k.invest : 0;
-      sec1v = roas>0 ? roas.toFixed(2).replace('.',',')+'x' : '—'; sec1l = 'ROAS';
-      sec2v = totRec>0 ? _fmtBRLa(totRec,0) : '—'; sec2l = 'Receita Atrib.';
-      var ticket = k.results>0 && totRec>0 ? totRec/k.results : 0;
-      sec3v = ticket>0 ? _fmtBRLa(ticket,0) : '—'; sec3l = 'Ticket Médio';
+  // ── Render ────────────────────────────────────────────────
+  var html = '';
+
+  // Linha 1: Diagnóstico (Topo + Meio) — só renderiza se existir ao menos 1
+  if(data.topo||data.meio){
+    html += '<div class="diag-grid">';
+    if(data.topo){
+      var td=data.topo;
+      html += '<div class="diag-card topo">'
+        +'<div class="diag-header"><div class="diag-title-block"><div class="diag-icon topo">'+_IC.broadcast+'</div>'
+        +'<div><div class="diag-label">Topo — Alcance</div><div class="diag-camp-count">'+td.camps+' '+(td.camps===1?'campanha ativa':'campanhas ativas')+'</div></div></div>'
+        +'<div class="diag-spend-badge">'+_fB(td.spend,0)+'</div></div>'
+        +'<div class="diag-body">'
+        +'<div><div class="diag-metric-label">Alcance</div><div class="diag-metric-val">'+_fNc(td.reach)+'</div><div class="diag-metric-sub">pessoas impactadas</div></div>'
+        +'<div><div class="diag-metric-label">CPM</div><div class="diag-metric-val warn">'+_fB(td.cpm)+'</div><div class="diag-metric-sub">custo / mil impressões</div></div>'
+        +'</div>'
+        +'<div class="diag-footer">'
+        +'<div><div class="diag-foot-label">Impressões</div><div class="diag-foot-val">'+_fNc(td.impressoes)+'</div></div>'
+        +'<div><div class="diag-foot-label">% do invest.</div><div class="diag-foot-val">'+td.share_pct+'%</div></div>'
+        +'</div></div>';
     }
+    if(data.meio){
+      var md=data.meio;
+      html += '<div class="diag-card meio">'
+        +'<div class="diag-header"><div class="diag-title-block"><div class="diag-icon meio">'+_IC.click+'</div>'
+        +'<div><div class="diag-label">Meio — Tráfego</div><div class="diag-camp-count">'+md.camps+' '+(md.camps===1?'campanha ativa':'campanhas ativas')+'</div></div></div>'
+        +'<div class="diag-spend-badge">'+_fB(md.spend,0)+'</div></div>'
+        +'<div class="diag-body">'
+        +'<div><div class="diag-metric-label">Visitas</div><div class="diag-metric-val accent">'+_fNc(md.visitas)+'</div><div class="diag-metric-sub">à página</div></div>'
+        +'<div><div class="diag-metric-label">Custo/visita</div><div class="diag-metric-val">'+_fB(md.cpv)+'</div><div class="diag-metric-sub">eficiência</div></div>'
+        +'</div>'
+        +'<div class="diag-footer">'
+        +'<div><div class="diag-foot-label">Cliques</div><div class="diag-foot-val">'+_fNc(md.cliques)+'</div></div>'
+        +'<div><div class="diag-foot-label">% do invest.</div><div class="diag-foot-val">'+md.share_pct+'%</div></div>'
+        +'</div></div>';
+    }
+    html += '</div>';
+  }
 
-    var sec1style = seg==='FUNDO_VEN' ? ' style="color:var(--green);"' : '';
-    return '<div class="obj-card'+(m.cls?' '+m.cls:'')+'" style="background:'+m.bg+';border-color:'+m.border+';">'
-      + '<div class="obj-bar'+(m.cls?' '+m.cls:'')+'" style="background:'+m.bar+';"></div>'
-      + '<div class="obj-body">'
-      +   '<div class="obj-head">'
-      +     '<div class="obj-head-left">'
-      +       '<div class="obj-icon" style="color:'+m.color+';">'+m.icon+'</div>'
-      +       '<div><div class="obj-title'+(m.cls?' '+m.cls:'')+'" style="color:'+m.color+';">'+m.title+'</div><div class="obj-camps">'+n+' campanha'+(n>1?'s':'')+' ativa'+(n>1?'s':'')+'</div></div>'
-      +     '</div>'
-      +     '<span class="obj-invest">R$ '+k.invest.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'</span>'
-      +   '</div>'
-      +   '<div class="obj-main">'
-      +     '<div><div class="obj-num'+(m.cls?' '+m.cls:'')+'" style="color:'+m.color+';">'+mainNum+'</div><div class="obj-num-label">'+mainNumLbl+'</div></div>'
-      +     '<div><div class="obj-cpr">'+cpr+'</div><div class="obj-cpr-label">'+cprLbl+'</div></div>'
-      +   '</div>'
-      +   '<div class="obj-div"></div>'
-      +   '<div class="obj-sec">'
-      +     '<div><div class="obj-sec-val"'+sec1style+'>'+sec1v+'</div><div class="obj-sec-label">'+sec1l+'</div></div>'
-      +     '<div><div class="obj-sec-val">'+sec2v+'</div><div class="obj-sec-label">'+sec2l+'</div></div>'
-      +     '<div><div class="obj-sec-val">'+sec3v+'</div><div class="obj-sec-label">'+sec3l+'</div></div>'
-      +   '</div>'
-      + '</div>'
-      + '</div>';
-  }).join('');
+  // Linha 2: Resultado (MSG + Vendas)
+  if(data.msg||data.vendas){
+    html += '<div class="obj-grid">';
+    if(data.msg){
+      var gd=data.msg;
+      var mpd=gd.dias>0?gd.conversas/gd.dias:0;
+      html += '<div class="obj-card msg">'
+        +'<div class="obj-header"><div class="obj-title-block"><div class="obj-icon msg">'+_IC.message+'</div>'
+        +'<div><div class="obj-label">Conversas WhatsApp</div><div class="obj-camp-count">'+_fN(gd.conversas)+' conversas iniciadas</div></div></div>'
+        +'<div class="obj-spend-badge">'+_fB(gd.spend,0)+'</div></div>'
+        +'<div class="obj-body">'
+        +'<div><div class="obj-metric-label">Conversas</div><div class="obj-metric-val msg">'+_fN(gd.conversas)+'</div><div class="obj-metric-sub">'+Math.round(mpd)+'/dia em média</div></div>'
+        +'<div><div class="obj-metric-label">Custo médio</div><div class="obj-metric-val">'+_fB(gd.cpl)+'</div><div class="obj-metric-sub">por conversa</div></div>'
+        +'</div>'
+        +'<div class="obj-footer">'
+        +'<div><div class="obj-foot-label">Alcance</div><div class="obj-foot-val">'+_fNc(gd.reach)+'</div></div>'
+        +'<div><div class="obj-foot-label">Cliques WA</div><div class="obj-foot-val">'+_fNc(gd.cliques_wa)+'</div></div>'
+        +'<div><div class="obj-foot-label">Investido</div><div class="obj-foot-val">'+_fB(gd.spend,0)+'</div></div>'
+        +'</div></div>';
+    }
+    if(data.vendas){
+      var vd=data.vendas;
+      html += '<div class="obj-card ven">'
+        +'<div class="obj-header"><div class="obj-title-block"><div class="obj-icon ven">'+_IC.cart+'</div>'
+        +'<div><div class="obj-label">Venda de Ingressos</div><div class="obj-camp-count">'+_fN(vd.compras)+' compras finalizadas</div></div></div>'
+        +'<div class="obj-spend-badge">'+_fB(vd.spend,0)+'</div></div>'
+        +'<div class="obj-body">'
+        +'<div><div class="obj-metric-label">Receita</div><div class="obj-metric-val pos">'+_fBc(vd.receita)+'</div><div class="obj-metric-sub">'+_fN(vd.compras)+' compras</div></div>'
+        +'<div><div class="obj-metric-label">ROAS</div><div class="obj-metric-val warn">'+vd.roas.toFixed(1).replace('.',',')+'x</div><div class="obj-metric-sub">CPA '+_fB(vd.cpa)+'</div></div>'
+        +'</div>'
+        +'<div class="obj-footer">'
+        +'<div><div class="obj-foot-label">Page views</div><div class="obj-foot-val">'+_fNc(vd.page_views)+'</div></div>'
+        +'<div><div class="obj-foot-label">Checkouts</div><div class="obj-foot-val">'+_fNc(vd.checkouts)+'</div></div>'
+        +'<div><div class="obj-foot-label">Investido</div><div class="obj-foot-val">'+_fB(vd.spend,0)+'</div></div>'
+        +'</div></div>';
+    }
+    html += '</div>';
+  }
+
+  container.innerHTML = html;
 }
 
 function _csFmt(n, dec){
