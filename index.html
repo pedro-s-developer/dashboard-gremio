@@ -496,8 +496,8 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
 <!-- KPI GRID -->
 <div class="kpi-grid" id="kpiGrid">
   <div class="kpi"><div class="kpi-top"><span class="kpi-label" id="kl0">Investido total</span></div><div class="kpi-val" id="kv0" style="color:var(--text)">—</div><div class="kpi-sub" id="ks0">4 estágios do funil</div></div>
-  <div class="kpi"><div class="kpi-top"><span class="kpi-label" id="kl1">Receita</span></div><div class="kpi-val" id="kv1" style="color:var(--green)">—</div><div class="kpi-sub" id="ks1">—</div></div>
-  <div class="kpi"><div class="kpi-top"><span class="kpi-label" id="kl2">Compras</span></div><div class="kpi-val" id="kv2" style="color:var(--blue)">384</div><div class="kpi-sub" id="ks2">em 15 dias</div></div>
+  <div class="kpi"><div class="kpi-top"><span class="kpi-label" id="kl1">Receita</span></div><div class="kpi-val" id="kv1" style="color:var(--text)">—</div><div class="kpi-sub" id="ks1">—</div></div>
+  <div class="kpi"><div class="kpi-top"><span class="kpi-label" id="kl2">Compras</span></div><div class="kpi-val" id="kv2" style="color:var(--text)">384</div><div class="kpi-sub" id="ks2">em 15 dias</div></div>
   <div class="kpi"><div class="kpi-top"><span class="kpi-label" id="kl3">Alcance</span></div><div class="kpi-val" id="kv3" style="color:var(--text)">601.756</div><div class="kpi-sub" id="ks3">pessoas impactadas</div></div>
 </div>
 
@@ -681,29 +681,29 @@ function _buildSKPIS(FDx, totInv){
       var roiVen = roas>0 ? roas.toFixed(1).replace('.',',')+'x' : '—';
       kpis = [
         {label:'Investido', value:_fmtBRLa(k.invest,0), raw:k.invest, color:'var(--text)', sub:pct(k.invest)},
-        {label:'Compras', value:_fmtNuma(k.results), raw:k.results, color:'var(--blue)', sub:'no período'},
-        {label:'Retorno', value:_fmtBRLa(totRec,0), raw:totRec, color:'var(--green)', sub:'receita atribuída'},
-        {label:'ROI', value:roiVen, raw:roas, color:'var(--yellow)', sub:'retorno sobre investimento'}
+        {label:'Compras', value:_fmtNuma(k.results), raw:k.results, color:'var(--text)', sub:'no período'},
+        {label:'Retorno', value:_fmtBRLa(totRec,0), raw:totRec, color:'var(--text)', sub:'receita atribuída'},
+        {label:'ROI', value:roiVen, raw:roas, color:'var(--text)', sub:'retorno sobre investimento'}
       ];
     } else if(seg === 'FUNDO_MSG'){
       kpis = [
         {label:'Investido', value:_fmtBRLa(k.invest,0), raw:k.invest, color:'var(--text)', sub:pct(k.invest)},
-        {label:'Conversas', value:_fmtNuma(k.results), raw:k.results, color:'var(--purple)', sub:'iniciadas no período'},
-        {label:'Custo/Conversa', value:k.results>0?_fmtBRLa(k.invest/k.results):'—', raw:k.results>0?k.invest/k.results:0, color:'var(--yellow)', sub:'CPL'},
-        {label:'Alcance', value:_fmtNuma(k.reach), raw:k.reach, color:'var(--teal)', sub:'pessoas impactadas'}
+        {label:'Conversas', value:_fmtNuma(k.results), raw:k.results, color:'var(--text)', sub:'iniciadas no período'},
+        {label:'Custo/Conversa', value:k.results>0?_fmtBRLa(k.invest/k.results):'—', raw:k.results>0?k.invest/k.results:0, color:'var(--text)', sub:'CPL'},
+        {label:'Alcance', value:_fmtNuma(k.reach), raw:k.reach, color:'var(--text)', sub:'pessoas impactadas'}
       ];
     } else if(seg === 'MEIO'){
       kpis = [
         {label:'Investido', value:_fmtBRLa(k.invest,0), raw:k.invest, color:'var(--text)', sub:pct(k.invest)},
-        {label:'Visitas à Página', value:_fmtNuma(k.results), raw:k.results, color:'var(--teal)', sub:'no período'},
-        {label:'Custo/Visita', value:k.results>0?_fmtBRLa(k.invest/k.results):'—', raw:k.results>0?k.invest/k.results:0, color:'var(--yellow)', sub:'eficiência'},
+        {label:'Visitas à Página', value:_fmtNuma(k.results), raw:k.results, color:'var(--text)', sub:'no período'},
+        {label:'Custo/Visita', value:k.results>0?_fmtBRLa(k.invest/k.results):'—', raw:k.results>0?k.invest/k.results:0, color:'var(--text)', sub:'eficiência'},
         {label:'Alcance', value:_fmtNuma(k.reach), raw:k.reach, color:'var(--text2)', sub:'pessoas impactadas'}
       ];
     } else if(seg === 'TOPO'){
       kpis = [
         {label:'Investido', value:_fmtBRLa(k.invest,0), raw:k.invest, color:'var(--text)', sub:pct(k.invest)},
-        {label:'Alcance', value:_fmtNuma(k.results), raw:k.results, color:'var(--yellow)', sub:'pessoas impactadas'},
-        {label:'CPM', value:k.cpr>0?_fmtBRLa(k.cpr):'—', raw:k.cpr, color:'var(--yellow)', sub:'custo por mil impressões'},
+        {label:'Alcance', value:_fmtNuma(k.results), raw:k.results, color:'var(--text)', sub:'pessoas impactadas'},
+        {label:'CPM', value:k.cpr>0?_fmtBRLa(k.cpr):'—', raw:k.cpr, color:'var(--text)', sub:'custo por mil impressões'},
         {label:'Impressões', value:'—', raw:0, color:'var(--text2)', sub:'—'}
       ];
     }
@@ -1308,8 +1308,8 @@ function updateHero(s){
 }
 var GERAL_KPIS=[
   {label:'Investido total', value:'—', color:'var(--text)',   sub:'—'},
-  {label:'Receita',         value:'—', color:'var(--green)',  sub:'—'},
-  {label:'Compras',         value:'—', color:'var(--blue)',   sub:'—'},
+  {label:'Receita',         value:'—', color:'var(--text)',  sub:'—'},
+  {label:'Compras',         value:'—', color:'var(--text)',   sub:'—'},
   {label:'Alcance',         value:'—', color:'var(--text)',   sub:'—'},
 ];
 
@@ -1425,26 +1425,26 @@ function _buildRKPIS(segs,totInv){
   return {
     FUNDO_VEN:{legend:'Fundo — Vendas',kpis:[
       {label:'Investido',value:_fmtR(ven.totInv),raw:ven.totInv,color:'var(--text)',sub:pct(ven.totInv)},
-      {label:'Compras',value:_fmtN(ven.totRes),raw:ven.totRes,color:'var(--blue)',sub:'no período'},
-      {label:'Retorno',value:_fmtR(ven.totRec),raw:ven.totRec,color:'var(--green)',sub:'receita atribuída'},
-      {label:'ROI',value:ven.totInv>0?(ven.totRec/ven.totInv).toFixed(1).replace('.',',')+'x':'—',raw:ven.totInv>0?ven.totRec/ven.totInv:0,color:'var(--yellow)',sub:'retorno sobre investimento'}
+      {label:'Compras',value:_fmtN(ven.totRes),raw:ven.totRes,color:'var(--text)',sub:'no período'},
+      {label:'Retorno',value:_fmtR(ven.totRec),raw:ven.totRec,color:'var(--text)',sub:'receita atribuída'},
+      {label:'ROI',value:ven.totInv>0?(ven.totRec/ven.totInv).toFixed(1).replace('.',',')+'x':'—',raw:ven.totInv>0?ven.totRec/ven.totInv:0,color:'var(--text)',sub:'retorno sobre investimento'}
     ]},
     FUNDO_MSG:{legend:'Fundo — MSG',kpis:[
       {label:'Investido',value:_fmtR(msg.totInv),raw:msg.totInv,color:'var(--text)',sub:pct(msg.totInv)},
-      {label:'Conversas',value:_fmtN(msg.totRes),raw:msg.totRes,color:'var(--purple)',sub:'iniciadas no período'},
-      {label:'Custo/Conversa',value:msg.totRes>0?_fmtR(msg.totInv/msg.totRes):'—',raw:msg.totRes>0?msg.totInv/msg.totRes:0,color:'var(--yellow)',sub:'eficiência'},
-      {label:'Alcance MSG',value:_fmtN(msg.totReach||msg.kpi&&msg.kpi.reach||0),raw:msg.totReach||0,color:'var(--teal)',sub:'pessoas impactadas'}
+      {label:'Conversas',value:_fmtN(msg.totRes),raw:msg.totRes,color:'var(--text)',sub:'iniciadas no período'},
+      {label:'Custo/Conversa',value:msg.totRes>0?_fmtR(msg.totInv/msg.totRes):'—',raw:msg.totRes>0?msg.totInv/msg.totRes:0,color:'var(--text)',sub:'eficiência'},
+      {label:'Alcance MSG',value:_fmtN(msg.totReach||msg.kpi&&msg.kpi.reach||0),raw:msg.totReach||0,color:'var(--text)',sub:'pessoas impactadas'}
     ]},
     MEIO:{legend:'Meio — Tráfego',kpis:[
       {label:'Investido',value:_fmtR(meio.totInv),raw:meio.totInv,color:'var(--text)',sub:pct(meio.totInv)},
-      {label:'Visitas à Página',value:_fmtN(meio.totRes),raw:meio.totRes,color:'var(--teal)',sub:'no período'},
-      {label:'Custo/Visita',value:meio.totRes>0?_fmtR(meio.totInv/meio.totRes):'—',raw:meio.totRes>0?meio.totInv/meio.totRes:0,color:'var(--yellow)',sub:'eficiência'},
+      {label:'Visitas à Página',value:_fmtN(meio.totRes),raw:meio.totRes,color:'var(--text)',sub:'no período'},
+      {label:'Custo/Visita',value:meio.totRes>0?_fmtR(meio.totInv/meio.totRes):'—',raw:meio.totRes>0?meio.totInv/meio.totRes:0,color:'var(--text)',sub:'eficiência'},
       {label:'Cliques',value:'—',raw:0,color:'var(--text2)',sub:'dados não desagregados'}
     ]},
     TOPO:{legend:'Topo — Awareness',kpis:[
       {label:'Investido',value:_fmtR(topo.totInv),raw:topo.totInv,color:'var(--text)',sub:pct(topo.totInv)},
-      {label:'Alcance',value:_fmtN(topo.totRes),raw:topo.totRes,color:'var(--yellow)',sub:'pessoas impactadas'},
-      {label:'CPM',value:topo.totRes>0?_fmtR(topo.totInv/topo.totRes*1000):'—',raw:topo.totRes>0?topo.totInv/topo.totRes*1000:0,color:'var(--yellow)',sub:'custo por mil impressões'},
+      {label:'Alcance',value:_fmtN(topo.totRes),raw:topo.totRes,color:'var(--text)',sub:'pessoas impactadas'},
+      {label:'CPM',value:topo.totRes>0?_fmtR(topo.totInv/topo.totRes*1000):'—',raw:topo.totRes>0?topo.totInv/topo.totRes*1000:0,color:'var(--text)',sub:'custo por mil impressões'},
       {label:'Visitas ao IG',value:'—',raw:0,color:'var(--text2)',sub:'dados não desagregados'}
     ]}
   };
@@ -1503,9 +1503,9 @@ function renderRange(startIso,endIso){
   var roiStr=roas>0?roas.toFixed(1).replace('.',',')+'x':'—';
   window._geralKpis=[
     {label:'Investido total',value:'R$ '+_fmtN(totInv),color:'var(--text)',sub:nDays+' dias analisados'},
-    {label:'Compras',value:_fmtN(ven.totRes),color:'var(--blue)',sub:'em '+nDays+' dias'},
-    {label:'Retorno',value:'R$ '+_fmtN(ven.totRec),color:'var(--green)',sub:'receita atribuída'},
-    {label:'ROI',value:roiStr,color:'var(--yellow)',sub:'retorno sobre investimento'},
+    {label:'Compras',value:_fmtN(ven.totRes),color:'var(--text)',sub:'em '+nDays+' dias'},
+    {label:'Retorno',value:'R$ '+_fmtN(ven.totRec),color:'var(--text)',sub:'receita atribuída'},
+    {label:'ROI',value:roiStr,color:'var(--text)',sub:'retorno sobre investimento'},
   ];
   if(_D.meta.tipo==='msg'){window._geralKpis=[
     {label:'Investido total',value:'R$ '+_fmtN(totInv),color:'var(--text)',sub:nDays+' dias analisados'},
