@@ -494,6 +494,7 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
 .cal-day.cal-day-empty{cursor:default;pointer-events:none;}
 .cal-day.cal-day-has-data::after{content:'';display:block;width:4px;height:4px;border-radius:50%;background:var(--blue);margin:2px auto 0;opacity:0.55;}
 .cal-day.in-range.cal-day-has-data::after,.cal-day.range-start.cal-day-has-data::after,.cal-day.range-end.cal-day-has-data::after{background:#fff;opacity:0.7;}
+[data-theme="dark"] .cal-day.cal-day-has-data::after{opacity:1;}
 .cal-hint{font-size:9px;color:var(--text4);text-align:center;padding:0 14px 8px;font-family:'Poppins',sans-serif;}
 .cal-foot{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-top:1px solid var(--border-soft);gap:8px;}
 .cal-foot-range{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--text3);white-space:nowrap;}
