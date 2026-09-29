@@ -486,12 +486,14 @@ body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;pad
 .cal-month-label{text-align:center;font-size:11px;font-weight:700;color:var(--text2);margin-bottom:8px;letter-spacing:0.5px;}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
 .cal-dow{font-size:8px;font-weight:700;text-align:center;color:var(--text4);padding:3px 0;text-transform:uppercase;letter-spacing:0.5px;}
-.cal-day{font-size:10px;font-weight:600;text-align:center;padding:6px 0;border-radius:6px;cursor:pointer;color:var(--text2);transition:background 0.1s,color 0.1s;border:none;background:transparent;width:100%;font-family:'IBM Plex Mono',monospace;}
+.cal-day{font-size:10px;font-weight:600;text-align:center;padding:5px 0 3px;border-radius:6px;cursor:pointer;color:var(--text2);transition:background 0.1s,color 0.1s;border:none;background:transparent;width:100%;font-family:'IBM Plex Mono',monospace;}
 .cal-day:hover:not(.cal-day-off):not(.cal-day-empty){background:var(--blue-bg);color:var(--blue);}
 .cal-day.in-range{background:var(--blue-bg);color:var(--blue);}
 .cal-day.range-start,.cal-day.range-end{background:var(--blue)!important;color:#fff!important;border-radius:6px;}
 .cal-day.cal-day-off{color:var(--border);cursor:default;}
 .cal-day.cal-day-empty{cursor:default;pointer-events:none;}
+.cal-day.cal-day-has-data::after{content:'';display:block;width:4px;height:4px;border-radius:50%;background:var(--blue);margin:2px auto 0;opacity:0.55;}
+.cal-day.in-range.cal-day-has-data::after,.cal-day.range-start.cal-day-has-data::after,.cal-day.range-end.cal-day-has-data::after{background:#fff;opacity:0.7;}
 .cal-hint{font-size:9px;color:var(--text4);text-align:center;padding:0 14px 8px;font-family:'Poppins',sans-serif;}
 .cal-foot{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-top:1px solid var(--border-soft);gap:8px;}
 .cal-foot-range{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--text3);white-space:nowrap;}
@@ -1798,11 +1800,16 @@ function renderRange(startIso,endIso){
   var monthShown=new Date(_fromIso(_DYN_MAX).getFullYear(),_fromIso(_DYN_MAX).getMonth(),1);
 
   function _dataMapForCal(){
-    var m={};
-    _D.campanhas.forEach(function(c){c.dias.forEach(function(d){m[d.data]=true;});});
-    return m;
+    var m={},s={};
+    _D.campanhas.forEach(function(c){c.dias.forEach(function(d){
+      m[d.data]=true;
+      if((d.spend||0)>0) s[d.data]=true;
+    });});
+    return {m:m,s:s};
   }
-  var _dataMap=_dataMapForCal();
+  var _maps=_dataMapForCal();
+  var _dataMap=_maps.m;
+  var _spendMap=_maps.s;
 
   function _drawPresets(){
     var wrap=document.getElementById('calPresets');
@@ -1837,7 +1844,8 @@ function renderRange(startIso,endIso){
     for(var day=1;day<=daysInMonth;day++){
       var iso=y+'-'+String(m+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');
       var hasData=_dataMap[iso];
-      var cls='cal-day'+(hasData?'':' cal-day-off');
+      var hasSpend=_spendMap[iso];
+      var cls='cal-day'+(hasData?'':' cal-day-off')+(hasSpend?' cal-day-has-data':'');
       if(hasData&&_temp.inicio){
         if(iso===_temp.inicio) cls+=' range-start';
         else if(_temp.fim&&iso===_temp.fim) cls+=' range-end';
