@@ -811,7 +811,7 @@ function _buildSKPIS(FDx, totInv){
         {label:'Impressões', value:'—', raw:0, color:'var(--text2)', sub:'—'}
       ];
     }
-    var legendMap = {FUNDO_VEN:'Fundo — Vendas', FUNDO_MSG:'Fundo — MSG', MEIO:'Meio — Tráfego', TOPO:'Topo — Awareness'};
+    var legendMap = {FUNDO_VEN:'Vendas', FUNDO_MSG:'Mensagens', MEIO:'Tráfego', TOPO:'Alcance'};
     out[seg] = {legend: legendMap[seg], kpis: kpis};
   });
   return out;
@@ -940,7 +940,7 @@ function renderObjCards(D, inicio, fim){
   function _topoCard(td){
     return '<div class="diag-card topo">'
       +'<div class="diag-header"><div class="diag-title-block"><div class="diag-icon topo">'+_IC.broadcast+'</div>'
-      +'<div><div class="diag-label">Topo — Alcance</div><div class="diag-camp-count">'+td.camps+' '+(td.camps===1?'campanha ativa':'campanhas ativas')+'</div></div></div>'
+      +'<div><div class="diag-label">Alcance</div><div class="diag-camp-count">'+td.camps+' '+(td.camps===1?'campanha ativa':'campanhas ativas')+'</div></div></div>'
       +'<div class="diag-spend-badge">'+_fB(td.spend,0)+'</div></div>'
       +'<div class="diag-body">'
       +'<div><div class="diag-metric-label">Alcance</div><div class="diag-metric-val">'+_fNc(td.reach)+'</div><div class="diag-metric-sub">pessoas impactadas</div></div>'
@@ -955,7 +955,7 @@ function renderObjCards(D, inicio, fim){
   function _meioCard(md){
     return '<div class="diag-card meio">'
       +'<div class="diag-header"><div class="diag-title-block"><div class="diag-icon meio">'+_IC.click+'</div>'
-      +'<div><div class="diag-label">Meio — Tráfego</div><div class="diag-camp-count">'+md.camps+' '+(md.camps===1?'campanha ativa':'campanhas ativas')+'</div></div></div>'
+      +'<div><div class="diag-label">Tráfego</div><div class="diag-camp-count">'+md.camps+' '+(md.camps===1?'campanha ativa':'campanhas ativas')+'</div></div></div>'
       +'<div class="diag-spend-badge">'+_fB(md.spend,0)+'</div></div>'
       +'<div class="diag-body">'
       +'<div><div class="diag-metric-label">Visitas</div><div class="diag-metric-val accent">'+_fNc(md.visitas)+'</div><div class="diag-metric-sub">à página</div></div>'
@@ -1135,10 +1135,10 @@ function renderCampanhasSection(grupos){
 function renderCampanhasTab(D){
   var CAMPS = D.CAMPS || {};
   var META = {
-    FUNDO_VEN: {label:'Fundo — Vendas',    badge:'badge-fundo-ven', resultLabel:'Compras',   cprLabel:'Custo unit.', extraLabel:'ROAS',        hasExtra:true,  showReceita:true},
-    FUNDO_MSG: {label:'Fundo — Mensagens', badge:'badge-fundo-msg', resultLabel:'Conversas', cprLabel:'Custo/Conv.', extraLabel:'',            hasExtra:false, showReceita:false},
-    MEIO:      {label:'Meio — Tráfego',    badge:'badge-meio',      resultLabel:'Visitas',   cprLabel:'Custo/Visita',extraLabel:'',            hasExtra:false, showReceita:false},
-    TOPO:      {label:'Topo — Alcance',    badge:'badge-topo',      resultLabel:'Alcance',   cprLabel:'CPM',         extraLabel:'',            hasExtra:false, showReceita:false}
+    FUNDO_VEN: {label:'Vendas',    badge:'badge-fundo-ven', resultLabel:'Compras',   cprLabel:'Custo unit.', extraLabel:'ROAS',        hasExtra:true,  showReceita:true},
+    FUNDO_MSG: {label:'Mensagens', badge:'badge-fundo-msg', resultLabel:'Conversas', cprLabel:'Custo/Conv.', extraLabel:'',            hasExtra:false, showReceita:false},
+    MEIO:      {label:'Tráfego',    badge:'badge-meio',      resultLabel:'Visitas',   cprLabel:'Custo/Visita',extraLabel:'',            hasExtra:false, showReceita:false},
+    TOPO:      {label:'Alcance',    badge:'badge-topo',      resultLabel:'Alcance',   cprLabel:'CPM',         extraLabel:'',            hasExtra:false, showReceita:false}
   };
   var grupos = ['FUNDO_VEN','FUNDO_MSG','MEIO','TOPO'].map(function(seg){
     var camps = CAMPS[seg];
@@ -1564,25 +1564,25 @@ function _buildRKPIS(segs,totInv){
   var topoIGV=_sumRawByFunil('TOPO','ig_visits');
   var topoIGF=_sumRawByFunil('TOPO','ig_followers');
   return {
-    FUNDO_VEN:{legend:'Fundo — Vendas',kpis:[
+    FUNDO_VEN:{legend:'Vendas',kpis:[
       {label:'Investido',value:_fmtR(ven.totInv),raw:ven.totInv,color:'var(--text)',sub:pct(ven.totInv)},
       {label:'Compras',value:_fmtN(ven.totRes),raw:ven.totRes,color:'var(--text)',sub:'no período'},
       {label:'Retorno',value:_fmtR(ven.totRec),raw:ven.totRec,color:'var(--text)',sub:'receita atribuída'},
       {label:'ROI',value:ven.totInv>0?(ven.totRec/ven.totInv).toFixed(1).replace('.',',')+'x':'—',raw:ven.totInv>0?ven.totRec/ven.totInv:0,color:'var(--text)',sub:'retorno sobre investimento'}
     ]},
-    FUNDO_MSG:{legend:'Fundo — MSG',kpis:[
+    FUNDO_MSG:{legend:'Mensagens',kpis:[
       {label:'Investido',value:_fmtR(msg.totInv),raw:msg.totInv,color:'var(--text)',sub:pct(msg.totInv)},
       {label:'Conversas',value:_fmtN(msg.totRes),raw:msg.totRes,color:'var(--text)',sub:'iniciadas no período'},
       {label:'Custo/Conversa',value:msg.totRes>0?_fmtR(msg.totInv/msg.totRes):'—',raw:msg.totRes>0?msg.totInv/msg.totRes:0,color:'var(--text)',sub:'eficiência'},
       {label:'Alcance MSG',value:_fmtN(msg.totReach||msg.kpi&&msg.kpi.reach||0),raw:msg.totReach||0,color:'var(--text)',sub:'pessoas impactadas'}
     ]},
-    MEIO:{legend:'Meio — Tráfego',kpis:[
+    MEIO:{legend:'Tráfego',kpis:[
       {label:'Investido',value:_fmtR(meio.totInv),raw:meio.totInv,color:'var(--text)',sub:pct(meio.totInv)},
       {label:'Visitas à Página',value:_fmtN(meio.totRes),raw:meio.totRes,color:'var(--text)',sub:'no período'},
       {label:'Custo/Visita',value:meio.totRes>0?_fmtR(meio.totInv/meio.totRes):'—',raw:meio.totRes>0?meio.totInv/meio.totRes:0,color:'var(--text)',sub:'eficiência'},
       {label:'Cliques',value:'—',raw:0,color:'var(--text2)',sub:'dados não desagregados'}
     ]},
-    TOPO:{legend:'Topo — Awareness',kpis:[
+    TOPO:{legend:'Alcance',kpis:[
       {label:'Investido',value:_fmtR(topo.totInv),raw:topo.totInv,color:'var(--text)',sub:pct(topo.totInv)},
       {label:'Alcance',value:_fmtN(topo.totRes),raw:topo.totRes,color:'var(--text)',sub:'pessoas impactadas'},
       {label:'CPM',value:topo.totRes>0?_fmtR(topo.totInv/topo.totRes*1000):'—',raw:topo.totRes>0?topo.totInv/topo.totRes*1000:0,color:'var(--text)',sub:'custo por mil impressões'},
@@ -1948,10 +1948,10 @@ function renderRange(startIso,endIso){
   var activeSegs = detectActiveSegments(_D);
   var META = {
     GERAL: {label:"Geral", cls:"f-dark"},
-    FUNDO_VEN: {label:"Fundo — Vendas", cls:"f-blue"},
-    FUNDO_MSG: {label:"Fundo — MSG", cls:""},
-    MEIO: {label:"Meio — Tráfego", cls:"f-teal"},
-    TOPO: {label:"Topo — Awareness", cls:"f-yellow"}
+    FUNDO_VEN: {label:"Vendas", cls:"f-blue"},
+    FUNDO_MSG: {label:"Mensagens", cls:""},
+    MEIO: {label:"Tráfego", cls:"f-teal"},
+    TOPO: {label:"Alcance", cls:"f-yellow"}
   };
   var order = ["GERAL"].concat(activeSegs);
   var bar = document.getElementById("filterBar");
