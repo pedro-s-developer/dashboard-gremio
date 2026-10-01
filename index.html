@@ -873,10 +873,10 @@ function renderObjCards(D, inicio, fim){
 
   // Aggregate metrics per segment
   var AGG = {
-    TOPO:      {n:0, spend:0, reach:0, impr:0, results:0},
-    MEIO:      {n:0, spend:0, results:0, impr:0, clicks:0},
-    FUNDO_MSG: {n:0, spend:0, results:0, reach:0, clicks_wa:0},
-    FUNDO_VEN: {n:0, spend:0, results:0, receita:0, view_content:0, init_checkout:0}
+    TOPO:      {n:0, n_ativas:0, spend:0, reach:0, impr:0, results:0},
+    MEIO:      {n:0, n_ativas:0, spend:0, results:0, impr:0, clicks:0},
+    FUNDO_MSG: {n:0, n_ativas:0, spend:0, results:0, reach:0, clicks_wa:0},
+    FUNDO_VEN: {n:0, n_ativas:0, spend:0, results:0, receita:0, view_content:0, init_checkout:0}
   };
   D.campanhas.forEach(function(c){
     var a = AGG[c.funil]; if(!a) return;
@@ -885,6 +885,7 @@ function renderObjCards(D, inicio, fim){
     });
     if(!hasData) return;
     a.n++;
+    if(c.status === 'ativo') a.n_ativas++;
     c.dias.forEach(function(d){
       if(d.data<inicio||d.data>fim) return;
       a.spend += d.spend||0;
@@ -923,13 +924,13 @@ function renderObjCards(D, inicio, fim){
   // Build data objects
   var data = {};
   var t = AGG.TOPO;
-  if(t.n>0) data.topo = {camps:t.n, spend:t.spend, reach:t.reach, cpm:(t.impr>0?t.spend/t.impr*1000:0), impressoes:t.impr, share_pct:(totInv>0?Math.round(t.spend/totInv*100):0)};
+  if(t.n>0) data.topo = {camps:t.n, camps_ativas:t.n_ativas, spend:t.spend, reach:t.reach, cpm:(t.impr>0?t.spend/t.impr*1000:0), impressoes:t.impr, share_pct:(totInv>0?Math.round(t.spend/totInv*100):0)};
   var me = AGG.MEIO;
-  if(me.n>0) data.meio = {camps:me.n, spend:me.spend, visitas:me.results, cpv:(me.results>0?me.spend/me.results:0), cliques:me.clicks, share_pct:(totInv>0?Math.round(me.spend/totInv*100):0)};
+  if(me.n>0) data.meio = {camps:me.n, camps_ativas:me.n_ativas, spend:me.spend, visitas:me.results, cpv:(me.results>0?me.spend/me.results:0), cliques:me.clicks, share_pct:(totInv>0?Math.round(me.spend/totInv*100):0)};
   var g = AGG.FUNDO_MSG;
-  if(g.n>0) data.msg = {camps:g.n, spend:g.spend, conversas:g.results, cpl:(g.results>0?g.spend/g.results:0), cliques_wa:g.clicks_wa, reach:g.reach, dias:nDays};
+  if(g.n>0) data.msg = {camps:g.n, camps_ativas:g.n_ativas, spend:g.spend, conversas:g.results, cpl:(g.results>0?g.spend/g.results:0), cliques_wa:g.clicks_wa, reach:g.reach, dias:nDays};
   var v = AGG.FUNDO_VEN;
-  if(v.n>0) data.vendas = {camps:v.n, spend:v.spend, compras:v.results, receita:v.receita, roas:(v.spend>0?v.receita/v.spend:0), cpa:(v.results>0?v.spend/v.results:0), page_views:v.view_content, checkouts:v.init_checkout};
+  if(v.n>0) data.vendas = {camps:v.n, camps_ativas:v.n_ativas, spend:v.spend, compras:v.results, receita:v.receita, roas:(v.spend>0?v.receita/v.spend:0), cpa:(v.results>0?v.spend/v.results:0), page_views:v.view_content, checkouts:v.init_checkout};
 
   // Layout: 1 diag + 1 obj -> side by side in a single diag-grid row
   var nDiag = (data.topo?1:0) + (data.meio?1:0);
@@ -940,7 +941,7 @@ function renderObjCards(D, inicio, fim){
   function _topoCard(td){
     return '<div class="diag-card topo">'
       +'<div class="diag-header"><div class="diag-title-block"><div class="diag-icon topo">'+_IC.broadcast+'</div>'
-      +'<div><div class="diag-label">Alcance</div><div class="diag-camp-count">'+td.camps+' '+(td.camps===1?'campanha ativa':'campanhas ativas')+'</div></div></div>'
+      +'<div><div class="diag-label">Alcance</div><div class="diag-camp-count">'+td.camps_ativas+' '+(td.camps_ativas===1?'campanha ativa':'campanhas ativas')+'</div></div></div>'
       +'<div class="diag-spend-badge">'+_fB(td.spend,0)+'</div></div>'
       +'<div class="diag-body">'
       +'<div><div class="diag-metric-label">Alcance</div><div class="diag-metric-val">'+_fNc(td.reach)+'</div><div class="diag-metric-sub">pessoas impactadas</div></div>'
@@ -955,7 +956,7 @@ function renderObjCards(D, inicio, fim){
   function _meioCard(md){
     return '<div class="diag-card meio">'
       +'<div class="diag-header"><div class="diag-title-block"><div class="diag-icon meio">'+_IC.click+'</div>'
-      +'<div><div class="diag-label">Tráfego</div><div class="diag-camp-count">'+md.camps+' '+(md.camps===1?'campanha ativa':'campanhas ativas')+'</div></div></div>'
+      +'<div><div class="diag-label">Tráfego</div><div class="diag-camp-count">'+md.camps_ativas+' '+(md.camps_ativas===1?'campanha ativa':'campanhas ativas')+'</div></div></div>'
       +'<div class="diag-spend-badge">'+_fB(md.spend,0)+'</div></div>'
       +'<div class="diag-body">'
       +'<div><div class="diag-metric-label">Visitas</div><div class="diag-metric-val accent">'+_fNc(md.visitas)+'</div><div class="diag-metric-sub">à página</div></div>'
@@ -1103,7 +1104,7 @@ function renderCampanhasSection(grupos){
         '<div class="camp-head-left">' +
           '<span class="camp-badge '+g.badge+'">'+g.label+'</span>' +
           '<div>' +
-            '<div class="camp-title">'+g.camps.length+' '+(g.camps.length===1?'campanha ativa':'campanhas ativas')+'</div>' +
+            (function(){var na=g.camps.filter(function(c){return c.status==='ativo';}).length; return '<div class="camp-title">'+na+' '+(na===1?'campanha ativa':'campanhas ativas')+'</div>';})() +
             '<div class="camp-sub">'+_csFmt(totalInv,0)+' · '+_csNum(totalRes)+' '+g.resultLabel.toLowerCase()+'</div>' +
           '</div>' +
         '</div>' +
