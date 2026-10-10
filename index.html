@@ -43,6 +43,12 @@
 [data-theme="dark"] .page{background:var(--bg);}
 [data-theme="dark"] .insight{background:linear-gradient(135deg,#050810 0%,#0F1724 50%,#050810 100%);}
 
+/* Dark mode icon tints — adapta ícones dos cards (TOPO/MEIO/MSG/VEN) à paleta dark */
+[data-theme="dark"] .diag-icon.topo{background:var(--yellow-bg);color:var(--yellow);}
+[data-theme="dark"] .diag-icon.meio{background:var(--teal-bg);color:var(--teal);}
+[data-theme="dark"] .obj-icon.msg{background:var(--red-bg);color:var(--red);}
+[data-theme="dark"] .obj-icon.ven{background:var(--green-bg);color:var(--green);}
+
 /* Tab Campanhas: rebind --cs-* no dark */
 [data-theme="dark"] .campanhas-section{
   --cs-surface:#161B26;
